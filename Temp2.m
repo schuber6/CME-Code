@@ -1,0 +1,9 @@
+cmap=colormap;
+N=length(cmap(:,1));
+T=length(u);
+xqs=(0:T-1)*(N-1)/(T-1)+1;
+xs=1:N;
+CsR=interp1(x,cmap(:,1),xqs);
+CsG=interp1(x,cmap(:,2),xqs);
+CsB=interp1(x,cmap(:,3),xqs);
+Cs=[CsR CsG CsB];

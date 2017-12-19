@@ -1,0 +1,15 @@
+movie='E:\CME Superfolder\CME Data\170518_Analysis\170518_background';
+moviet=strcat(movie,'.tif');
+oddnew=strcat(movie,'_GFP.tif');
+evennew=strcat(movie,'_RFP.tif');
+SplitChannels(moviet,oddnew,evennew);
+movie='E:\CME Superfolder\CME Data\170518_Analysis\170519_background';
+moviet=strcat(movie,'.tif');
+oddnew=strcat(movie,'_GFP.tif');
+evennew=strcat(movie,'_RFP.tif');
+SplitChannels(moviet,oddnew,evennew);
+movie='E:\CME Superfolder\CME Data\170518_Analysis\170520_background';
+moviet=strcat(movie,'.tif');
+oddnew=strcat(movie,'_GFP.tif');
+evennew=strcat(movie,'_RFP.tif');
+SplitChannels(moviet,oddnew,evennew);
