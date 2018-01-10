@@ -3,6 +3,7 @@ function PlotRandomBrightGuy(fxyc)
 ints=ListIntensities(fxyc);
 bright=prctile(ints,50);
 Bu=find(fxyc(1,5,:)>=bright);
+figure
 for i=1:9
     subplot(3,3,i)
     T=Bu(ceil(rand*length(Bu)));
