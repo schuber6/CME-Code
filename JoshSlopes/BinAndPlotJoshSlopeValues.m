@@ -35,6 +35,7 @@ for i=1:length(JACbin)
     JsS(i)=sqrt(var((JSintbin{i})));
     JmsM(i)=median(JMSlopebin{i});
     JmsS(i)=sqrt(var((JMSlopebin{i})));
+    JSamp(i)=length(JACbin{i});
 end
 
 %FSFig()
@@ -63,3 +64,6 @@ errorbar(xbinsp,JmsM,JmsS,'Color',Col)
 hold on
 ylabel('AP2 Josh Slope')
 xlabel('Josh Slope Bin')
+subplot(2,3,6)
+plot(xbinsp,JSamp/sum(JSamp),'Color',Col)
+hold on
