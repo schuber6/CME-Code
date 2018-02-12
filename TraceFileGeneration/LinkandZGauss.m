@@ -2,17 +2,21 @@
 
 clear all
 %exp_name='E:\CME Superfolder\CME Data\170520_AP2CLCA_SingleStackOsmo\170520_Analysis\movies';
-exp_name='E:\CME Superfolder\CME Data\180110_AP2CLCa_Day2';
-moviefold='E:\CME Superfolder\CME Data\180110_AP2CLCa_Day2\100pPower\Isolated Cells\Split Channels';
+%exp_name='E:\CME Superfolder\CME Data\180110_AP2CLCa_Day2';
+%exp_name='E:\CME Superfolder\CME Data\180201_CALMCLCa_Data\Traces';
+exp_name='E:\CME Superfolder\CME Data\180208_AP2CLCa_Data\Traces';
+%moviefold='E:\CME Superfolder\CME Data\180110_AP2CLCa_Day2\100pPower\Isolated Cells\Split Channels';
+%moviefold='E:\CME Superfolder\CME Data\180201_CALMCLCa_Data\Full\Isolated Cells\Split Channels';
+moviefold='E:\CME Superfolder\CME Data\180208_AP2CLCa_Data\Full\Isolated Cells\Split Channels';
 omd=fullfile(exp_name);
 omdM=fullfile(moviefold);
 rbins=1:50;
 rbins=rbins/50*5;
 %for i0=1:3
-    SM=strcat('*singlestacks','*AP2*mat');
-    SS=strcat('*singlestacks','*CLCa*mat');
-    MM=strcat('*singlestacks','*AP2*Stack*tif');
-    MS=strcat('*singlestacks','*CLCa*Stack*tif');
+    SM=strcat('*singlestack','*AP2*mat');
+    SS=strcat('*singlestack','*CLCa*mat');
+    MM=strcat('*singlestack','*AP2*Stack*tif');
+    MS=strcat('*singlestack','*CLCa*Stack*tif');
 tmpdm = dir(fullfile(omd,SM));
 tmpds = dir(fullfile(omd,SS));
 Mtmpdm = dir(fullfile(omdM,MM));
@@ -25,7 +29,7 @@ h=waitbar(0,'Linking and Z Gaussing');
 for i=1:length(tmpdm)
     waitbar(i/length(tmpdm))
     %subplot(3,ceil(length(tmpdm)/3),i)
-    moviesM{i} = fullfile(omd,tmpdm(2*i-1).name);
+    moviesM{i} = fullfile(omd,tmpdm(i).name);
     moviesS{i} = fullfile(omd,tmpds(i).name);
     MmoviesM{i} = fullfile(omdM,Mtmpdm(i).name);
     MmoviesS{i} = fullfile(omdM,Mtmpds(i).name);

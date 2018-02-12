@@ -25,10 +25,10 @@
 %     BackgroundSubtractTogether_2Channel(movies{i},new,oddback,evenback)
 % end
 
-folder='E:\CME Superfolder\CME Data\180201_CALMCLCa_Data\Full';
+folder='E:\CME Superfolder\CME Data\180208_AP2CLCa_Data\Full';
 movies=FindFiles(folder,'*.tif');
-oddback='E:\CME Superfolder\CME Data\180201_CALMCLCa_Data\AVG_background_40r_100g_RFP.tif';
-evenback='E:\CME Superfolder\CME Data\180201_CALMCLCa_Data\AVG_background_40r_100g_GFP.tif';
+oddback='E:\CME Superfolder\CME Data\180208_AP2CLCa_Data\AVG_background_100g_40r_RFP.tif';
+evenback='E:\CME Superfolder\CME Data\180208_AP2CLCa_Data\AVG_background_100g_40r_GFP.tif';
 for i=1:length(movies)
     new=strcat(movies{i}(1:end-4),'_BS.tif');
     BackgroundSubtractTogether_2Channel(movies{i},new,oddback,evenback)

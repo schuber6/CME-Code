@@ -1,6 +1,7 @@
 clear all
-folder='E:\CME Superfolder\CME Data\180110_AP2CLCa_Day2';
-reg='*singlestacks*ZGauss*';
+%folder='E:\CME Superfolder\CME Data\180110_AP2CLCa_Day2';
+folder='E:\CME Superfolder\CME Data\180201_CALMCLCa_Data\Traces_Fixed';
+reg='*singlestack*ZGauss*';
 files=FindFiles(folder,reg).';
 Firsts=[];
 Fr='Stack1';
@@ -29,7 +30,8 @@ for i=1:length(Firsts)
     end
 
         %[MAC{i},SAC{i},MCell{i},SCell{i},MSrCell{i}]=QuantifyACRatios_Full_VeryGoodFits(Sfiles);
-        [MAC{i},SAC{i},MCell{i},SCell{i},MSrCell{i}]=QuantifyACRatios_Full_Options(Sfiles,"VeryGood",1);
+        %[MAC{i},SAC{i},MCell{i},SCell{i},MSrCell{i}]=QuantifyACRatios_Full_Options(Sfiles,"VeryGood",1);
+        [MAC{i},SAC{i},MCell{i},SCell{i},MSrCell{i}]=QuantifyACRatios_Full_Options(Sfiles,"Reasonable",1);
 
     %[NSD,SD]=QuantifyCInts(Sfiles);
     %Data=[Data ; SD];

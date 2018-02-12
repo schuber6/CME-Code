@@ -23,7 +23,7 @@ for i0=1:length(files)
             end
         end
     else
-        for i=1:length(NSTAms)
+        for i=1:length(usedC)
             Mast=NSTAms(i).ZGaussA(1);
             Slav=NSTAms(i).SZGaussA(1);
             if ~isempty(usedC{i}) && Mast>0 && Slav>0
@@ -32,6 +32,7 @@ for i0=1:length(files)
                 
                 MSr=[MSr log(Mast/Slav)];
             end
+            
         end
     end
     MAC(i0)=mean(MSr);

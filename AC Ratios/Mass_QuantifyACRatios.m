@@ -1,5 +1,6 @@
-folder='E:\CME Superfolder\CME Data\180110_AP2CLCa_Day2';
-reg='*singlestacks*ZGauss*';
+%folder='E:\CME Superfolder\CME Data\180110_AP2CLCa_Day2';
+folder='E:\CME Superfolder\CME Data\180201_CALMCLCa_Data\Traces_Fixed\Good';
+reg='*singlestack*ZGauss*';
 files=FindFiles(folder,reg).';
 Firsts=[];
 Fr='Stack1';
@@ -9,6 +10,12 @@ for i=1:length(files)
     end
 end
 
+Mc=cell(1,9);
+Sc=cell(1,9);
+MSrc=cell(1,9);
+Mo=cell(1,9);
+So=cell(1,9);
+MSro=cell(1,9);
 Mc=cell(1,9);
 Sc=cell(1,9);
 MSrc=cell(1,9);
@@ -26,12 +33,12 @@ for i=1:length(Firsts)
             Sfiles{i2-Firsts(i)+1}=files{i2};
         end
     end
-    if i<=4
+    if i<=5
         %[Mc,Sc,MSrc,MACc,SACc,Samplec]=QuantifyACRatios_Full_VeryGoodFits_Add(Sfiles,Mc,Sc,MSrc);
-        [Mc,Sc,MSrc,MACc,SACc,Samplec]=QuantifyACRatios_Add_Options(Sfiles,Mc,Sc,MSrc,"VeryGood",1);
+        [Mc,Sc,MSrc,MACc,SACc,Samplec]=QuantifyACRatios_Add_Options(Sfiles,Mc,Sc,MSrc,"Reasonable",1);
     else
         %[Mo,So,MSro,MACo,SACo,Sampleo]=QuantifyACRatios_Full_VeryGoodFits_Add(Sfiles,Mo,So,MSro);
-        [Mo,So,MSro,MACo,SACo,Sampleo]=QuantifyACRatios_Add_Options(Sfiles,Mo,So,MSro,"VeryGood",1);
+        [Mo,So,MSro,MACo,SACo,Sampleo]=QuantifyACRatios_Add_Options(Sfiles,Mo,So,MSro,"Reasonable",1);
     end
     %[NSD,SD]=QuantifyCInts(Sfiles);
     %Data=[Data ; SD];

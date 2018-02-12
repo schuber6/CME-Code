@@ -1,17 +1,18 @@
-function [MCell,SCell,MSr,MAC,SAC,Sample]=QuantifyACRatios_Add_Options(files,MCell,SCell,MSr,fits,ZGauss)
+function [MCell,SCell,MSrCell,MAC,SAC,Sample]=QuantifyACRatios_Add_Options(files,MCell,SCell,MSrCell,fits,ZGauss)
 %Finds mean and standard deviation of Log A:C ratio of all spots
 
 for i0=1:length(files)
     load(files{i0})
-    if fits=="VeryGood"
-    usedC=SelectVeryGoodZGaussFits(NSTAms);
+    if strcmp(fits,"VeryGood")
+        usedC=SelectVeryGoodZGaussFits(NSTAms);
     else
-        if fits=="Reasonable"
+        if strcmp(fits,"Reasonable")
             usedC=SelectReasonableZGaussFits(NSTAms);
         end
     end
     M=[];
     S=[];
+    MSr=[];
     if ~ZGauss
         for i=1:length(NSTAms)
             if ~isempty(usedC{i})
@@ -33,9 +34,10 @@ for i0=1:length(files)
             end
         end
     end
-    MAC(i0)=mean(MSr{i0});
-    SAC(i0)=sqrt(var(MSr{i0}));
-    Sample(i0)=length(MSr{i0});
+    MAC(i0)=mean(MSrCell{i0});
+    SAC(i0)=sqrt(var(MSrCell{i0}));
+    Sample(i0)=length(MSrCell{i0});
     MCell{i0}=[MCell{i0} M];
     SCell{i0}=[SCell{i0} S];
+    MSrCell{i0}=[MSrCell{i0} MSr];
 end
