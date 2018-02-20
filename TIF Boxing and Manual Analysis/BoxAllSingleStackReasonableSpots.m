@@ -1,7 +1,8 @@
-folder='E:\CME Superfolder\CME Data\180201_CALMCLCa_Data\Traces_Fixed';
+%folder='E:\CME Superfolder\CME Data\180201_CALMCLCa_Data\Traces_Fixed';
+folder='E:\CME Superfolder\CME Data\180208_AP2CLCa_Data\Traces';
 reg='*singlestack*ZGauss*';
 files=FindFiles(folder,reg).';
-moviefold='E:\CME Superfolder\CME Data\180201_CALMCLCa_Data\Full\Isolated Cells\FocalPlane';
+moviefold='E:\CME Superfolder\CME Data\180208_AP2CLCa_Data\Full\Isolated Cells\Split Channels/FocalPlane';
 reg='*.tif';
 moviefiles=FindFiles(moviefold,reg).';
 for i=1:length(moviefiles)
@@ -16,6 +17,6 @@ for i=1:length(moviefiles)
             events=[events ; [i2 X Y]];
         end
     end
-    newfile=strcat(moviefiles{i}(1:end-4);
+    newfile=strcat(moviefiles{i}(1:end-4),'_ReasonableBox.tif');
     BoxEvents(moviefiles{i},newfile,events)
 end

@@ -1,4 +1,6 @@
-folder='E:\CME Superfolder\CME Data\180110_AP2CLCa_Day2';
+function [Mc,Sc,MSrc,MACc,SACc,Samplec,Mo,So,MSro,MACo,SACo,Sampleo]=Mass_QuantifyACRatios_func(folder,controlvect)
+
+%folder='E:\CME Superfolder\CME Data\180110_AP2CLCa_Day2';
 %folder='E:\CME Superfolder\CME Data\180201_CALMCLCa_Data\Traces_Fixed\Good';
 %folder='E:\CME Superfolder\CME Data\180208_AP2CLCa_Data\Traces\Good';
 reg='*singlestack*ZGauss*';
@@ -34,7 +36,7 @@ for i=1:length(Firsts)
             Sfiles{i2-Firsts(i)+1}=files{i2};
         end
     end
-    if i<=3
+    if ismember(i,controlvect)
         %[Mc,Sc,MSrc,MACc,SACc,Samplec]=QuantifyACRatios_Full_VeryGoodFits_Add(Sfiles,Mc,Sc,MSrc);
         [Mc,Sc,MSrc,MACc,SACc,Samplec]=QuantifyACRatios_Add_Options(Sfiles,Mc,Sc,MSrc,"Reasonable",1);
     else

@@ -1,7 +1,7 @@
 %folder='E:\CME Superfolder\CME Data\180110_AP2CLCa_Day2';
 title1='AP2 Intensity';
-folder='E:\CME Superfolder\CME Data\180201_CALMCLCa_Data\Traces_Fixed\Good';
-%folder='E:\CME Superfolder\CME Data\180208_AP2CLCa_Data\Traces\Good';
+%folder='E:\CME Superfolder\CME Data\180201_CALMCLCa_Data\Traces_Fixed\Good';
+folder='E:\CME Superfolder\CME Data\180208_AP2CLCa_Data\Traces\Good';
 reg='*singlestack*ZGauss*';
 files=FindFiles(folder,reg).';
 Firsts=[];
@@ -22,12 +22,12 @@ for i=1:length(Firsts)
             Sfiles{i2-Firsts(i)+1}=files{i2};
         end
     end
-    if i<=4
+    if i<=3
         color=[0 1 0];
     else
         color=[1 0 0];
     end
-    PlotACInts_MultiStacks(Sfiles,1,color,title1);
+    PlotACVsZ_MultiStacks(Sfiles,1,color,title1);
 end
 
 
