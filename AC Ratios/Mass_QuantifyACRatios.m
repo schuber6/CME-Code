@@ -1,5 +1,5 @@
-folder='E:\CME Superfolder\CME Data\180110_AP2CLCa_Day2';
-%folder='E:\CME Superfolder\CME Data\180201_CALMCLCa_Data\Traces_Fixed\Good';
+%folder='E:\CME Superfolder\CME Data\180110_AP2CLCa_Day2';
+folder='E:\CME Superfolder\CME Data\180201_CALMCLCa_Data\Traces_Fixed\Good';
 %folder='E:\CME Superfolder\CME Data\180208_AP2CLCa_Data\Traces\Good';
 reg='*singlestack*ZGauss*';
 files=FindFiles(folder,reg).';

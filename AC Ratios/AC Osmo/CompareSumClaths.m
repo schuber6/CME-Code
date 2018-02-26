@@ -44,3 +44,7 @@ figure
 plot(Msumsum/mean(Msumsum(2:55)),'g')
 hold on
 plot(Ssumsum/mean(Ssumsum(2:55)),'r')
+YL=ylim;
+line([60 60],YL)
+xlabel('Frame')
+ylabel('Sum Intensity of All Spots')
