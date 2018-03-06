@@ -1,4 +1,4 @@
-function [Is,Bs]=ManualFitEventsFrame(Xs,Ys,movie,frame,BackR,maxsum)
+function [Is,Bs,SDBs]=ManualFitEventsFrame_SDB(Xs,Ys,movie,frame,BackR,maxsum)
 %Gives manual intensity (Is) of all locations given by (Xs,Ys) in frame of
 %movie
 %Back R is the distance from the center pixel in the signal ROI (e.g. if
@@ -13,6 +13,7 @@ IM=imread(movie,'Index',frame);
 IM=double(IM);
 Is=[];
 Bs=[];
+SDBs=[];
 for i=1:length(Xs)
     Px=[];
     Bpx=[];
@@ -38,8 +39,10 @@ for i=1:length(Xs)
         end
         Bs=[Bs Bsingle];
         Is=[Is I];
+        SDBs=[SDBs sqrt(var(Bpx))];
     else
         Is=[Is 0];
         Bs=[Bs -1];
+        SDBs=[SDBs -1];
     end
 end
