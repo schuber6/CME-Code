@@ -11,8 +11,8 @@ for i=1:C
         events=[events ; [Threshfxyc(used,1:3,i)]];
     %end
 end
-[MIs,Bs]=ManualFitEvents_BackR(events,fileMaster,3);
-[SIs,Bs]=ManualFitEvents_BackR(events,fileSlave,3);
+[MIs,Bs]=ManualFitEvents_BackR(events,fileMaster,3,0,'sum');
+[SIs,Bs]=ManualFitEvents_BackR(events,fileSlave,3,0,'sum');
 ind=1;
 for i=1:C
     used=find(Threshfxyc(:,1,i));

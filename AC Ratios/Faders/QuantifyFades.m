@@ -1,6 +1,7 @@
 function Fade=QuantifyFades(Fs,SI,MI,OsmoF,stat)
     %Assigns a number to mid-osmo traces quantifying how much more clathrin
     %fades than the adaptor
+    %'ACzsco' seems to perform the best
     
     SI=SI/max(SI); %Normalize units (doesn't affect zscores)
     MI=MI/max(MI);

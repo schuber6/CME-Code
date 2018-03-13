@@ -17,7 +17,7 @@ if ~SD
         FrameEvents=find(events(:,1)==i);
         Xs=round(events(FrameEvents,2));
         Ys=round(events(FrameEvents,3));
-        [FIs,FBs]=ManualFitEventsFrame(Xs,Ys,movie,i,BackR);
+        [FIs,FBs]=ManualFitEventsFrame(Xs,Ys,movie,i,BackR,maxsum);
         Is(FrameEvents)=FIs;
         Bs(FrameEvents)=FBs;
     end

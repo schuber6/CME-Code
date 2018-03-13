@@ -1,4 +1,4 @@
-function Stat=StatCell(C,st)
+function [Stat,varargout]=StatCell(C,st)
     %Calculates st statistic on all cells in C and returns vector of all
     %statistics
     
@@ -44,4 +44,40 @@ function Stat=StatCell(C,st)
                 Stat(i)=sum(C{i})/ML;
             end
         end
+    end
+    if strcmp(st,'mean_std_errorbar')
+        varargout{1}=zeros(1,length(C));
+        for i=1:length(C)
+            if ~isempty(C{i})
+                Stat(i)=mean(C{i});
+                varargout{1}(i)=sqrt(var(C{i}));
+            end
+        end
+        errorbar(Stat,varargout{1})
+    end
+    if strcmp(st,'median_boxplot')
+        varargout{1}=zeros(1,length(C));
+        x=[];
+        g=[];
+        for i=1:length(C)
+            if ~isempty(C{i})
+                Stat(i)=median(C{i});
+                x=[x C{i}];
+                g=[g zeros(1,length(C{i}))+i];
+            end
+        end
+        boxplot(x,g)
+    end
+    if strcmp(st,'median_notboxplot')
+        varargout{1}=zeros(1,length(C));
+        x=[];
+        g=[];
+        for i=1:length(C)
+            if ~isempty(C{i})
+                Stat(i)=median(C{i});
+                x=[x C{i}];
+                g=[g zeros(1,length(C{i}))+i];
+            end
+        end
+        notBoxPlot(x,g)
     end

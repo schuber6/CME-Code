@@ -1,6 +1,6 @@
 [Inits,Concs]=InitiationConclusionIndices_FXYCMS(FXYCMS);
 
-[ConcsMI,ConcsSI,MI,SI]=TabulateConclusionIntensity(Inits,Concs,FXYCMS);
+[ConcsMI,ConcsSI,MI,SI,ConcsLT]=TabulateConclusionIntensity(Inits,Concs,FXYCMS);
 
 Before=1:60;
 After=61:120;
