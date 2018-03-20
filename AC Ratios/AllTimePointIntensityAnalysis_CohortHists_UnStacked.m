@@ -16,7 +16,7 @@ for i0=1:3
     newfiles{i0}=strcat(movie(1:end-4),'_3sCohortBox.tif');
 Dividers=[1 61 121];
 %[MIs,SIs,LTs]=ListAllTracesByFrame_MovieSections(FXYCMS,6,Dividers);
-[MIs,SIs,LTs,LTvect,IndVect]=ListAll3sByFrame_MovieSections(FXYCMS,6,Dividers);
+[MIs,SIs,LTs,LTvect{i0},IndVect{i0}]=ListAll3sByFrame_MovieSections(FXYCMS,6,Dividers);
 %[MIs,SIs,LTs]=ListAll3sByFrame(FXYCMS,6);
 
 Before=1:60;
@@ -25,7 +25,8 @@ NumCohorts=4;
 FrameGap=5;
 CohortEdges=30:(120/NumCohorts):150;
 
-BoxByLifetimeCohort(FXYCMS,IndVect,LTvect,movie,newfiles{i0},CohortEdges/FrameGap)
+%BoxByLifetimeCohort(FXYCMS,IndVect,LTvect,movie,newfiles{i0},CohortEdges/FrameGap)
+PlotBestCohortTraces(FXYCMS,IndVect{i0},LTvect{i0},CohortEdges/FrameGap)
 
 BM=cell(1,NumCohorts);
 BS=cell(1,NumCohorts);

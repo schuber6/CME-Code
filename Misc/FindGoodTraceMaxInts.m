@@ -1,11 +1,11 @@
-function [MI,Fs,LTs,TraceFXY,TraceA]=FindGoodTraceMaxInts(fxyc,MinLengthF)
+function [MI,Fs,LTs,TraceFXY,TraceA]=FindGoodTraceMaxInts(fxyc,MinLengthF,MaxLengthF)
 
 MI=[];
 Fs=[];
 LTs=[];
 for i=1:length(fxyc(1,1,:))
     used=find(fxyc(:,1,i));
-    if fxyc(1,4,i)==3 && length(used)>=MinLengthF %&& length(used)<=30
+    if fxyc(1,4,i)==3 && length(used)>=MinLengthF && length(used)<=MaxLengthF %&& length(used)<=30
         MI=[MI max(fxyc(:,5,i))];
         ind=find(fxyc(:,5,i)==max(fxyc(:,5,i)));
         Fs=[Fs fxyc(ind(1),1,i)];

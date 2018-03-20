@@ -1,4 +1,10 @@
-NumCohorts=6; %Makes equally spaced and sized cohorts with minimum of smallest=30 and max of largest=150
+function Cohort_AverageTracesF(ManI)
+    
+    protein='AP2';
+    PCol='g';
+    FSFig
+    subplot(2,2,2)
+    NumCohorts=6; %Makes equally spaced and sized cohorts with minimum of smallest=30 and max of largest=150
 FrameRate=3;
 Edges=20:(120/NumCohorts):140;
 % for i=1:4

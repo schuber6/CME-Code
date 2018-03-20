@@ -81,3 +81,24 @@ function [Stat,varargout]=StatCell(C,st)
         end
         notBoxPlot(x,g)
     end
+    if strcmp(st,'max')
+        for i=1:length(C)
+            if ~isempty(C{i})
+                Stat(i)=max(C{i});
+            end
+        end
+    end
+    if strcmp(st,'min')
+        for i=1:length(C)
+            if ~isempty(C{i})
+                Stat(i)=min(C{i});
+            end
+        end
+    end
+    if strcmp(st,'length')
+        for i=1:length(C)
+            if ~isempty(C{i})
+                Stat(i)=length(C{i});
+            end
+        end
+    end

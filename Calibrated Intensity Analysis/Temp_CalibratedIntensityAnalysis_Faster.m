@@ -4,7 +4,7 @@
 %The traces selected are chosen by FindGoodTraceMaxInts
 
 %exp_name='E:\CME Superfolder\CME Data\SinlgeGFP\orig_movies';
-protein='CALM';
+protein='AP2';
 if strcmp(protein,'AP2')
     exp_name='E:\CME Superfolder\CME Data\171010_Calibrated_AP2_DNM';
     Good=[8 10 11]; %Best AP2 cells
@@ -65,7 +65,7 @@ for i=1:length(Good) %4:7 %1:length(tmpd)
     files{i0}=strcat(movies{i0}(1:end-4),'.tif');
     newfiles{i0}=strcat(movies{i0}(1:end-4),'_Boxed','.tif');
     load(movies{i0});
-    [MI,Fs,LTs,TraceFXY,TraceA]=FindGoodTraceMaxInts(Threshfxyc,10);
+    [MI,Fs,LTs,TraceFXY,TraceA]=FindGoodTraceMaxInts(Threshfxyc,10,50);
     h=waitbar(0,'Manual Fitting');
     MMI=[];
     indices=cell(1,length(TraceFXY));
