@@ -1,7 +1,14 @@
 function [A,B,rsq]=ExponentialFit(x,y) %Gives you the slope and R^2 value for the data x,y
 %Fits to y=A*exp(B*x)
 
-f = fit(x,y,'exp1');
+try
+    f = fit(x,y,'exp1');
+catch
+    A=0;
+    B=0;
+    rsq=0;
+    return
+end
 p=coeffvalues(f);
 A=p(1);
 B=p(2);

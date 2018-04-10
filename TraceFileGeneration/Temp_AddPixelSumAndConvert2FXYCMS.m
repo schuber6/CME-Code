@@ -23,10 +23,28 @@
 %     subplot(1,3,i)
 %     i0=Good(i);
 %     movies{i0} = fullfile(exp_name,tmpd(i0).name);
-movieS='E:\CME Superfolder\CME Data\180316_TwoColorBeadBleach\500ms_each_channel_continuous_bleach001_TrimmedRed.tif';
-movieM='E:\CME Superfolder\CME Data\180316_TwoColorBeadBleach\500ms_each_channel_continuous_bleach001_TrimmedGreen.tif';
-newfile=strcat(movieM(1:end-4),'_FXYCMS_NoMax.mat');
+folder='E:\CME Superfolder\CME Data\180329_SUM_CALM_AP2orCLCa_SIRNA\Isolated Cells\Split Channels';
+files=FindFiles(folder,'*Green.mat').';
+for i=1:length(files)
+    movieM=strcat(files{i}(1:end-4),'.tif');
+movieS=strcat(movieM(1:end-9),'Red.tif');
+
+load(files{i})
+newfile=strcat(movieM(1:end-4),'_FXYCMS.mat');
 %load(movies{i0});
 [FXYCMS]=GenerateMasterSlaveINTs_PixelSum(Threshfxyc,movieS,400,movieM);
 save(newfile,'FXYCMS')
+end
 % end
+folder='E:\CME Superfolder\CME Data\180329_SUM_CALM_AP2orCLCa_SIRNA\Isolated Cells\Split Channels';
+files=FindFiles(folder,'*Red.mat').';
+for i=15:length(files)
+    movieM=strcat(files{i}(1:end-4),'.tif');
+movieS=strcat(movieM(1:end-7),'Green.tif');
+
+load(files{i})
+newfile=strcat(movieM(1:end-4),'_FXYCMS.mat');
+%load(movies{i0});
+[FXYCMS]=GenerateMasterSlaveINTs_PixelSum(Threshfxyc,movieS,400,movieM);
+save(newfile,'FXYCMS')
+end

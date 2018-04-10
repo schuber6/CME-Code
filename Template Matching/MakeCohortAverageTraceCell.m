@@ -1,5 +1,10 @@
-function SCell=MakeCohortAverageTraceCell(ManI)
+function SCell=MakeCohortAverageTraceCell(ManI,Plot,varargin)
 
+    if nargin==2
+        Norm='none';
+    else
+        Norm=varargin{1};
+    end
 NumCohorts=6; %Makes equally spaced and sized cohorts with minimum of smallest=30 and max of largest=150
 FrameRate=3;
 Edges=20:(120/NumCohorts):140;
@@ -39,9 +44,22 @@ end
 L=cell(1,NumCohorts);
 SCell=cell(1,NumCohorts);
 Maxs=cell(1,NumCohorts);
+if Plot>=1
+    figure
+end
 for i=1:NumCohorts
-    [SCell{i},Maxs{i}]=ScottifyTraces(ManI,find(Cohs==i),mean([Edges(i) Edges(i+1)]));
+    [SCell{i},Maxs{i}]=ScottifyTraces(ManI,find(Cohs==i),mean([Edges(i) Edges(i+1)]),Norm);
     Maxs{i}=Maxs{i}/(18400/80);
     CMeanSH=StatCell(SCell{i},'mean_assumezeros');
+    CSDSH=StatCell(SCell{i},'stdev');
     L{i}=strcat(num2str(Edges(i)),'-',num2str(Edges(i+1)),'s Cohort');
+    if Plot==1
+        errorbar(CMeanSH,CSDSH)
+        hold on
+    end
+    if Plot==2
+        subplot(1,NumCohorts,i)
+        errorbar(CMeanSH,CSDSH)
+        hold on
+    end
 end

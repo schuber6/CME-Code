@@ -1,4 +1,4 @@
-function [scoreB,startB,finishB,TemplateB]=TemplateMatch_ScoreTraceSections_chisq(Template,FullTrace,framegap)
+function [scoreB,startB,finishB,TemplateB,factorB]=TemplateMatch_ScoreTraceSections_chisq(Template,FullTrace,framegap)
     
     L=length(Template);
     Template=ScottifyTrace(Template,L/framegap);
@@ -6,6 +6,7 @@ function [scoreB,startB,finishB,TemplateB]=TemplateMatch_ScoreTraceSections_chis
     count=1;
     score=[];
     start=[];
+    factor=[];
     for i2=1:length(FullTrace)-L+1  %Go through all sections of size of template and find best match 
         inds=i2:i2+L-1;
         STrace=FullTrace(inds);
@@ -13,6 +14,7 @@ function [scoreB,startB,finishB,TemplateB]=TemplateMatch_ScoreTraceSections_chis
         chi=sum((MT-Template).^2./Template);
         score(count)=chi2cdf(chi,length(MT)-2);
         start(count)=i2;
+        factor(count)=mean(STrace);
         count=count+1;
     end
     
@@ -20,6 +22,7 @@ function [scoreB,startB,finishB,TemplateB]=TemplateMatch_ScoreTraceSections_chis
         scoreB=0;
         startB=0;
         finishB=0;
+        factorB=0;
         TemplateB=[];
         return
     end
@@ -28,6 +31,7 @@ function [scoreB,startB,finishB,TemplateB]=TemplateMatch_ScoreTraceSections_chis
     startB=start(BestInd(1));
     finishB=startB+L-1;
     scoreB=min(score);
+    factorB=factor(BestInd(1));
     TemplateB=Template;
     
     while true %Check if adding point before best start improves match
@@ -44,10 +48,12 @@ function [scoreB,startB,finishB,TemplateB]=TemplateMatch_ScoreTraceSections_chis
         MT=STrace/mean(STrace);
         chi=sum((MT-TemplateTrial).^2./TemplateTrial);
         scoreT=chi2cdf(chi,length(MT)-1);
+        factorT=mean(STrace);
         if scoreT<=scoreB
             startB=startB-1;
             scoreB=scoreT;
             TemplateB=TemplateTrial;
+            factorB=factorT;
         else
             break
         end
@@ -67,10 +73,12 @@ function [scoreB,startB,finishB,TemplateB]=TemplateMatch_ScoreTraceSections_chis
         MT=STrace/mean(STrace);
         chi=sum((MT-TemplateTrial).^2./TemplateTrial);
         scoreT=chi2cdf(chi,length(MT)-2);
+        factorT=mean(STrace);
         if scoreT<=scoreB
             finishB=finishB+1;
             scoreB=scoreT;
             TemplateB=TemplateTrial;
+            factorB=factorT;
         else
             break
         end

@@ -1,4 +1,4 @@
-function [Stat,varargout]=StatCell(C,st)
+function [Stat,varargout]=StatCell(C,st,varargin)
     %Calculates st statistic on all cells in C and returns vector of all
     %statistics
     
@@ -66,7 +66,19 @@ function [Stat,varargout]=StatCell(C,st)
                 g=[g zeros(1,length(C{i}))+i];
             end
         end
-        boxplot(x,g)
+        if nargin==2
+            boxplot(x,g)
+        else
+            if nargin==4
+                boxplot(x,g,varargin{1},varargin{2})
+            else
+                if nargin==6
+                    boxplot(x,g,varargin{1},varargin{2},varargin{3},varargin{4})
+                else
+                    boxplot(x,g,varargin{1},varargin{2},varargin{3},varargin{4},varargin{5},varargin{6})
+                end
+            end
+        end
     end
     if strcmp(st,'median_notboxplot')
         varargout{1}=zeros(1,length(C));
