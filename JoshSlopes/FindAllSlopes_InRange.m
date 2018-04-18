@@ -1,9 +1,9 @@
-function [Mslopes,Sslopes]=FindAllJoshSlopes_InRange(FXYCMS,Range,thresh,varargin)
+function [Mslopes,Sslopes]=FindAllSlopes_InRange(FXYCMS,Range,thresh,varargin)
     
     if nargin>3
-        RegL=floor(30/varargin{1});
+        RegL=floor(12/varargin{1});
     else
-        RegL=10;
+        RegL=4;
     end
     
     Mslopes=[];
@@ -14,8 +14,8 @@ function [Mslopes,Sslopes]=FindAllJoshSlopes_InRange(FXYCMS,Range,thresh,varargi
             used=find(ismember(fxyc(:,1),Range) & fxyc(:,6)>=thresh & fxyc(:,7)>=thresh);
             TempMS=[];
             TempSS=[];
-            Mints=fxyc(used,6)/max(fxyc(:,6));
-            Sints=fxyc(used,7)/max(fxyc(:,7));
+            Mints=fxyc(used,6);
+            Sints=fxyc(used,7);
             for i2=1:length(used)-RegL+1
                 MI=zeros(1,RegL);
                 SI=zeros(1,RegL);

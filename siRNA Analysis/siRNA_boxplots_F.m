@@ -1,3 +1,5 @@
+function [Titles,LTs,MMs,MSs,MIs,SIs,MSratio,MSratioLog,Mslopes,Sslopes]=siRNA_boxplots_F()
+
 folder='E:\CME Superfolder\CME Data\180329_SUM_CALM_AP2orCLCa_SIRNA\Isolated Cells\Split Channels';
 filesAP2_SIRNA=FindFiles(folder,'ap2*2dt*Green_FXYCMS*').';
 titleM='CALM Intensity';
@@ -18,6 +20,8 @@ Titles{4}='siRNA osmoshock';
 LTs=cell(1,8);
 MMs=cell(1,8);
 MSs=cell(1,8);
+MIs=cell(1,8);
+SIs=cell(1,8);
 MSratio=cell(1,8);
 MSratioLog=cell(1,8);
 Mslopes=cell(1,8);
@@ -96,10 +100,12 @@ title('Lifetimes (s)')
 subplot(3,2,5)
 MSTD=StatCell(Mslopes,'stdev');
 scatter(MSTD,fliplr(1:length(MSTD)))
-yticks(fliplr(1:length(MSTD)))
-yticklabels(L)
-title('CALM Josh Slopes')
+yticks(1:length(MSTD))
+yticklabels(fliplr(L))
+title('CALM Josh Slope St. Devs.')
 subplot(3,2,6)
-StatCell(Sslopes,'median_boxplot','orientation','horizontal','FactorDirection','list');
-yticklabels(L)
-title('AP2 Josh Slopes')
+SSTD=StatCell(Sslopes,'stdev');
+scatter(SSTD,fliplr(1:length(SSTD)))
+yticks(1:length(SSTD))
+yticklabels(fliplr(L))
+title('AP2 Josh Slope St. Devs.')

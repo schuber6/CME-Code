@@ -1,4 +1,4 @@
-function pcta(reconmovnm,origmovnm,varargin)
+function figure_code_for_scott(reconmovnm,origmovnm,varargin)
 % PCTA: Point-and-click trace analysis
 %
 % TODO: saving clips and linking clips to mask
@@ -38,7 +38,7 @@ for fr = 1:ml
     rimg(:,:,fr) = imread(reconmovnm,fr);
     oimg(:,:,fr) = imread(origmovnm,fr);
 end
-simg = sort(rimg(:),'ascend');
+simg = nonzeros(sort(rimg(:),'ascend'));
 minrc = simg(ceil(0.0001*length(simg))); 
 medrc = simg(ceil(0.4*length(simg))); 
 maxrc = simg(ceil(0.9999*length(simg)));

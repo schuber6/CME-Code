@@ -1,5 +1,5 @@
-folder='E:\CME Superfolder\CME Data\180329_SUM_CALM_AP2orCLCa_SIRNA\Isolated Cells\Split Channels';
-filesAP2_SIRNA=FindFiles(folder,'ap2*2dt*Green_FXYCMS*').';
+folder='E:\CME Superfolder\CME Data\180409_SUM_CALM_AP2_Osmoshock\Isolated Cells\Split Channels';
+filesAP2_SIRNA=FindFiles(folder,'*Green_FXYCMS*').';
 titleM='CALM Intensity';
 titleS='AP2 Intensity';
 PreRange=1:100;
@@ -7,24 +7,36 @@ PostRange=120:220;
 MinL=10;
 FG=3;
 thresh=2500;
-Mode='Threes';
+Mode='AllSpots';
 
 ind=1;
-Titles{1}='No siRNA control';
+Titles{1}='Control';
 %Titles{2}='siRNA control';
-Titles{2}='No siRNA osmoshock';
-Titles{3}='siRNA control';
-Titles{4}='siRNA osmoshock';
+Titles{2}='Osmo';
+Titles{3}='Osmo';
+Titles{4}='Osmo';
+Titles{5}='Post Osmo';
+Titles{6}='Post Osmo';
+Titles{7}='Bad';
+Titles{8}='Control';
+Titles{9}='Control';
+Titles{10}='Osmo';
+Titles{11}='Osmo';
+
 LTs=cell(1,8);
 MMs=cell(1,8);
 MSs=cell(1,8);
-MIs=cell(1,8);
-SIs=cell(1,8);
 MSratio=cell(1,8);
 MSratioLog=cell(1,8);
+MIs=cell(1,8);
+SIs=cell(1,8);
+MSIratio=cell(1,8);
+MSIratioLog=cell(1,8);
 Mslopes=cell(1,8);
 Sslopes=cell(1,8);
-for i=1:4
+h=waitbar(0,'name');
+for i=1:length(filesAP2_SIRNA)
+    waitbar(i/length(filesAP2_SIRNA))
     load(filesAP2_SIRNA{i})
     [MIs{ind},SIs{ind}]=FindAllMasterSlaveIntensities_InRange(FXYCMS,PreRange,thresh);
     [MIs{ind+1},SIs{ind+1}]=FindAllMasterSlaveIntensities_InRange(FXYCMS,PostRange,thresh);
@@ -59,6 +71,14 @@ for i=1:4
     ind=ind+2;
 
 end
+ind=1;
+for i=1:length(Titles)
+        L{ind}=strcat(Titles{(ind-1)/2+1},' Before Treatment');
+    L{ind+1}=strcat(Titles{(ind-1)/2+1},' After Treatment');
+    ind=ind+2;
+end
+
+close(h)
 FSFig
 if strcmp(Mode,'Threes')
     subplot(3,2,1)
@@ -68,27 +88,27 @@ if strcmp(Mode,'Threes')
     subplot(3,2,2)
     StatCell(MSs,'median_boxplot','orientation','horizontal','FactorDirection','list');
     yticklabels(L)
-    title('Max AP2 Intensity of Traces')
+    title('Max Clathrin Intensity of Traces')
     subplot(3,2,3)
     StatCell(MSratioLog,'median_boxplot','orientation','horizontal','FactorDirection','list');
     yticklabels(L)
-    title('log(CALM:AP2 ratio) at Max Intensity')
+    title('log(CALM:Clathrin ratio) at Max Intensity')
 end
 if strcmp(Mode,'AllSpots')
-    subplot(2,2,1)
+    subplot(3,2,1)
     StatCell(MIs,'median_boxplot','orientation','horizontal','FactorDirection','list','Symbol','');
     yticklabels(L)
     title('CALM Intensity of Spots')
     xlim([0 20000])
-    subplot(2,2,2)
+    subplot(3,2,2)
     StatCell(SIs,'median_boxplot','orientation','horizontal','FactorDirection','list','Symbol','');
     yticklabels(L)
-    title('AP2 Intensity of Spots')
+    title('Clathrin Intensity of Spots')
     xlim([0 3])
-    subplot(2,2,3)
+    subplot(3,2,3)
     StatCell(MSIratioLog,'median_boxplot','orientation','horizontal','FactorDirection','list','Symbol','');
     yticklabels(L)
-    title('log(CALM:AP2 ratio)')
+    title('log(CALM:Clathrin ratio)')
     xlim([-1.5 1.5])
 end
 subplot(3,2,4)
