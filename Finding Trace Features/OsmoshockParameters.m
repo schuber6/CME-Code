@@ -1,4 +1,11 @@
-function [Msd,Ssd,MM,MS,MI,SI,MSr,N]=OsmoshockParameters(file,varargin)
+function [Msd,Ssd,MM,MS,MI,SI,MSr,N,LT]=OsmoshockParameters(file,varargin)
+    %Each parameter is a 1x2 with 1st value over the first 5 minutes of a
+    %movie and 2nd is minutes 6-11 (assuming 3s frame rate)
+    %Msd--Master Josh slope s.d.
+    %MM--Master median max intensity of 3s
+    %MI--Master median intensity of all spots
+    %MSr--Median Master-slave ratio of max intensities of 3d
+    %N--number of 3s
     
     load(file)
     if nargin==1
@@ -12,7 +19,7 @@ function [Msd,Ssd,MM,MS,MI,SI,MSr,N]=OsmoshockParameters(file,varargin)
     end
     MinL=10;
 
-    thresh=2500;
+    thresh=0;
     ind=1;
     
     [MIs{1},SIs{1}]=FindAllMasterSlaveIntensities_InRange(FXYCMS,PreRange,thresh);
@@ -28,6 +35,8 @@ function [Msd,Ssd,MM,MS,MI,SI,MSr,N]=OsmoshockParameters(file,varargin)
     MM(2)=median(MMs{2});
     MS(1)=median(MSs{1});
     MS(2)=median(MSs{2});
+    LT(1)=median(LTs{1});
+    LT(2)=median(LTs{2});
     
     [Mslopes{ind},Sslopes{ind}]=FindAllJoshSlopes_InRange(FXYCMS,PreRange,thresh,FG);
     [Mslopes{ind+1},Sslopes{ind+1}]=FindAllJoshSlopes_InRange(FXYCMS,PostRange,thresh,FG);

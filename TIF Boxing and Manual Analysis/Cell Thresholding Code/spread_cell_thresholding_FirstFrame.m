@@ -1,4 +1,4 @@
-function [masks, Thresh] = spread_cell_thresholding(filename)
+function [masks, Thresh] = spread_cell_thresholding_FirstFrame(filename)
 %%
 global k
 if nargin < 1
@@ -40,15 +40,15 @@ while k ~= 1
         close(gcf);
         figure('units','normalized','outerposition',[0 0 1 1]);
         colormap('gray');
-        ah = tight_subplot(5,5,.005,[0 0],[0 0]);
+        ah = tight_subplot(1,1,.005,[0 0],[0 0]);
     else
         figure('units','normalized','outerposition',[0 0 1 1]);
         colormap('gray');
-        ah = tight_subplot(5,5,.005,[0 0],[0 0]);
+        ah = tight_subplot(1,1,.005,[0 0],[0 0]);
     end
     
-    for i = 1:25
-        idum = ceil(i*stacks/25);
+    for i = 1:1
+        idum = 1;
         axes(ah(i));
         imagesc(J(:,:,idum));
         hold on; %draw the boundaries on top of the image
@@ -109,7 +109,7 @@ close(gcf);
     if k == 4, close; return; end
 end
 %%
-for i = 1:stacks
+for i = 1:1
     [bx,by,mask] = thresholding(J(:,:,i),Thresh);
     if ~isempty(mask)
         if pastk == 3

@@ -21,3 +21,16 @@ file{1}='E:\CME Superfolder\CME Data\180412_SUM_CALM_AP2_GoodData\RedTraces\AP2 
 file{2}='E:\CME Superfolder\CME Data\180412_SUM_CALM_AP2_GoodData\RedTraces\AP2 CALM\sirna_tracest_manual.mat';
 i=2;
 figure_code_for_scott(movieR{i},movieR{i},file{i})
+
+%%
+
+folder='E:\CME Superfolder\CME Data\180420_SUM_CALM_AP2_SIRNA\Isolated Cells\Split Channels';
+files=FindFiles(folder,'*FXYCMS.mat').';
+i=12;
+load(files{i})
+movieR=strcat(files{i}(1:end-11),'.tif');
+movieG=strcat(files{i}(1:end-14),'Green.tif');
+filetst=strcat(files{i}(1:end-11),'_tst.mat');
+tracest=FXYCMS2Tracest(FXYCMS);
+save(filetst,'tracest')
+figure_code_for_scott(movieR,movieR,filetst);

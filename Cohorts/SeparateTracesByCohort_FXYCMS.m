@@ -1,14 +1,20 @@
-function [Mints,Sints]=SeparateTracesByCohort_FXYCMS(FXYCMS,CohortEdgesF,Scottify)
+function [Mints,Sints,varargout]=SeparateTracesByCohort_FXYCMS(FXYCMS,CohortEdgesF,Scottify,Categories,OverCohort,MaxFrame)
     
+    if OverCohort
+        MF=MaxFrameFXYCMS(FXYCMS);
+        CohortEdgesF=[CohortEdgesF MF];
+    end
     for i=1:length(CohortEdgesF)-1
         Mints{i}=cell(1,CohortEdgesF(i+1));
         Sints{i}=cell(1,CohortEdgesF(i+1));
+        Inds{i}=[];
     end
     for i=1:length(FXYCMS)
         fxyc=FXYCMS{i};
         LT=length(fxyc(:,1));
         Group=find(CohortEdgesF<LT,1,'last');
-        if ~isempty(Group) && Group<length(CohortEdgesF)
+        if ~isempty(Group) && Group<length(CohortEdgesF) && ismember(fxyc(1,4),Categories) && max(fxyc(:,1))<=MaxFrame
+            Inds{Group}=[Inds{Group} i];
             if ~Scottify
                 for i2=1:LT
                     Mints{Group}{i2}=[Mints{Group}{i2} fxyc(i2,6)];
@@ -25,7 +31,13 @@ function [Mints,Sints]=SeparateTracesByCohort_FXYCMS(FXYCMS,CohortEdgesF,Scottif
                 for i2=1:length(xq)
                     Mints{Group}{i2}=[Mints{Group}{i2} vqM(i2)];
                     Sints{Group}{i2}=[Sints{Group}{i2} vqS(i2)];
+                    
                 end
             end
         end
     end
+    for i=1:length(CohortEdgesF)-1
+        N(i)=length(Mints{i}{1});
+    end
+    varargout{1}=N;
+    varargout{2}=Inds;

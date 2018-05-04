@@ -1,4 +1,4 @@
-exp_name='E:\CME Superfolder\CME Data\180409_SUM_CALM_AP2_Osmoshock\Isolated Cells'; %This part splits the movies into channels
+exp_name='E:\CME Superfolder\CME Data\180420_SUM_CALM_AP2_SIRNA\Isolated Cells'; %This part splits the movies into channels
 [paths,movies]=FindFiles_Full(exp_name,'*.tif');
 h=waitbar(0,'asdf');
 for i=1:length(movies)

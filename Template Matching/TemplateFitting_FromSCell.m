@@ -61,6 +61,6 @@ for i=1:length(used)
     TL(used(i))=length(TemplateB{Cind});
     ML(used(i))=length(FT);
 end
-fileTraceST='E:\CME Superfolder\CME Data\SinlgeGFP\AP2CALM_FXYCMS\ap2_010_BS_TraceST.mat';
-tracest=ConstructTraceST(TraceFXY,ManI,TemplateB,factor,start,finish,score);
-save(fileTraceST,'tracest')
+% fileTraceST='E:\CME Superfolder\CME Data\SinlgeGFP\AP2CALM_FXYCMS\ap2_010_BS_TraceST.mat';
+% tracest=ConstructTraceST(TraceFXY,ManI,TemplateB,factor,start,finish,score);
+% save(fileTraceST,'tracest')

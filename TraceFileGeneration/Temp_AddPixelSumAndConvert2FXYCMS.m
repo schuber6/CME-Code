@@ -23,27 +23,27 @@
 %     subplot(1,3,i)
 %     i0=Good(i);
 %     movies{i0} = fullfile(exp_name,tmpd(i0).name);
-folder='E:\CME Superfolder\CME Data\180409_SUM_CALM_AP2_Osmoshock\Traces';
-[Matfiles,MatDesc]=FindFiles_Full(folder,'*Green.mat');
-Moviefolder='E:\CME Superfolder\CME Data\180409_SUM_CALM_AP2_Osmoshock\Isolated Cells\Split Channels';
-
-for i=1:length(Matfiles)
-    movieM=strcat(Moviefolder,'/',MatDesc{i}(1:end-4),'.tif');
-    movieS=strcat(movieM(1:end-9),'Red.tif');
-    
-    load(Matfiles{i})
-    newfile=strcat(movieM(1:end-4),'_FXYCMS.mat');
-    %load(movies{i0});
-    [FXYCMS]=GenerateMasterSlaveINTs_PixelSum(Threshfxyc,movieS,400,movieM);
-    save(newfile,'FXYCMS')
-end
+% folder='E:\CME Superfolder\CME Data\180409_SUM_CALM_AP2_Osmoshock\Traces';
+% [Matfiles,MatDesc]=FindFiles_Full(folder,'*Green.mat');
+% Moviefolder='E:\CME Superfolder\CME Data\180409_SUM_CALM_AP2_Osmoshock\Isolated Cells\Split Channels';
+% 
+% for i=1:length(Matfiles)
+%     movieM=strcat(Moviefolder,'/',MatDesc{i}(1:end-4),'.tif');
+%     movieS=strcat(movieM(1:end-9),'Red.tif');
+%     
+%     load(Matfiles{i})
+%     newfile=strcat(movieM(1:end-4),'_FXYCMS.mat');
+%     %load(movies{i0});
+%     [FXYCMS]=GenerateMasterSlaveINTs_PixelSum(Threshfxyc,movieS,400,movieM);
+%     save(newfile,'FXYCMS')
 % end
-folder='E:\CME Superfolder\CME Data\180409_SUM_CALM_AP2_Osmoshock\Traces';
-[Matfiles,MatDesc]=FindFiles_Full(folder,'*Red.mat');
-Moviefolder='E:\CME Superfolder\CME Data\180409_SUM_CALM_AP2_Osmoshock\Isolated Cells\Split Channels';
+% % end
+folder='E:\CME Superfolder\CME Data\180320_Analysis\orig_movies';
+[Matfiles,MatDesc]=FindFiles_Full(folder,'*AP2.mat');
+Moviefolder='E:\CME Superfolder\CME Data\180320_AP2CLCa_2dt\BS\Isolated Cells\Split Channels';
 for i=1:length(Matfiles)
     movieM=strcat(Moviefolder,'/',MatDesc{i}(1:end-4),'.tif');
-    movieS=strcat(movieM(1:end-7),'Green.tif');
+    movieS=strcat(movieM(1:end-7),'CLCa.tif');
     
     load(Matfiles{i})
     newfile=strcat(movieM(1:end-4),'_FXYCMS.mat');

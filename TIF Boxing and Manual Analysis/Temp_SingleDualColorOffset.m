@@ -1,3 +1,4 @@
+folder='E:\CME Superfolder\CME Data\180409_SUM_CALM_AP2_Osmoshock\Isolated Cells';
 
 movie='E:\CME Superfolder\CME Data\180110_AP2CLCa_Day2\100pPower\Isolated Cells\osmo_singlestacks001_BS_Cell1.tif';
 newmovie='E:\CME Superfolder\CME Data\180110_AP2CLCa_Day2\100pPower\Isolated Cells\FP_DualColor_Offset\oss001_C1.tif';

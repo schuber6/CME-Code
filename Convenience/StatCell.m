@@ -114,3 +114,20 @@ function [Stat,varargout]=StatCell(C,st,varargin)
             end
         end
     end
+    if strcmp(st,'median_boxplot_xpos')
+        xpos=varargin{1};
+        sortx=sort(unique(xpos));
+        varargout{1}=zeros(1,length(C));
+        x=[];
+        g=[];
+        for i=1:length(C)
+            if ~isempty(C{i})
+                Stat(i)=median(C{i});
+                x=[x C{i}];
+                g=[g zeros(1,length(C{i}))+find(sortx==xpos(i),1,'first')];
+            end
+        end
+        
+        boxplot(x,g,'Position',sortx)
+        
+    end

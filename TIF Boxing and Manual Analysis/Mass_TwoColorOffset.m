@@ -1,9 +1,9 @@
 clear all
-folder='E:\CME Superfolder\CME Data\180214_CALMandAP2_CLCa_2dMovies\orig_movies';
-filesM=FindFiles(folder,'*.tif').';
+folder='E:\CME Superfolder\CME Data\180409_SUM_CALM_AP2_Osmoshock\Isolated Cells\Split Channels';
+filesM=FindFiles(folder,'170409*009*.tif').';
 
 
-for i=1:length(filesM)
+for i=1:length(filesM)/2
     F=length(imfinfo(filesM{2*i}));
     newmovie=strcat(filesM{2*i-1}(1:end-4),'_OffsetMS.tif');
     for i2=1:F
