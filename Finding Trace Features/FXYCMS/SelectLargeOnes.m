@@ -1,13 +1,19 @@
-function [FXYCMS_Sel,varargout]=SelectLargeOnes(FXYCMS)
+function [FXYCMS_Sel,varargout]=SelectLargeOnes(FXYCMS,varargin)
     
-
+    if nargin==1
+        MaxFrame=MaxFrameFXYCMS(FXYCMS);
+    else
+        MaxFrame=varargin{1};
+    end
     FXYCMS_Sel={};
     LTs=[];
     MMs=[];
     MSs=[];
     ind=1;
     for i=1:length(FXYCMS)
-        if length(FXYCMS{i}(:,1))>=100
+        fxyc=FXYCMS{i};
+        L=length(find(fxyc(:,1)<=MaxFrame));
+        if L>=100
             FXYCMS_Sel{ind}=FXYCMS{i};
             LTs=[LTs length(FXYCMS{i}(:,1))];
             MMs=[MMs max(FXYCMS{i}(:,6))];

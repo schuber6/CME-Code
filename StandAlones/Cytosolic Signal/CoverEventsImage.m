@@ -5,7 +5,7 @@ function IM=CoverEventsImage(IM,events)
 
     A=IM;
     [Y,X]=size(A);
-    B=A;
+    B=double(A);
     used=find(events(:,1)==1);
     for i=1:length(used)
         x=round(events(used(i),2));
@@ -14,7 +14,7 @@ function IM=CoverEventsImage(IM,events)
             for xoff=-3:3
                 for yoff=-3:3
                     if x+xoff>0 && x+xoff<=X && y+yoff>0 && y+yoff<=Y
-                        B(y+yoff,x+xoff)=0;
+                        B(y+yoff,x+xoff)=-1;
 
                     end
                 end

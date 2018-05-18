@@ -1,0 +1,9 @@
+Red='E:\CME Superfolder\CME Data\180507_SUM_3d_007\control_007_100pr_BS_Red.tif';
+Green='E:\CME Superfolder\CME Data\180507_SUM_3d_007\control_007_100pr_BS_Green.tif';
+X=184;
+Y=44;
+% X=395;
+% Y=252;
+Planes=5;
+frames=1:16;
+Kym=TwoColorZKymograph(Red,Green,Y,X,Planes,frames);

@@ -1,4 +1,4 @@
-function [masks, Thresh] = spread_cell_thresholding(filename)
+function [masks, Thresh] = spread_cell_thresholding_FirstFrame_1Thresh(filename)
 %%
 global k
 if nargin < 1
@@ -28,45 +28,45 @@ SHOW1 = J(:,:,1);
 %%
 k = 0;
 while k ~= 1
-    if k ~= 3
-        figure('units','normalized','outerposition',[0 0 1 1]);
-        [y,x] = histcounts(double(SHOW1(:)),100); %makes a historgram of intensities
-        x = (x(1:end-1)+x(2:end))/2;
-        plot(x,y);
-        axis tight;
-        if k == 2, line([Thresh Thresh], [0 max(y)], 'Color', 'k'); end %allows an easier second guess
-        title('Try an x pos after first peak.');
-        [Thresh,~] = ginput(1);
-        close(gcf);
-        figure('units','normalized','outerposition',[0 0 1 1]);
-        colormap('gray');
-        ah = tight_subplot(5,5,.005,[0 0],[0 0]);
-    else
-        figure('units','normalized','outerposition',[0 0 1 1]);
-        colormap('gray');
-        ah = tight_subplot(5,5,.005,[0 0],[0 0]);
-    end
+%     if k ~= 3
+%         figure('units','normalized','outerposition',[0 0 1 1]);
+%         [y,x] = histcounts(double(SHOW1(:)),100); %makes a historgram of intensities
+%         x = (x(1:end-1)+x(2:end))/2;
+%         plot(x,y);
+%         axis tight;
+%         if k == 2, line([Thresh Thresh], [0 max(y)], 'Color', 'k'); end %allows an easier second guess
+%         title('Try an x pos after first peak.');
+%         [Thresh,~] = ginput(1);
+%         close(gcf);
+%         figure('units','normalized','outerposition',[0 0 1 1]);
+%         colormap('gray');
+%         ah = tight_subplot(1,1,.005,[0 0],[0 0]);
+%     else
+%         figure('units','normalized','outerposition',[0 0 1 1]);
+%         colormap('gray');
+%         ah = tight_subplot(1,1,.005,[0 0],[0 0]);
+%     end
     
-    for i = 1:25
-        idum = ceil(i*stacks/25);
-        axes(ah(i));
-        imagesc(J(:,:,idum));
-        hold on; %draw the boundaries on top of the image
-        [bx,by] = thresholding(J(:,:,idum),Thresh); %see fcn at end
-        if k == 3
-            [~,biggest] = max(cellfun(@length,bx));
-            plot(bx{biggest},by{biggest},'r')
-            axis off
-        else
-            for j = 1:length(bx)
-                plot(bx{j},by{j},'r');
-                hold on
-            end
-        end
-        axis off
-    end
-    hold off;
-    pastk = k;
+%     for i = 1:1
+%         idum = 1;
+%         axes(ah(i));
+%         imagesc(J(:,:,idum));
+%         hold on; %draw the boundaries on top of the image
+%         [bx,by] = thresholding(J(:,:,idum),Thresh); %see fcn at end
+%         if k == 3
+%             [~,biggest] = max(cellfun(@length,bx));
+%             plot(bx{biggest},by{biggest},'r')
+%             axis off
+%         else
+%             for j = 1:length(bx)
+%                 plot(bx{j},by{j},'r');
+%                 hold on
+%             end
+%         end
+%         axis off
+%     end
+%     hold off;
+%     pastk = k;
 %     d = dialog(...
 %         'Units','normalized',...
 %         'Position',[.3 .3 .3 .3],...
@@ -103,13 +103,15 @@ while k ~= 1
         
 %     k = menu('Do you want to keep this?','Yes','No','Only biggest','Exit');
 %     close(gcf);
-k=input('Keep? (1=Yes, 2=No, 3=Only Biggest, 4=Exit)');
-close(gcf);
-
+%k=input('Keep? (1=Yes, 2=No, 3=Only Biggest, 4=Exit)');
+%close(gcf);
+k=1;
+pastk=1;
+Thresh=1;
     if k == 4, close; return; end
 end
 %%
-for i = 1:stacks
+for i = 1:1
     [bx,by,mask] = thresholding(J(:,:,i),Thresh);
     if ~isempty(mask)
         if pastk == 3

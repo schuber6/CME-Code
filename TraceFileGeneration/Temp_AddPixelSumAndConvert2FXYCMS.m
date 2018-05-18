@@ -38,12 +38,12 @@
 %     save(newfile,'FXYCMS')
 % end
 % % end
-folder='E:\CME Superfolder\CME Data\180320_Analysis\orig_movies';
-[Matfiles,MatDesc]=FindFiles_Full(folder,'*AP2.mat');
-Moviefolder='E:\CME Superfolder\CME Data\180320_AP2CLCa_2dt\BS\Isolated Cells\Split Channels';
+folder='E:\CME Superfolder\CME Data\180512_SUM_CALM_AP2_Control\Analysis\orig_movies';
+[Matfiles,MatDesc]=FindFiles_Full(folder,'*Red.mat');
+Moviefolder='E:\CME Superfolder\CME Data\180512_SUM_CALM_AP2_Control\Isolated Cells\Split Channels';
 for i=1:length(Matfiles)
     movieM=strcat(Moviefolder,'/',MatDesc{i}(1:end-4),'.tif');
-    movieS=strcat(movieM(1:end-7),'CLCa.tif');
+    movieS=strcat(movieM(1:end-7),'Green.tif');
     
     load(Matfiles{i})
     newfile=strcat(movieM(1:end-4),'_FXYCMS.mat');

@@ -24,7 +24,7 @@ for j=1:stacks
     J(:,:,j) = imfilter(IMG(:,:,j),gaus); %first gaussian filter
     J(:,:,j) = imfilter(IMG(:,:,j),flat); %then avg
 end
-SHOW1 = J(:,:,floor(stacks/3));
+SHOW1 = J(:,:,1);
 %%
 k = 0;
 while k ~= 1

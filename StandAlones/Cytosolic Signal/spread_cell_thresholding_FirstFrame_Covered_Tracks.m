@@ -1,15 +1,15 @@
-function [masks, Thresh] = spread_cell_thresholding(filename)
+function [masks, Thresh] = spread_cell_thresholding_FirstFrame_Covered_Tracks(filename,tracks)
 %%
-global k
-if nargin < 1
-    input('What is the filename (including extension) of the membrane surface color? ',filename);
-elseif nargin == 1
-    if ~ischar(filename)
-        error('Input must be filename in single quotes (must be a string).');
-    end
-else
-    error('Too many inputs.')
-end
+global k 
+% if nargin < 1
+%     input('What is the filename (including extension) of the membrane surface color? ',filename);
+% elseif nargin == 1
+%     if ~ischar(filename)
+%         error('Input must be filename in single quotes (must be a string).');
+%     end
+% else
+%     error('Too many inputs.')
+% end
 %%
 gaus = fspecial('gaussian', 5, 1.5);
 flat = ones(3)/9;
@@ -19,11 +19,17 @@ stacks = length(imfinfo(filename));
 masks = zeros(s(1),s(2),stacks,'double');
 J = zeros(s(1),s(2),stacks,'uint16');
 IMG = zeros(s(1),s(2),stacks,'double');
+events=FirstFrameEvents_Tracks(tracks);
 for j=1:stacks
     IMG(:,:,j) = imread(filename,'Index',j);
+    if j==1
+        IMG(:,:,1)=CoverEventsImage(IMG(:,:,1),events);
+    end
     J(:,:,j) = imfilter(IMG(:,:,j),gaus); %first gaussian filter
     J(:,:,j) = imfilter(IMG(:,:,j),flat); %then avg
 end
+
+
 SHOW1 = J(:,:,1);
 %%
 k = 0;
@@ -40,15 +46,15 @@ while k ~= 1
         close(gcf);
         figure('units','normalized','outerposition',[0 0 1 1]);
         colormap('gray');
-        ah = tight_subplot(5,5,.005,[0 0],[0 0]);
+        ah = tight_subplot(1,1,.005,[0 0],[0 0]);
     else
         figure('units','normalized','outerposition',[0 0 1 1]);
         colormap('gray');
-        ah = tight_subplot(5,5,.005,[0 0],[0 0]);
+        ah = tight_subplot(1,1,.005,[0 0],[0 0]);
     end
     
-    for i = 1:25
-        idum = ceil(i*stacks/25);
+    for i = 1:1
+        idum = 1;
         axes(ah(i));
         imagesc(J(:,:,idum));
         hold on; %draw the boundaries on top of the image
@@ -109,7 +115,7 @@ close(gcf);
     if k == 4, close; return; end
 end
 %%
-for i = 1:stacks
+for i = 1:1
     [bx,by,mask] = thresholding(J(:,:,i),Thresh);
     if ~isempty(mask)
         if pastk == 3
