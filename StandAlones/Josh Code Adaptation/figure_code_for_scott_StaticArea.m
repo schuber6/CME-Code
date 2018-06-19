@@ -1,4 +1,4 @@
-function figure_code_for_scott(reconmovnm,origmovnm,varargin)
+function figure_code_for_scott_StaticArea(reconmovnm,origmovnm,varargin)
 % PCTA: Point-and-click trace analysis
 %
 % TODO: saving clips and linking clips to mask
@@ -605,6 +605,8 @@ end
     end
     function update_area(frame,disp)
         persistent aph
+
+        
         done = false;
         redo = false;
         if ind > 0
@@ -614,20 +616,22 @@ end
                 if area(frame) == 0, redo = true; end
             end
         end
-        if ~done || redo
-            area(frame) = sum(sum(mask(floor(rypos-zrad):floor(rypos+zrad),...
-                                       floor(rxpos-zrad):floor(rxpos+zrad),frame)>0));
-            if redo
-                tracest(ind).area(tracest(ind).frame==frame) = area(frame);
-                save(save_loc,'tracest','-append')
-            end
-        end
         if disp
-            axes(ah_int_graph)
+            axes(ah_area_graph)
             if exist('aph','var'), delete(aph); end
             aph = plot(area,'r');
             hold on
         end
+        return
+%         if ~done || redo
+%             area(frame) = sum(sum(mask(floor(rypos-zrad):floor(rypos+zrad),...
+%                                        floor(rxpos-zrad):floor(rxpos+zrad),frame)>0));
+%             if redo
+%                 tracest(ind).area(tracest(ind).frame==frame) = area(frame);
+%                 save(save_loc,'tracest','-append')
+%             end
+%         end
+
     end
     function update_int(frame,disp)
         persistent iph
@@ -815,10 +819,10 @@ end
                 uind = i;
                 uih_found = uicontrol('Parent',fh_text,...
                     'Style','Text',...
-                    'FontSize',15,...
+                    'FontSize',12,...
                     'Units','Normalized',...
                     'Position',[1/3 0 1/3 .1],...
-                    'String',sprintf('Index = %u',uind));
+                    'String',sprintf(strcat('Index = ',num2str(uind),' Value = ',num2str(tracest(i).Value))));
                 return;
             end
         end
@@ -841,7 +845,6 @@ end
         tracest(spt).xpos = xpos(ff:lf);
         tracest(spt).ypos = ypos(ff:lf);
         tracest(spt).int = int(ff:lf);
-        tracest(spt).zrad = zrad;
         if strcmpi(type,'srrf')
             tracest(spt).srrfint = srrfint(ff:lf);
         end

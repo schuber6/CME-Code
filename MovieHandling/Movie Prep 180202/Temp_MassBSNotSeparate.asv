@@ -25,10 +25,10 @@
 %     BackgroundSubtractTogether_2Channel(movies{i},new,oddback,evenback)
 % end
 
-folder='E:\CME Superfolder\CME Data\180615_SUM_CALM_AP2_DoubleSIRNA\Data';
+folder='E:\CME Superfolder\CME Data\180611_CALM_Clath_doubleSIRNA\Data';
 movies=FindFiles(folder,'*.tif');
-oddback='E:\CME Superfolder\CME Data\180615_SUM_CALM_AP2_DoubleSIRNA\AVG_background_100g_50r_Red_2.tif';
-evenback='E:\CME Superfolder\CME Data\180615_SUM_CALM_AP2_DoubleSIRNA\AVG_background_100g_50r_Green_2.tif';
+oddback='E:\CME Superfolder\CME Data\180529_AllSUM_Green\WT\AVG_170507_background_100g_50r_Red.tif';
+evenback='E:\CME Superfolder\CME Data\180529_AllSUM_Green\WT\AVG_170507_background_100g_50r_Green.tif';
 for i=1:length(movies)
     if isempty(strfind(movies{i},'background'))
         new=strcat(movies{i}(1:end-4),'_BS.tif');

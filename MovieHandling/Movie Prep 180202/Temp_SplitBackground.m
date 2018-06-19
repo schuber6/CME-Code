@@ -1,6 +1,6 @@
-movie='E:\CME Superfolder\CME Data\180515_SUM_CALM_AP2_3dt\background_50r_100g001.tif';
-oddnew='E:\CME Superfolder\CME Data\180515_SUM_CALM_AP2_3dt\background_100g_50r_Red.tif';
-evennew='E:\CME Superfolder\CME Data\180515_SUM_CALM_AP2_3dt\background_100g_50r_Green.tif';
+movie='E:\CME Superfolder\CME Data\180615_SUM_CALM_AP2_DoubleSIRNA\background_50r_100g.tif';
+oddnew='E:\CME Superfolder\CME Data\180615_SUM_CALM_AP2_DoubleSIRNA\background_100g_50r_Red_2.tif';
+evennew='E:\CME Superfolder\CME Data\180615_SUM_CALM_AP2_DoubleSIRNA\background_100g_50r_Green_2.tif';
 SplitChannels(movie,oddnew,evennew);
 
 %%
