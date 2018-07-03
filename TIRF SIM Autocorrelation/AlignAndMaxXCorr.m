@@ -32,6 +32,7 @@ end
 shift_x=dx(shift_x);
 shift_y=dy(shift_y);
 DM=max(max(D));
+
 [a,b]=size(IM1);
 if round(shift_y)<=0
     starty=1;

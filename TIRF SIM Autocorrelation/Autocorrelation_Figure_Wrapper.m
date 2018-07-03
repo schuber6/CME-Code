@@ -2,13 +2,14 @@ clear all
 %folder='E:\CME Superfolder\CME Data\TIRF SIM\488 Beads 170nm';
 %folder='E:\CME Superfolder\CME Data\TIRF SIM\Control CALM Clathrin';
 nbins=50;
-folder='E:\CME Superfolder\CME Data\TIRF SIM\Control CALM Clathrin 2';
+%folder='E:\CME Superfolder\CME Data\TIRF SIM\Control CALM Clathrin 2';
+folder='Z:\Scott\TIRF SIM\Control CALM Clathrin 2';
 files=FindFiles(folder,'*.tif').';
-Inds=[10 11];
+Inds=[20 21];
 FSFig
 IMG{1}=imread(files{Inds(1)},'Index',1);
 IMG{2}=imread(files{Inds(2)},'Index',1);
-[shift_x,shift_y,DM,SIM{1},SIM{2}]=AlignAndMaxXCorr(IMG{1},IMG{2});
+[shift_x,shift_y,DM,SIM{1},SIM{2}]=AlignAndMaxXCorr(IMG{1},IMG{2},0);
 for i=1:length(Inds)
     if i==1
         Col='g';

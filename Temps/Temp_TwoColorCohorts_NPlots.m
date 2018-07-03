@@ -1,13 +1,14 @@
-function varargout=TwoColorCohorts_NPlots(FXYCMS,FrameGap,R,type,normalize)
+function varargout=Temp_TwoColorCohorts_NPlots(FXYCMS,FrameGap,R,type,normalize)
 
 
 
 
-NumCohorts=4;
+%NumCohorts=14;
 %FrameGap=3;
-CohortEdges=30:(120/NumCohorts):150;
+%CohortEdges=10:(140/NumCohorts):150;
+CohortEdges=[10 24 80 150];
 CohortEdgesF=CohortEdges/FrameGap;
-[Mints,Sints]=SeparateTracesByCohort_FXYCMS(FXYCMS,CohortEdgesF,1,[3],0,100);
+[Mints,Sints,~,~,MaxM,MaxS]=SeparateTracesByCohort_FXYCMS(FXYCMS,CohortEdgesF,1,[3],0,100);
 MMIs=[];
 MSIs=[];
 for i=1:length(Mints)
@@ -23,7 +24,7 @@ for i=1:length(Mints)
     end
 end
 for i=1:length(Mints)
-    subplot(2,2,i)
+    subplot(1,3,i)
     if R
         MMIs=StatCell(Mints{i},'median');
         if normalize
@@ -35,6 +36,7 @@ for i=1:length(Mints)
         %title('Average AP2 Traces')
         xlabel('Time (s)')
         varargout{1}=Mints;
+        varargout{2}=MaxM;
     else
         MSIs=StatCell(Sints{i},'median');
         if normalize
@@ -46,6 +48,7 @@ for i=1:length(Mints)
         %title('Average CALM Traces')
         xlabel('Time (s)')
         varargout{1}=Sints;
+        varargout{2}=MaxS;
     end
     L{i}=strcat(num2str(CohortEdges(i)),'-',num2str(CohortEdges(i+1)),'s Cohort');
     title(L{i})
