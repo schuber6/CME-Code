@@ -4,7 +4,7 @@
 %The traces selected are chosen by FindGoodTraceMaxInts
 
 %exp_name='E:\CME Superfolder\CME Data\SinlgeGFP\orig_movies';
-protein='AP2';
+protein='Dynamin';
 if strcmp(protein,'AP2')
     exp_name='E:\CME Superfolder\CME Data\171010_Calibrated_AP2_DNM';
     Good=[8 10 11]; %Best AP2 cells

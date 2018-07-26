@@ -3,6 +3,10 @@ function [FXYCMS]=GenerateMasterSlaveINTs_PixelSum(Threshfxyc,fileSlave,MasterTh
 %cells
 
 
+if isempty(Threshfxyc)
+    FXYCMS={};
+    return
+end
 [A,B,C]=size(Threshfxyc);
 events=[];
 for i=1:C

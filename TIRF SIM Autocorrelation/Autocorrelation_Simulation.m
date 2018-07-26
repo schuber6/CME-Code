@@ -1,5 +1,5 @@
 IM=zeros(100);
-for i=1:25
+for i=1:1
     mu=[rand*100 rand*100];
     Sigma=[[4 0];[0 4]];
     for ix=1:100

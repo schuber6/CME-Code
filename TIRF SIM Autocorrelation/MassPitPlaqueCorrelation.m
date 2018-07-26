@@ -42,10 +42,10 @@ close(h2)
 
 %%
 
-figure
-notBoxPlot(XCR,Group)
-xticklabels({'AP2 Pits','AP2 Plaques','CALM Pits','CALM Plaques'})
-ylabel('Cross Correlation')
+% figure
+% notBoxPlot(XCR,Group)
+% xticklabels({'AP2 Pits','AP2 Plaques','CALM Pits','CALM Plaques'})
+% ylabel('Cross Correlation')
 
 %%
 

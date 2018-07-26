@@ -6,7 +6,9 @@ function varargout=Temp_TwoColorCohorts_NPlots(FXYCMS,FrameGap,R,type,normalize)
 %NumCohorts=14;
 %FrameGap=3;
 %CohortEdges=10:(140/NumCohorts):150;
-CohortEdges=[10 24 80 150];
+%CohortEdges=[10 20 30 40 50 60 70 80 90];
+%CohortEdges=[30 50 70 90];
+CohortEdges=[30 150];
 CohortEdgesF=CohortEdges/FrameGap;
 [Mints,Sints,~,~,MaxM,MaxS]=SeparateTracesByCohort_FXYCMS(FXYCMS,CohortEdgesF,1,[3],0,100);
 MMIs=[];
@@ -24,7 +26,7 @@ for i=1:length(Mints)
     end
 end
 for i=1:length(Mints)
-    subplot(1,3,i)
+    subplot(1,length(CohortEdges)-1,i)
     if R
         MMIs=StatCell(Mints{i},'median');
         if normalize

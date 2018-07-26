@@ -1,4 +1,4 @@
-function [Ni,Nc]=CountInitiationsConclusions(FXYCMS,MaxFrame,Tmast,Tslave)
+function [Ni,Nc]=CountInitiationsConclusions(FXYCMS,MaxFrame,Tmast,Tslave,MinLTF)
     
     Ni=0;
     Nc=0;
@@ -9,10 +9,10 @@ function [Ni,Nc]=CountInitiationsConclusions(FXYCMS,MaxFrame,Tmast,Tslave)
         MS=max(fxyc(:,7));
         FF=fxyc(1,1);
         LF=fxyc(end,1);
-        if ismember(fxyc(1,4),[1 3 5]) && MM>Tmast && MS>Tslave && FF<=max(MaxFrame)
+        if ismember(fxyc(1,4),[1 3 5]) && MM>Tmast && MS>Tslave && FF<=max(MaxFrame) && length(fxyc(:,4))>=MinLTF
             Ni=Ni+1;
         end
-        if ismember(fxyc(1,4),[2 3 6]) && MM>Tmast && MS>Tslave && LF<=max(MaxFrame)
+        if ismember(fxyc(1,4),[2 3 6]) && MM>Tmast && MS>Tslave && LF<=max(MaxFrame) && length(fxyc(:,4))>=MinLTF
             Nc=Nc+1;
         end
     end

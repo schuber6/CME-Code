@@ -6,12 +6,12 @@ for i=1:length(folders)
     i
     TSTfile=FindFiles(folders{i},'*TST*');
     if ~isempty(TSTfile)
-        DataFile=strcat(TSTfile{1}(1:end-4),'_XCData.mat');
+        DataFile=strcat(TSTfile{1}(1:end-4),'_XCData_180719.mat');
         fileG=FindFiles(folders{i},'*488*cam*');
         fileR=FindFiles(folders{i},'*560*cam*');
         load(TSTfile{1})
-        [FWHM,XC,Group,shift_x,shift_y]=CorrelationAnalysis_FromTST(tracest,fileR,fileG);
-        save(DataFile,'FWHM','XC','Group','shift_x','shift_y')
+        [FWHM,XC,Group,shift_x,shift_y,IntG,IntR]=CorrelationAnalysis_FromTST(tracest,fileR,fileG);
+        save(DataFile,'FWHM','XC','Group','shift_x','shift_y','IntG','IntR')
     end
 end
 
@@ -25,12 +25,12 @@ for i=1:length(folders)
     i
     TSTfile=FindFiles(folders{i},'*TST*');
     if ~isempty(TSTfile)
-        DataFile=strcat(TSTfile{1}(1:end-4),'_XCData.mat');
+        DataFile=strcat(TSTfile{1}(1:end-4),'_XCData_180719.mat');
         fileG=FindFiles(folders{i},'*488*cam*');
         fileR=FindFiles(folders{i},'*560*cam*');
         load(TSTfile{1})
-        [FWHM,XC,Group,shift_x,shift_y]=CorrelationAnalysis_FromTST(tracest,fileR,fileG);
-        save(DataFile,'FWHM','XC','Group','shift_x','shift_y')
+        [FWHM,XC,Group,shift_x,shift_y,IntG,IntR]=CorrelationAnalysis_FromTST(tracest,fileR,fileG);
+        save(DataFile,'FWHM','XC','Group','shift_x','shift_y','IntG','IntR')
     end
 end
 

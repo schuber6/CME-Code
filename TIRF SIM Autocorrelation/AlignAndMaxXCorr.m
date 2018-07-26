@@ -1,4 +1,4 @@
-function [shift_x,shift_y,DM,SIM1,SIM2]=AlignAndMaxXCorr(IM1,IM2,centered)
+function [shift_x,shift_y,DM,SIM1,SIM2,unscaledSIM1,unscaledSIM2]=AlignAndMaxXCorr(IM1,IM2,centered)
 
 if ~centered
     dx=2:.1:5; %Shifts to try
@@ -15,8 +15,30 @@ m1=mean(V1);
 m2=mean(V2);
 sd1=sqrt(var(V1));
 sd2=sqrt(var(V2));
+uIM1=IM1;
+uIM2=IM2;
 IM1=(IM1-m1)/sd1;
 IM2=(IM2-m2)/sd2;
+[a,b]=size(IM1);
+[c,d]=size(IM2);
+
+if a<c   %Make sure both images are same size
+    IM2=IM2(1:a,:); 
+    uIM2=uIM2(1:a,:); 
+end
+if a>c
+    IM1=IM1(1:c,:);
+    uIM1=uIM1(1:c,:);
+end
+if b<d
+    IM2=IM2(:,1:b);
+    uIM2=uIM2(:,1:b);
+end
+if b>d
+    IM1=IM1(:,1:d);
+    uIM1=uIM1(:,1:d);
+end
+
 
 %h=waitbar(0,'Aligning');
 for x=1:length(dx)
@@ -50,6 +72,9 @@ else
 end
 % SIM1=IM1(1:end+round(shift_y),round(shift_x):end);
 SIM1=IM1(starty:finishy,startx:finishx);
+unscaledSIM1=uIM1(starty:finishy,startx:finishx);
 IM3 = imtranslate(IM2,[shift_x,shift_y],'outputview','same');
+uIM3 = imtranslate(uIM2,[shift_x,shift_y],'outputview','same');
 %SIM2=IM3(1:end+round(shift_y),round(shift_x):end);
 SIM2=IM3(starty:finishy,startx:finishx);
+unscaledSIM2=uIM3(starty:finishy,startx:finishx);

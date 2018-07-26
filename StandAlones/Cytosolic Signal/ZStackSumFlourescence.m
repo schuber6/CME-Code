@@ -1,20 +1,21 @@
 function [Cyt_BS,Area,Cyt,Back,Thresh]=ZStackSumFlourescence(folder)
 
 %folder='E:\CME Superfolder\CME Data\DoubleSIRNA_Analysis\Clath SI\ZStacks';
-files=FindFiles(folder,'*Green*tif');
+files=FindFiles(folder,'*Red*tif');
 
-%frames=[2 3];
+frames=[2 3];
 
 for i0=1:length(files)
     NF=length(imfinfo(files{i0}));
-    if NF==11
-        frames=[6 7];
-    else
-        frames=[2 3];
-    end
+    Fg=strcat(files{i0}(1:end-7),'Green.tif');
+%     if NF==11
+%         frames=[6 7];
+%     else
+%         frames=[2 3];
+%     end
     [masks, Thresh(i0)] = spread_cell_thresholding_SomeFrames(files{i0},frames);
     for i=frames
-        IM=imread(files{i0},'Index',i);
+        IM=imread(Fg,'Index',i);
         masksbool=imfill(masks(:,:,i)>0,'holes');
         Area(i0,i-1)=sum(sum(double(masksbool)))*.16^2;
         masked=masksbool.*(double(IM)+1);

@@ -1,4 +1,6 @@
-function [FWHMs,XCR,shift_x,shift_y]=CorrelationAnalysis_Mats(IMG1,IMG2)
+function [FWHMs,XCR,shift_x,shift_y,varargout]=CorrelationAnalysis_Mats(IMG1,IMG2)
+%varargout 1 = sum int of aligned IMG1
+%varargout 2 = sum int of algined IMG2
 
 %folder='E:\CME Superfolder\CME Data\TIRF SIM\488 Beads 170nm';
 %folder='E:\CME Superfolder\CME Data\TIRF SIM\Control CALM Clathrin';
@@ -6,7 +8,7 @@ nbins=50;
 IMG{1}=IMG1;
 IMG{2}=IMG2;
 Inds=[1 2];
-[shift_x,shift_y,DM,SIM{1},SIM{2}]=AlignAndMaxXCorr(IMG{1},IMG{2},1);
+[shift_x,shift_y,DM,SIM{1},SIM{2},uSIM{1},uSIM{2}]=AlignAndMaxXCorr(IMG{1},IMG{2},1);
 XCR=DM;
 for i=1:length(Inds)
     IM=SIM{i};
@@ -17,10 +19,10 @@ for i=1:length(Inds)
     xq=0:max(xs);
     yi=interp1(xs,ys,xq);
     [xL,xR]=FindFWHMBoundaries(yi,0);
-    FWHMs(i)=xR*80;
-    FWHMx{i}=strcat('FWHM = ',num2str((xR)*80),' nm');
+    FWHMs(i)=(xR-1)*80;
+    FWHMx{i}=strcat('FWHM = ',num2str((xR-1)*80),' nm');
     
     [xL,xR]=FindFWHMBoundaries(max(SmallAC,[],2)/max(max(SmallAC)),0);
     FWHMy{i}=strcat('FWHM = ',num2str((xR-xL)*40),' nm');
-   
+    varargout{i}=sum(sum(uSIM{i}));
 end

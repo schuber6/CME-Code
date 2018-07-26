@@ -172,12 +172,15 @@ for i=1:length(filesdsi)
     load(filesdsi{i})
     FXYCMSdsi=CombineCells(FXYCMSdsi,FXYCMS);
 end
-[CALMwt,MaxCALMwt]=Temp_TwoColorCohorts_NPlots(FXYCMSwt,2,0,'',1);
-[Clathwt,MaxClathwt]=Temp_TwoColorCohorts_NPlots(FXYCMSwt,2,1,'',1);
-[CALMsi,MaxCALMsi]=Temp_TwoColorCohorts_NPlots(FXYCMSsi,2,0,'--',1);
-[Clathsi,MaxClathsi]=Temp_TwoColorCohorts_NPlots(FXYCMSsi,2,1,'--',1);
-[CALMdsi,MaxCALMdsi]=Temp_TwoColorCohorts_NPlots(FXYCMSdsi,2,0,':',1);
-[Clathdsi,MaxClathdsi]=Temp_TwoColorCohorts_NPlots(FXYCMSdsi,2,1,':',1);
+norm=1;
+figure
+
+[CALMwt,MaxCALMwt]=Temp_TwoColorCohorts_NPlots(FXYCMSwt,2,0,'',norm);
+[Clathwt,MaxClathwt]=Temp_TwoColorCohorts_NPlots(FXYCMSwt,2,1,'',norm);
+[CALMsi,MaxCALMsi]=Temp_TwoColorCohorts_NPlots(FXYCMSsi,2,0,'--',norm);
+[Clathsi,MaxClathsi]=Temp_TwoColorCohorts_NPlots(FXYCMSsi,2,1,'--',norm);
+[CALMdsi,MaxCALMdsi]=Temp_TwoColorCohorts_NPlots(FXYCMSdsi,2,0,':',norm);
+[Clathdsi,MaxClathdsi]=Temp_TwoColorCohorts_NPlots(FXYCMSdsi,2,1,':',norm);
 
 for i=1:3
     CPwt(i)=length(CALMwt{i}{1});
@@ -194,7 +197,7 @@ N=MGFPINT;
 
 Mca=0;
 Mcl=0;
-for i=1:3
+for i=1:length(MaxCALMwt)
     Mca=max(Mca,max(MaxCALMwt{i}));
     Mca=max(Mca,max(MaxCALMsi{i}));
     Mca=max(Mca,max(MaxCALMdsi{i}));
@@ -203,8 +206,8 @@ for i=1:3
     Mcl=max(Mcl,max(MaxClathdsi{i}));
 end
 figure
-for i=1:3
-    subplot(1,3,i)
+for i=1:length(MaxCALMwt)
+    subplot(1,length(MaxCALMwt),i)
     boxplot([MaxCALMwt{i} MaxCALMsi{i} MaxCALMdsi{i}],[zeros(1,length(MaxCALMwt{i})) zeros(1,length(MaxCALMsi{i}))+1 zeros(1,length(MaxCALMdsi{i}))+2])
     ylim([0 Mca])
     xticklabels({'WT','SI','DSI'})
@@ -225,25 +228,43 @@ for i=1:3
 end
 
 figure
-for i=1:3
-    subplot(1,3,i)
+inds=[1 5];
+for i0=1:2
+    i=inds(i0);
+    subplot(1,length(inds),i0)
     boxplot([MaxCALMwt{i}/N MaxCALMsi{i}/N MaxCALMdsi{i}/N],[zeros(1,length(MaxCALMwt{i})) zeros(1,length(MaxCALMsi{i}))+1 zeros(1,length(MaxCALMdsi{i}))+2])
     ylim([0 Mca/N])
     xticklabels({'WT','SI','DSI'})
-    if i==1
-        title('10-24s Cohort')
+    if i0==1
+        title('10-20s Cohort')
         ylabel('Maximum CALM Number')
     end
-    if i==2
-        title('24-80s Cohort')
+    if i0==2
+        title('50-60s Cohort')
     end
-    if i==3
-        title('80-150s Cohort')
-    end
+%     if i==3
+%         title('80-150s Cohort')
+%     end
+    ylim([0 100])
     %     subplot(1,3,i+3)
     %     boxplot([MaxClathwt{i} MaxClathsi{i} MaxClathdsi{i}],[zeros(1,length(MaxCALMwt{i})) zeros(1,length(MaxCALMsi{i}))+1 zeros(1,length(MaxCALMdsi{i}))+2])
     %     ylim([0 Mcl])
     %     xticklabels({'WT','SI','DSI'})
 end
 
+%%
+%CD=cdf([MaxCALMsi{i}/N MaxCALMdsi{i}/N],0:5:100);
+%figure
+subplot(1,2,1)
+%plot(0:5:100,CD)
+X=[MaxCALMsi{1}/N MaxCALMdsi{1}/N];
+h=hist(X,0:5:100);
+for i=1:length(h)
+    h2(i)=sum(h(1:i));
+end
+plot(0:5:100,h2/max(h2))
+xlim([0 40])
+xlabel('Max # CALM')
+ylabel('CDF')
+title('0-20s Cohort')
 

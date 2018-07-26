@@ -1,10 +1,10 @@
-exp_name='E:\CME Superfolder\CME Data\180615_SUM_CALM_AP2_DoubleSIRNA\BS'; %This part splits the movies into channels
+exp_name='E:\CME Superfolder\CME Data\180723_SUM_CALM_Clath_DSIRNA_Osmo\Data\BS'; %This part splits the movies into channels
 [paths,movies]=FindFiles_Full(exp_name,'*.tif');
 h=waitbar(0,'asdf');
 for i=1:length(movies)
     waitbar(i/length(movies))
-    oddnew=strcat(exp_name,'\Split Channels\',movies{i}(1:end-4),'_Red.tif');
-    evennew=strcat(exp_name,'\Split Channels\',movies{i}(1:end-4),'_Green.tif');
+    oddnew=strcat(exp_name,'\Split Channels\',movies{i}(1:end-4),'_Green.tif');
+    evennew=strcat(exp_name,'\Split Channels\',movies{i}(1:end-4),'_Red.tif');
     SplitChannels(paths{i},oddnew,evennew)
 end
 close(h)

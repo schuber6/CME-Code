@@ -1,5 +1,8 @@
 function [IntCellM,IntCellS]=FXYCMS2IntCells(FXYCMS,Cs)
 %Cs is the acceptible trace categories
+
+IntCellM={};
+IntCellS={};
     ind=1;
     for i=1:length(FXYCMS)
         fxyc=FXYCMS{i};

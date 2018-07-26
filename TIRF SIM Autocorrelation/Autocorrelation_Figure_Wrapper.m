@@ -3,9 +3,9 @@ clear all
 %folder='E:\CME Superfolder\CME Data\TIRF SIM\Control CALM Clathrin';
 nbins=50;
 %folder='E:\CME Superfolder\CME Data\TIRF SIM\Control CALM Clathrin 2';
-folder='Z:\Scott\TIRF SIM\Control CALM Clathrin 2';
+folder='Z:\Scott\TIRF SIM\Control SIM Movies\CALM\0330_W1_151234';
 files=FindFiles(folder,'*.tif').';
-Inds=[20 21];
+Inds=[3 4];
 FSFig
 IMG{1}=imread(files{Inds(1)},'Index',1);
 IMG{2}=imread(files{Inds(2)},'Index',1);
@@ -36,7 +36,7 @@ for i=1:length(Inds)
     xq=0:max(xs);
     yi=interp1(xs,ys,xq);
     [xL,xR]=FindFWHMBoundaries(yi,0);
-    FWHMx{i}=strcat('FWHM = ',num2str((xR)*80),' nm');
+    FWHMx{i}=strcat('FWHM = ',num2str((xR-1)*80),' nm');
     line([0 xR-1],[.5+(i-1)*.01 .5+(i-1)*.01],'Color',Col,'LineStyle','--')
     
     xlabel('Pixel (40nm spacing)')

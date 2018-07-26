@@ -1,10 +1,10 @@
 function [FWHMs,XCRs,Groups]=UnloadXCData(FWHMs,XCRs,Groups,Protein,FWHM,XC,Group,Subset)
 
 if strcmp(Protein,'AP2')
-    G=[1 2];
+    G=[1 3];
 end
 if strcmp(Protein,'CALM')
-    G=[3 4];
+    G=[2 4];
 end
 [a,b]=size(FWHM);
 if strcmp(Subset,'All')

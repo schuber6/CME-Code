@@ -58,7 +58,7 @@ end
 % end
 
 mask = fspecial('disk',(windowsize-1)/2);
-mask=mask/max(max(mask))
+mask=mask/max(max(mask));
 
 windowsize = 2*floor((windowsize+1)/2) - 1;
 bigwindowsize = windowsize + 4;

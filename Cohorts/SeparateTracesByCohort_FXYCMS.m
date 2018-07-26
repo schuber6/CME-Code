@@ -9,6 +9,8 @@ function [Mints,Sints,varargout]=SeparateTracesByCohort_FXYCMS(FXYCMS,CohortEdge
         Sints{i}=cell(1,CohortEdgesF(i+1));
         MaxM{i}=[];
         MaxS{i}=[];
+        Max10sM{i}=[];
+        Max10sS{i}=[];
         Inds{i}=[];
     end
     for i=1:length(FXYCMS)
@@ -19,6 +21,13 @@ function [Mints,Sints,varargout]=SeparateTracesByCohort_FXYCMS(FXYCMS,CohortEdge
             Inds{Group}=[Inds{Group} i];
             MaxM{Group}=[MaxM{Group} max(fxyc(:,6))];
             MaxS{Group}=[MaxS{Group} max(fxyc(:,7))];
+            if length(fxyc(:,6))>=10
+                Max10sM{Group}=[Max10sM{Group} max(fxyc(1:10,6))];
+                Max10sS{Group}=[Max10sS{Group} max(fxyc(1:10,7))];
+            else
+                Max10sM{Group}=[Max10sM{Group} max(fxyc(1:end,6))];
+                Max10sS{Group}=[Max10sS{Group} max(fxyc(1:end,7))];
+            end
             if ~Scottify
                 for i2=1:LT
                     Mints{Group}{i2}=[Mints{Group}{i2} fxyc(i2,6)];
@@ -47,3 +56,5 @@ function [Mints,Sints,varargout]=SeparateTracesByCohort_FXYCMS(FXYCMS,CohortEdge
     varargout{2}=Inds;
     varargout{3}=MaxM;
     varargout{4}=MaxS;
+    varargout{5}=Max10sM;
+    varargout{6}=Max10sS;

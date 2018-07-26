@@ -1,5 +1,11 @@
 function [SCell,Maxs]=ScottifyTraces(IntCell,Traces,NBins,varargin)
     
+    if isempty(Traces)
+        SCell=[];
+        Maxs=[];
+        return
+    end
+
     if nargin==3
         Norm='none';
     else

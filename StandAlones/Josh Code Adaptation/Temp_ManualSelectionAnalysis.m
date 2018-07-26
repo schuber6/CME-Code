@@ -49,3 +49,16 @@ end
 tracest=FXYCMS2Tracest(FXYCMS,MsqE_Traces_Pad,Value);
 save(filetst,'tracest')
 figure_code_for_scott_StaticArea(movie,movie,filetst);
+
+%%
+
+folder='E:\CME Superfolder\CME Data\180723_SUM_CALM_Clath_DSIRNA_Osmo\SI_osmo_3m\Movies';
+files=FindFiles(folder,'*FXYCMS.mat').';
+i=1;
+load(files{i})
+movieR=strcat(files{i}(1:end-11),'.tif');
+movieG=strcat(files{i}(1:end-14),'Green.tif');
+filetst=strcat(files{i}(1:end-11),'_tst_Small.mat');
+tracest=FXYCMS2Tracest(FXYCMS);
+save(filetst,'tracest')
+figure_code_for_scott_StaticArea(movieR,movieR,filetst);
