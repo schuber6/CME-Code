@@ -3,12 +3,14 @@ load('DoubleSIRNA_ManualCytosolData.mat')
 CBS_DSI=CBS_DSI([1 3 4 5 6 7 8]);
 Area_DSI=Area_DSI([1 3 4 5 6 7 8]);
 
+IncludeStalls=0;
+
 folderwt='E:\CME Superfolder\CME Data\DoubleSIRNA_Analysis\Clath WT\Movies';
 foldersi='E:\CME Superfolder\CME Data\DoubleSIRNA_Analysis\Clath SI\Movies';
 folderdsi='E:\CME Superfolder\CME Data\DoubleSIRNA_Analysis\Clath SI Low CALM\Movies';
-fileswt=FindFiles(folderwt,'*Red*.mat');
-filessi=FindFiles(foldersi,'*Red*.mat');
-filesdsi=FindFiles(folderdsi,'*Red*.mat');
+fileswt=FindFiles(folderwt,'*Red_FXYCMS.mat');
+filessi=FindFiles(foldersi,'*Red_FXYCMS.mat');
+filesdsi=FindFiles(folderdsi,'*Red_FXYCMS.mat');
 
 %Resort cells into more accurate groups
 tempsi{1}=filesdsi{5};
@@ -27,41 +29,44 @@ ADSI=[Area_DSI([1 2 3 4 7]) Area_SI(5)];
 Area_SI=ASI;
 Area_DSI=ADSI;
 
+SlopeConcs=0;
 
 for i=1:length(fileswt)
     figure
     load(fileswt{i})
     FXYCMS_Sel=SelectSmallOnes(FXYCMS);
     subplot(2,5,i)
-    CALMwtC{i}=Temp_TwoColorCohorts_NPlots(FXYCMS,2,0,'',1);
+    CALMwtC{i}=Temp_TwoColorCohorts_NPlots(FXYCMS,2,0,'',1,SlopeConcs);
     Temp_TwoColorCohorts_NPlots(FXYCMS,2,1,'',1);
-    Stallwt{i}=FindFullMovieTraces(FXYCMS);
+    Stallwt{i}=FindFullMovieTraces(FXYCMS,75);
 end
 for i=1:length(filessi)
     figure
     load(filessi{i})
     FXYCMS_Sel=SelectSmallOnes(FXYCMS);
     subplot(2,5,i)
-    CALMsiC{i}=Temp_TwoColorCohorts_NPlots(FXYCMS,2,0,'',1) ;
+    CALMsiC{i}=Temp_TwoColorCohorts_NPlots(FXYCMS,2,0,'',1,SlopeConcs) ;
     Temp_TwoColorCohorts_NPlots(FXYCMS,2,1,'',1);
-    Stallsi{i}=FindFullMovieTraces(FXYCMS);
+    Stallsi{i}=FindFullMovieTraces(FXYCMS,75);
 end
 for i=1:length(filesdsi)
     figure
     load(filesdsi{i})
     FXYCMS_Sel=SelectSmallOnes(FXYCMS);
     subplot(2,5,i)
-    CALMdsiC{i}=Temp_TwoColorCohorts_NPlots(FXYCMS,2,0,'',1) ;
+    CALMdsiC{i}=Temp_TwoColorCohorts_NPlots(FXYCMS,2,0,'',1,SlopeConcs) ;
     Temp_TwoColorCohorts_NPlots(FXYCMS,2,1,'',1);
-    Stalldsi{i}=FindFullMovieTraces(FXYCMS);
+    Stalldsi{i}=FindFullMovieTraces(FXYCMS,75);
 end
 for i=1:length(CALMwtC)
     for i2=1:length(CALMwtC{i})
         Pwt(i,i2)=length(CALMwtC{i}{i2}{1});
         Psi(i,i2)=length(CALMsiC{i}{i2}{1});
     end
-    Pwt(i,length(CALMwtC{i})+1)=length(Stallwt{i});
-    Psi(i,length(CALMsiC{i})+1)=length(Stallsi{i});
+    if IncludeStalls
+        Pwt(i,length(CALMwtC{i})+1)=length(Stallwt{i});
+        Psi(i,length(CALMsiC{i})+1)=length(Stallsi{i});
+    end
     PwtNA(i,:)=Pwt(i,:)/Area_WT(i);
     PsiNA(i,:)=Psi(i,:)/Area_SI(i);
     Pwtp(i,:)=Pwt(i,:)/sum(Pwt(i,:));
@@ -71,7 +76,9 @@ for i=1:length(CALMdsiC)
     for i2=1:length(CALMdsiC{i})
         Pdsi(i,i2)=length(CALMdsiC{i}{i2}{1});
     end
-    Pdsi(i,length(CALMdsiC{i})+1)=length(Stalldsi{i});
+    if IncludeStalls
+        Pdsi(i,length(CALMdsiC{i})+1)=length(Stalldsi{i});
+    end
     PdsiNA(i,:)=Pdsi(i,:)/Area_DSI(i);
     Pdsip(i,:)=Pdsi(i,:)/sum(Pdsi(i,:));
 end
@@ -81,6 +88,9 @@ AvPwt=mean(Pwt);
 AvPsiNA=mean(PsiNA);
 AvPdsiNA=mean(PdsiNA);
 AvPwtNA=mean(PwtNA);
+VarPsiNA=var(PsiNA);
+VarPdsiNA=var(PdsiNA);
+VarPwtNA=var(PwtNA);
 AvPsi=AvPsi/sum(AvPsi);
 AvPwt=AvPwt/sum(AvPwt);
 AvPdsi=AvPdsi/sum(AvPdsi);
@@ -103,19 +113,41 @@ ylabel('Percent of Traces')
 
 figure
 Obj=bar([PwtNA ; zeros(1,length(Pwtp(1,:))) ; PsiNA ; zeros(1,length(Pwtp(1,:))) ; PdsiNA],'stacked');
-L={'10-24s Pits','24-80s Pits','80-150s Pits','300s Pits (Entire Movie)'};
+L={'10-24s Pits','24-80s Pits','80-150s Pits','>150s Pits'};
 legend(fliplr(Obj),fliplr(L));
 xticks([3 9 15])
 xticklabels({'WT Cells','siRNA Cells with best Clathrin signal','siRNA Cells with Lowest CALM signal'})
 ylabel('Percent of Traces')
 
 figure
-Obj=bar([AvPwtNA ; AvPsiNA ; AvPdsiNA],'stacked');
-L={'10-24s Pits','24-80s Pits','80-150s Pits','300s Pits (Entire Movie)'};
+Obj=bar([AvPwtNA ; AvPsiNA ; AvPdsiNA]/5,'stacked');
+L={'10-20s Pits','20-80s Pits','80-150s Pits','>150s Pits'};
 legend(fliplr(Obj),fliplr(L));
 xticks([1 2 3])
-xticklabels({'WT Cells','siRNA Cells with best Clathrin signal','siRNA Cells with Lowest CALM signal'})
-ylabel('Traces/um^2')
+xticklabels({'Control','siRNA 1','siRNA 2'})
+a = get(gca,'XTickLabel');
+set(gca,'XTickLabel',a,'fontsize',12)
+ylabel('Traces/um^2/min','FontSize',16)
+
+figure
+bar([AvPwtNA(1) AvPsiNA(1) AvPdsiNA(1)]/5)
+hold on
+errorbar([1 2 3],[AvPwtNA(1) AvPsiNA(1) AvPdsiNA(1)]/5,[sqrt(VarPwtNA(1))/sqrt(length(Pwt(:,1))) sqrt(VarPsiNA(1))/sqrt(length(Psi(:,1))) sqrt(VarPdsiNA(1))/sqrt(length(Pdsi(:,1)))]/5,'.')
+xticks([1 2 3])
+xticklabels({'Control','siRNA 1','siRNA 2'})
+a = get(gca,'XTickLabel');
+set(gca,'XTickLabel',a,'fontsize',12)
+ylabel('Abortive Traces/um^2/min','FontSize',16)
+
+figure
+bar([AvPwtNA(1)/sum(AvPwtNA) AvPsiNA(1)/sum(AvPsiNA) AvPdsiNA(1)/sum(AvPdsiNA)]*100)
+hold on
+errorbar([1 2 3],[AvPwtNA(1)/sum(AvPwtNA) AvPsiNA(1)/sum(AvPsiNA) AvPdsiNA(1)/sum(AvPdsiNA)]*100,100*[sqrt(VarPwtNA(1))/sqrt(length(Pwt(:,1)))/sum(AvPwtNA) sqrt(VarPsiNA(1))/sqrt(length(Psi(:,1)))/sum(AvPsiNA) sqrt(VarPdsiNA(1))/sqrt(length(Pdsi(:,1)))/sum(AvPdsiNA)],'.')
+xticks([1 2 3])
+xticklabels({'Control','siRNA 1','siRNA 2'})
+a = get(gca,'XTickLabel');
+set(gca,'XTickLabel',a,'fontsize',12)
+ylabel('Percent Abortive Traces','FontSize',16)
 % for i=1:length(filessi)
 %     load(filessi{i})
 %     FXYCMS_Sel=SelectSmallOnes(FXYCMS);
@@ -134,6 +166,24 @@ ylabel('Traces/um^2')
 %     subplot(2,5,i+5)
 %     TwoColorCohorts_OnePlot(FXYCMS,2,1,'',1)   
 % end
+
+%%
+figure
+[Navc,Navsd]=ConclusionPlot_BySlope_3Groups(fileswt,filessi,filesdsi,Area_WT,Area_SI,Area_DSI,1);
+figure
+Obj=bar([Navc.']/5);
+hold on
+errorbar([1 2 3],Navc/5,Navsd/5,'.')
+xticks([1 2 3])
+xticklabels({'Control','siRNA 1','siRNA 2'})
+a = get(gca,'XTickLabel');
+set(gca,'XTickLabel',a,'fontsize',12)
+ylabel('Internalizations/um^2/min','FontSize',16)
+
+%%
+
+%figure
+SpotsPerAreaPlot_3Groups(fileswt,filessi,filesdsi,Area_WT,Area_SI,Area_DSI)
 
 %%
 

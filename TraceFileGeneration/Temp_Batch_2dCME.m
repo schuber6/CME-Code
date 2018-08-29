@@ -10,6 +10,9 @@ j6=batch(@comb_run,0,{'E:\CME Superfolder\CME Data\180723_SUM_CALM_Clath_DSIRNA_
 
 %%
 
-% fg=zeros(1,8) +2;
-% thresh=fg*400/2;
-% j5=batch(@comb_run,0,{'E:\CME Superfolder\CME Data\DoubleSIRNA_Analysis\Clath SI Low CALM',fg,thresh});
+fg=zeros(1,6) +2;
+thresh=fg*400/2;
+
+j1=batch(@comb_run,0,{'E:\CME Superfolder\CME Data\DoubleSIRNA_Analysis\Clath SI 3',fg,thresh});
+j2=batch(@comb_run,0,{'E:\CME Superfolder\CME Data\DoubleSIRNA_Analysis\Clath SI 4',fg,thresh});
+j3=batch(@comb_run,0,{'E:\CME Superfolder\CME Data\DoubleSIRNA_Analysis\Clath SI 5',fg,thresh});

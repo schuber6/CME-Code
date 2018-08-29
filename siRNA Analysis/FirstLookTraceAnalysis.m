@@ -4,9 +4,9 @@ MinInt=1000;
 folderwt='E:\CME Superfolder\CME Data\DoubleSIRNA_Analysis\Clath WT\Movies';
 foldersi='E:\CME Superfolder\CME Data\DoubleSIRNA_Analysis\Clath SI\Movies';
 folderdsi='E:\CME Superfolder\CME Data\DoubleSIRNA_Analysis\Clath SI Low CALM\Movies';
-fileswt=FindFiles(folderwt,'*Red*.mat');
-filessi=FindFiles(foldersi,'*Red*.mat');
-filesdsi=FindFiles(folderdsi,'*Red*.mat');
+fileswt=FindFiles(folderwt,'*Red*FXYCMS.mat');
+filessi=FindFiles(foldersi,'*Red*FXYCMS.mat');
+filesdsi=FindFiles(folderdsi,'*Red*FXYCMS.mat');
 
 tempsi{1}=filesdsi{5};
 tempsi{2}=filesdsi{6};
@@ -80,6 +80,29 @@ notBoxPlot([LTwt*FrameRate LTsi*FrameRate LTdsi*FrameRate], [zeros(1,length(MSwt
 xticklabels({'WT','SI','DSI'})
 ylabel('Median Lifetime (s)')
 subplot(2,2,4)
+notBoxPlot([MSDwt MSDsi MSDdsi], [zeros(1,length(MSwt)) zeros(1,length(MSsi))+1 zeros(1,length(MSdsi))+2])
+xticklabels({'WT','SI','DSI'})
+ylabel('Clathrin Slope Standard Deviation')
+
+%%
+FrameRate=2;
+figure
+notBoxPlot([MSwt MSsi MSdsi], [zeros(1,length(MSwt)) zeros(1,length(MSsi))+1 zeros(1,length(MSdsi))+2])
+xticklabels({'WT','SI','DSI'})
+ylabel('Median CALM Intensity')
+figure
+notBoxPlot([MMwt MMsi MMdsi], [zeros(1,length(MSwt)) zeros(1,length(MSsi))+1 zeros(1,length(MSdsi))+2],'jitter',.7)
+xticklabels({'Control','siRNA 1','siRNA 2'})
+a = get(gca,'XTickLabel');
+set(gca,'XTickLabel',a,'fontsize',12)
+ylabel('Median Clathrin Intensity (AU)','FontSize',18)
+figure
+notBoxPlot([LTwt*FrameRate LTsi*FrameRate LTdsi*FrameRate], [zeros(1,length(MSwt)) zeros(1,length(MSsi))+1 zeros(1,length(MSdsi))+2],'jitter',.7)
+xticklabels({'Control','siRNA 1','siRNA 2'})
+a = get(gca,'XTickLabel');
+set(gca,'XTickLabel',a,'fontsize',12)
+ylabel('Median Lifeimte (s)','FontSize',18)
+figure
 notBoxPlot([MSDwt MSDsi MSDdsi], [zeros(1,length(MSwt)) zeros(1,length(MSsi))+1 zeros(1,length(MSdsi))+2])
 xticklabels({'WT','SI','DSI'})
 ylabel('Clathrin Slope Standard Deviation')

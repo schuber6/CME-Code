@@ -4,9 +4,11 @@ CBS_DSI=Cyt_DSI-Back_DSI;
 SI=[CBS_SI(1:4) CBS_DSI(6:7)];
 DSI=[CBS_SI(5) CBS_DSI([1 3 4 7 8])];
 figure
-notBoxPlot([CBS_WT SI DSI], [zeros(1,length(CBS_WT)) zeros(1,length(SI))+1 zeros(1,length(DSI))+2])
-xticklabels({'WT','SI','DSI'})
-ylabel('Median CALM Intensity')
+notBoxPlot([CBS_WT SI DSI], [zeros(1,length(CBS_WT)) zeros(1,length(SI))+1 zeros(1,length(DSI))+2],'jitter',.7)
+xticklabels({'Control','siRNA 1','siRNA 2'})
+a = get(gca,'XTickLabel');
+set(gca,'XTickLabel',a,'fontsize',12)
+ylabel('Median Cytosolic CALM Intensity (AU)','FontSize',15)
 
 %%
 

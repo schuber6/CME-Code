@@ -44,6 +44,6 @@ function Fade=QuantifyFades(Fs,SI,MI,OsmoF,stat)
         Varpo=var(ACpo);
         Fade=(Mepo-Mepr)/sqrt(Varpr/Npr+Varpo/Npo);
     end
-    
+
     
     

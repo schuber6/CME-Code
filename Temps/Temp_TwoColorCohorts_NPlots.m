@@ -1,4 +1,4 @@
-function varargout=Temp_TwoColorCohorts_NPlots(FXYCMS,FrameGap,R,type,normalize)
+function varargout=Temp_TwoColorCohorts_NPlots(FXYCMS,FrameGap,R,type,normalize,varargin)
 
 
 
@@ -8,9 +8,19 @@ function varargout=Temp_TwoColorCohorts_NPlots(FXYCMS,FrameGap,R,type,normalize)
 %CohortEdges=10:(140/NumCohorts):150;
 %CohortEdges=[10 20 30 40 50 60 70 80 90];
 %CohortEdges=[30 50 70 90];
-CohortEdges=[30 150];
+CohortEdges=[10 24 80 150 300];
 CohortEdgesF=CohortEdges/FrameGap;
-[Mints,Sints,~,~,MaxM,MaxS]=SeparateTracesByCohort_FXYCMS(FXYCMS,CohortEdgesF,1,[3],0,100);
+if nargin==5
+    SlopeConcs=0;
+else
+    SlopeConcs=varargin{1};
+end
+if SlopeConcs
+    [~,~,FXYCMS_Sel]=CountConclusions_BySlope(FXYCMS,3000,5,FrameGap,Inf,1);
+else
+    FXYCMS_Sel=FXYCMS;
+end
+[Mints,Sints,~,~,MaxM,MaxS]=SeparateTracesByCohort_FXYCMS(FXYCMS_Sel,CohortEdgesF,1,[3],0,100);
 MMIs=[];
 MSIs=[];
 for i=1:length(Mints)

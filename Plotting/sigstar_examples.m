@@ -8,12 +8,14 @@ figure
     sigstar({[2,3],[1,2], [1,3]},[nan,0.05,0.05])
     
     %%
+    clear sigstar
     figure
         R=randn(30,2);
-    R(:,1)=R(:,1)+3;
+    R(:,1)=R(:,1)+1;
     boxplot(R)
+    [h,p]=ttest2(R(:,1),R(:,2));
     set(gca,'XTick',1:2,'XTickLabel',{'A','B'})
-    H=sigstar({{'A','B'}},0.01);
+    H=sigstar({{'A','B'}},p);
     ylim([-3,6.5])
     set(H,'color','r')
     

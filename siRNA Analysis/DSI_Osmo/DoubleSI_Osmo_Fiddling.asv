@@ -385,7 +385,7 @@ for i00=1:6
 end
 
 %%
-clear AC SDC Nc TCell TF
+clear AC SDC Nc
 FrameGap=2;
 MaxFrame=151;
 Tmast=1000;
@@ -420,33 +420,20 @@ for i00=1:6
     else
         N=1;
     end
-    if isempty(FXYCMS_Good{i0})
-        for i=1:length(files{i0})
-            load(files{i0}{i})
-            [AC{i0}(i,:),t,SDC{i0}(i,:),Nc{i0}(i),TCell{i0}{i},TF{i0}{i}]=PlotAverageConclusion_Traces(FXYCMS,Tmast,MinLTF,FrameGap,AverageZeros);
-            %         figure(i+5)
-            %         plot(t(1:9),AC{i0}(i,1:9)/N)
-        end
-    else
-        [AC{i0}(1,:),t,SDC{i0}(1,:),Nc{i0}(1),TCell{i0}{1},TF{i0}{1}]=PlotAverageConclusion_Traces(FXYCMS_Good{i0},Tmast,MinLTF,FrameGap,AverageZeros);
+    for i=1:length(files{i0})
+        load(files{i0}{i})
+        [AC{i0}(i,:),t,SDC{i0}(i,:),Nc{i0}(i),TCell{i},TF{i}]=PlotAverageConclusion_Traces(FXYCMS,Tmast,MinLTF,FrameGap,AverageZeros);
+%         figure(i+5)
+%         plot(t(1:9),AC{i0}(i,1:9)/N)
     end
 %     figure(1)
     Nt=StatCell_Fancy(Nc,@sum);
-    mAC{i0}=mean(AC{i0},1);
+    mAC{i0}=mean(AC{i0});
     figure(1)
     subplot(2,3,i00)
     plot(t,mAC{i0}/N)
-    xlim([0 105])
+    xlim([0 200])
     title(strcat(L{i00},'. N= ',num2str(Nt(i0))))
-    if i0~=3 && i0~=6
-        figure(2)
-        plot(t,mAC{i0}/N)
-        hold on
-        xlim([0 200])
-    end
-    
-    figure(2+i00)
-    PlotCellTraces(TCell{i0},TF{i0},FrameGap)
+    figure(1+i00)
+    PlotCellTraces(TCell,TF,FrameGap)
 end
-figure(2)
-legend('Control Pre-Osmo','Control 3 min Post-Omso','siRNA Pre-Osmo','siRNA 3 min Post-Omso')

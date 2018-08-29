@@ -10,7 +10,7 @@
 % evennew='E:\CME Superfolder\CME Data\180515_SUM_CALM_AP2_3dt\Analysis\movies\3dt_004_50pr_BS_Green.tif';
 % SplitChannels(movie,oddnew,evennew);
 
-movie='E:\CME Superfolder\CME Data\180723_SUM_CALM_Clath_DSIRNA_Osmo\background.tif';
-oddnew='E:\CME Superfolder\CME Data\180723_SUM_CALM_Clath_DSIRNA_Osmo\background_Red.tif';
-evennew='E:\CME Superfolder\CME Data\180723_SUM_CALM_Clath_DSIRNA_Osmo\background_Green.tif';
+movie='E:\CME Superfolder\CME Data\180821 DSI Omso Analysis\background.tif';
+oddnew='E:\CME Superfolder\CME Data\180821 DSI Omso Analysis\background_Green.tif';
+evennew='E:\CME Superfolder\CME Data\180821 DSI Omso Analysis\background_Red.tif';
 SplitChannels(movie,oddnew,evennew);

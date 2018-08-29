@@ -31,17 +31,19 @@ legend({'Dynamin'})
 
 %%
 figure
-HC=hist(MMI_CALM,0:5:200);
+substit=3;
+Range=0:5:350;
+HC=hist(MMI_CALM*substit,Range);
 
 
 %line([60 60],YL,'Color','g','LineStyle','--')
 
 
-HA=hist(MMI_AP2,0:5:200);
-plot(0:5:200,HA/sum(HA),'b')
+HA=hist(MMI_AP2,Range);
+plot(Range,HA/sum(HA),'b')
 hold on
-plot(0:5:200,HC/sum(HC),'r')
-xlim([0 200])
+plot(Range,HC/sum(HC),'r')
+xlim([0 345])
 YL=ylim;
 %line([60 60],YL,'Color','g','LineStyle','--')
 ylabel('Frequency')

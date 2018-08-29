@@ -48,6 +48,32 @@ for i=1:length(foldersAP2)
 end
 
 %%
+
+clear all
+folder='Z:\Scott\TIRF SIM\Osmo SIM\CALM';
+foldersCALM=FindFiles(folder,'*min*');
+folder='Z:\Scott\TIRF SIM\Osmo SIM\AP2';
+foldersAP2=FindFiles(folder,'*min*');
+FWHMs=[];
+XCRs=[];
+Groups=[];
+Ints=[];
+for i=1:length(foldersCALM)
+    file=FindFiles(foldersCALM{i},'*Data_180808*');
+    if ~isempty(file)
+        load(file{1})
+        [FWHMs,XCRs,Groups,Ints]=UnloadXCData_WINT(FWHMs,XCRs,Groups,'CALM',FWHM,XC,Group,'XCMin',Ints,IntG,IntR);
+    end
+end
+for i=1:length(foldersAP2)
+    file=FindFiles(foldersAP2{i},'*Data_180808*');
+    if ~isempty(file)
+        load(file{1})
+        [FWHMs,XCRs,Groups,Ints]=UnloadXCData_WINT(FWHMs,XCRs,Groups,'AP2',FWHM,XC,Group,'XCMin',Ints,IntG,IntR);
+    end
+end
+
+%%
 figure
 notBoxPlot(XCRs,Groups)
 xticklabels({'AP2 Pits','AP2 Plaques','CALM Pits','CALM Plaques'})
@@ -150,7 +176,7 @@ end
 [TD3,TG3]=TrimGroups(FM3,GM3);
 figure
 boxplot(TD3,TG3,'positions',[1 2 3.5 4.5],'symbol','')
-xticklabels({'AP2 in Pits','Clathrin in Pits','CALM in Pits','Clathrin in Plaques'})
+xticklabels({'AP2 in Pits','Clathrin in Pits','CALM in Pits','Clathrin in Pits'})
 xtickangle(30)
 ylabel('Relative Width of Autocorrelation Peak')%,'FontSize',14)
 ylim([.4 2.1])

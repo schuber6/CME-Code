@@ -148,11 +148,11 @@ for(i=1:length(list_good_clusters))
     tr_list=find(c==list_good_clusters(i));
 
     %find all growth rate values of the traces within the cluster
-    slope_cells = slope_finding(INT(tr_list),tpf,bkgrd);
+    slope_cells = my_slope_finding(INT(tr_list),tpf,bkgrd);
     slope_list=[];
     for(q=1:length(slope_cells))
-        temp_list=find(slope_cells{q});
-        slope_list(end+1:end+length(temp_list)) = slope_cells{q}(temp_list);
+        temp_list=find(slope_cells(q).sl);
+        slope_list(end+1:end+length(temp_list)) = slope_cells(q).sl(temp_list);
     end
     clusters(i).GR = slope_list;
     
@@ -201,7 +201,9 @@ while(start<length(clusters))
         title({strcat('cluster ',num2str(i),' LT: ',num2str(clusters(i).LT),'s'),
             strcat('num: ',num2str(clusters(i).num),' MaxInt: ',num2str(round(clusters(i).max)))})
         xlim([0,max_LT])
-        ylim([-normalization*2,normalization*2])
+%         ylim([-normalization*2,normalization*2])
+        ylim([0,1])
+
 
         if(i+1>length(clusters))
             break

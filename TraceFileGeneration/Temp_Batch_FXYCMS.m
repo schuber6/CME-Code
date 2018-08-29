@@ -56,3 +56,19 @@ Movies{6}='E:\CME Superfolder\CME Data\180723_SUM_CALM_Clath_DSIRNA_Osmo\WT_osmo
 for i=1:6
     jC{i}=batch(@MasterSlave_RedMaster,0,{Traces{i},Movies{i}});
 end
+
+%%
+
+Traces{1}='E:\CME Superfolder\CME Data\DoubleSIRNA_Analysis\Clath SI 3\Traces';
+Traces{2}='E:\CME Superfolder\CME Data\DoubleSIRNA_Analysis\Clath SI 4\Traces';
+Traces{3}='E:\CME Superfolder\CME Data\DoubleSIRNA_Analysis\Clath SI 5\Traces';
+
+
+Movies{1}='E:\CME Superfolder\CME Data\DoubleSIRNA_Analysis\Clath SI 3\Movies';
+Movies{2}='E:\CME Superfolder\CME Data\DoubleSIRNA_Analysis\Clath SI 4\Movies';
+Movies{3}='E:\CME Superfolder\CME Data\DoubleSIRNA_Analysis\Clath SI 5\Movies';
+
+
+for i=1:3
+    jC{i}=batch(@MasterSlave_RedMaster,0,{Traces{i},Movies{i}});
+end
