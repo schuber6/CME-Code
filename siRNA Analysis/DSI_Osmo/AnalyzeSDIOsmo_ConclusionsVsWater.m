@@ -167,7 +167,7 @@
 %%
 
 clear all
-load('180821_DSIOFilesStruct.mat')
+load('BothDSIO_Struct_180831.mat')
 
 sig=0;   %1 if you want significance bars
 Indiv=0;  %1 if you want all cells plotted individually
@@ -211,9 +211,10 @@ subplot(2,3,6)
 
 %%
 clear all
-load('BothDSIO_DSIOFilesStruct.mat')
-YL=[0 .3];
-ClathMin=10^4;
+load('BothDSIO_Struct_180831.mat')
+YL=[0 .45];
+ClathMin=.5*10^4;
+sig=0;
 ylab='Internalizations/um^2/5 min';
 L={'Control','CALM siRNA'};
 
@@ -239,31 +240,281 @@ P10m80C={[DSIOfiles(WT10m80).ConcsPerArea],[DSIOfiles(SI10m80).ConcsPerArea]};
 figure
 subplot(2,3,1)
 BoxPlotCell(PreC,@notBoxPlot)
+if sig
+    %[~,p]=ttest2(Ncwt,Ncsi);
+    [~,p(1)]=kstest2(PreC{1},PreC{2});
+    if p(1)>.05
+       % p(1)=nan;
+    end
+    sigstar([1 2],p(1))
+end
 ylim(YL)
 ylabel(ylab)
 xticklabels(L)
 subplot(2,3,2)
 BoxPlotCell(P3m66C,@notBoxPlot)
+if sig
+    %[~,p]=ttest2(Ncwt,Ncsi);
+    [~,p(2)]=kstest2(P3m66C{1},P3m66C{2});
+    if p(2)>.05
+       % p(2)=nan; 
+    end
+    sigstar([1 2],p(2))
+end
 ylim(YL)
 ylabel(ylab)
 xticklabels(L)
 subplot(2,3,3)
 BoxPlotCell(P10m66C,@notBoxPlot)
+if sig
+    %[~,p]=ttest2(Ncwt,Ncsi);
+    [~,p(3)]=kstest2(P10m66C{1},P10m66C{2});
+    if p(3)>.05
+      %  p(3)=nan;
+    end
+    sigstar([1 2],p(3))
+end
 ylim(YL)
 ylabel(ylab)
 xticklabels(L)
 subplot(2,3,5)
 BoxPlotCell(P3m80C,@notBoxPlot)
+if sig
+    %[~,p]=ttest2(Ncwt,Ncsi);
+    [~,p(4)]=kstest2(P3m80C{1},P3m80C{2});
+    if p(4)>.05
+       % p(4)=nan;
+    end
+    sigstar([1 2],p(4))
+end
 ylim(YL)
 ylabel(ylab)
 xticklabels(L)
 subplot(2,3,6)
 BoxPlotCell(P10m80C,@notBoxPlot)
+if sig
+    %[~,p]=ttest2(Ncwt,Ncsi);
+    [~,p(5)]=kstest2(P10m80C{1},P10m80C{2});
+    if p(5)>.05
+       % p(5)=nan;
+    end
+    sigstar([1 2],p(5))
+end
 ylim(YL)
 ylabel(ylab)
 xticklabels(L)
 
+%%  Compare the 2 days of osmoshock
+
+clear all
+load('BothDSIO_Struct_180831.mat')
+YL=[0 .2];
+ClathMin=.5*10^4;
+sig=0;
+ylab='Internalizations/um^2/5 min';
+L={'Control','CALM siRNA'};
+
+SIpre=find([DSIOfiles.Day]==0 & [DSIOfiles.TimeGroup]==0 & [DSIOfiles.siRNA]==1 & [DSIOfiles.MedianClath]>=ClathMin);   %Index preosmo files
+WTpre=find([DSIOfiles.Day]==0 & [DSIOfiles.TimeGroup]==0 & [DSIOfiles.siRNA]==0 & [DSIOfiles.MedianClath]>=ClathMin);
+SIpre2=find([DSIOfiles.Day]>=1 & [DSIOfiles.TimeGroup]==0 & [DSIOfiles.siRNA]==1 & [DSIOfiles.MedianClath]>=ClathMin);   %Index preosmo files
+WTpre2=find([DSIOfiles.Day]>=1 & [DSIOfiles.TimeGroup]==0 & [DSIOfiles.siRNA]==0 & [DSIOfiles.MedianClath]>=ClathMin);
+
+SI3m66=find([DSIOfiles.Day]==0 & [DSIOfiles.TimeGroup]==1 & [DSIOfiles.siRNA]==1 & [DSIOfiles.pWater]==80 & [DSIOfiles.MedianClath]>=ClathMin);  %Index 3 min post osmo files
+WT3m66=find([DSIOfiles.Day]==0 & [DSIOfiles.TimeGroup]==1 & [DSIOfiles.siRNA]==0 & [DSIOfiles.pWater]==80 & [DSIOfiles.MedianClath]>=ClathMin);
+SI3m80=find([DSIOfiles.Day]>=1 & [DSIOfiles.TimeGroup]==1 & [DSIOfiles.siRNA]==1 & [DSIOfiles.pWater]==80 & [DSIOfiles.MedianClath]>=ClathMin);
+WT3m80=find([DSIOfiles.Day]>=1 & [DSIOfiles.TimeGroup]==1 & [DSIOfiles.siRNA]==0 & [DSIOfiles.pWater]==80 & [DSIOfiles.MedianClath]>=ClathMin);
+
+SI10m66=find([DSIOfiles.Day]==0 & [DSIOfiles.TimeGroup]==2 & [DSIOfiles.siRNA]==1 & [DSIOfiles.pWater]==80 & [DSIOfiles.MedianClath]>=ClathMin);  %Index 10 min post osmo files
+WT10m66=find([DSIOfiles.Day]==0 & [DSIOfiles.TimeGroup]==2 & [DSIOfiles.siRNA]==0 & [DSIOfiles.pWater]==80 & [DSIOfiles.MedianClath]>=ClathMin);
+SI10m80=find([DSIOfiles.Day]>=1 & [DSIOfiles.TimeGroup]==2 & [DSIOfiles.siRNA]==1 & [DSIOfiles.pWater]==80 & [DSIOfiles.MedianClath]>=ClathMin);
+WT10m80=find([DSIOfiles.Day]>=1 & [DSIOfiles.TimeGroup]==2 & [DSIOfiles.siRNA]==0 & [DSIOfiles.pWater]==80 & [DSIOfiles.MedianClath]>=ClathMin);
+
+PreC={[DSIOfiles(WTpre).ConcsPerArea],[DSIOfiles(SIpre).ConcsPerArea]};
+PreC2={[DSIOfiles(WTpre2).ConcsPerArea],[DSIOfiles(SIpre2).ConcsPerArea]};
+P3m66C={[DSIOfiles(WT3m66).ConcsPerArea],[DSIOfiles(SI3m66).ConcsPerArea]};
+P10m66C={[DSIOfiles(WT10m66).ConcsPerArea],[DSIOfiles(SI10m66).ConcsPerArea]};
+P3m80C={[DSIOfiles(WT3m80).ConcsPerArea],[DSIOfiles(SI3m80).ConcsPerArea]};
+P10m80C={[DSIOfiles(WT10m80).ConcsPerArea],[DSIOfiles(SI10m80).ConcsPerArea]};
+
+figure
+% subplot(2,3,1)
+% BoxPlotCell(PreC,@notBoxPlot)
+% ylim(YL)
+% ylabel(ylab)
+% xticklabels(L)
+% subplot(2,3,4)
+% BoxPlotCell(PreC2,@notBoxPlot)
+% if sig
+%     %[~,p]=ttest2(Ncwt,Ncsi);
+%     [~,p(1)]=kstest2(PreC{1},PreC{2});
+%     if p(1)>.05
+%        % p(1)=nan;
+%     end
+%     sigstar([1 2],p(1))
+% end
+% ylim(YL)
+% ylabel(ylab)
+% xticklabels(L)
+subplot(2,2,1)
+BoxPlotCell(P3m66C,@notBoxPlot)
+if sig
+    %[~,p]=ttest2(Ncwt,Ncsi);
+    [~,p(2)]=kstest2(P3m66C{1},P3m66C{2});
+    if p(2)>.05
+       % p(2)=nan; 
+    end
+    sigstar([1 2],p(2))
+end
+ylim(YL)
+ylabel(ylab)
+xticklabels(L)
+subplot(2,2,2)
+BoxPlotCell(P10m66C,@notBoxPlot)
+if sig
+    %[~,p]=ttest2(Ncwt,Ncsi);
+    [~,p(3)]=kstest2(P10m66C{1},P10m66C{2});
+    if p(3)>.05
+      %  p(3)=nan;
+    end
+    sigstar([1 2],p(3))
+end
+ylim(YL)
+ylabel(ylab)
+xticklabels(L)
+subplot(2,2,3)
+BoxPlotCell(P3m80C,@notBoxPlot)
+if sig
+    %[~,p]=ttest2(Ncwt,Ncsi);
+    [~,p(4)]=kstest2(P3m80C{1},P3m80C{2});
+    if p(4)>.05
+       % p(4)=nan;
+    end
+    sigstar([1 2],p(4))
+end
+ylim(YL)
+ylabel(ylab)
+xticklabels(L)
+subplot(2,2,4)
+BoxPlotCell(P10m80C,@notBoxPlot)
+if sig
+    %[~,p]=ttest2(Ncwt,Ncsi);
+    [~,p(5)]=kstest2(P10m80C{1},P10m80C{2});
+    if p(5)>.05
+       % p(5)=nan;
+    end
+    sigstar([1 2],p(5))
+end
+ylim(YL)
+ylabel(ylab)
+xticklabels(L)
+
+
+%%  Same with both times of 66% pooled
+% clear all
+% load('BothDSIO_DSIOFilesStruct.mat')
+YL=[0 .07];
+ClathMin=.5*10^4;
+sig=1;
+ylab='Internalizations/um^2/min';
+L={'Control','CALM siRNA'};
+
+SIpre=find([DSIOfiles.TimeGroup]==0 & [DSIOfiles.siRNA]==1 & [DSIOfiles.MedianClath]>=ClathMin);   %Index preosmo files
+WTpre=find([DSIOfiles.TimeGroup]==0 & [DSIOfiles.siRNA]==0 & [DSIOfiles.MedianClath]>=ClathMin);
+
+SI3m66=find([DSIOfiles.TimeGroup]>=1 & [DSIOfiles.siRNA]==1 & [DSIOfiles.pWater]==66 & [DSIOfiles.MedianClath]>=ClathMin);  %Index 3 min post osmo files
+WT3m66=find([DSIOfiles.TimeGroup]>=1 & [DSIOfiles.siRNA]==0 & [DSIOfiles.pWater]==66 & [DSIOfiles.MedianClath]>=ClathMin);
+SI3m80=find([DSIOfiles.TimeGroup]==1 & [DSIOfiles.siRNA]==1 & [DSIOfiles.pWater]==80 & [DSIOfiles.MedianClath]>=ClathMin);
+WT3m80=find([DSIOfiles.TimeGroup]==1 & [DSIOfiles.siRNA]==0 & [DSIOfiles.pWater]==80 & [DSIOfiles.MedianClath]>=ClathMin);
+
+SI10m66=find([DSIOfiles.TimeGroup]==2 & [DSIOfiles.siRNA]==1 & [DSIOfiles.pWater]==66 & [DSIOfiles.MedianClath]>=ClathMin);  %Index 10 min post osmo files
+WT10m66=find([DSIOfiles.TimeGroup]==2 & [DSIOfiles.siRNA]==0 & [DSIOfiles.pWater]==66 & [DSIOfiles.MedianClath]>=ClathMin);
+SI10m80=find([DSIOfiles.TimeGroup]==2 & [DSIOfiles.siRNA]==1 & [DSIOfiles.pWater]==80 & [DSIOfiles.MedianClath]>=ClathMin);
+WT10m80=find([DSIOfiles.TimeGroup]==2 & [DSIOfiles.siRNA]==0 & [DSIOfiles.pWater]==80 & [DSIOfiles.MedianClath]>=ClathMin);
+
+PreC={[DSIOfiles(WTpre).ConcsPerArea]/5,[DSIOfiles(SIpre).ConcsPerArea]/5};
+P3m66C={[DSIOfiles(WT3m66).ConcsPerArea]/5,[DSIOfiles(SI3m66).ConcsPerArea]/5};
+P10m66C={[DSIOfiles(WT10m66).ConcsPerArea]/5,[DSIOfiles(SI10m66).ConcsPerArea]/5};
+P3m80C={[DSIOfiles(WT3m80).ConcsPerArea]/5,[DSIOfiles(SI3m80).ConcsPerArea]/5};
+P10m80C={[DSIOfiles(WT10m80).ConcsPerArea]/5,[DSIOfiles(SI10m80).ConcsPerArea]/5};
+
+figure
+subplot(2,2,1)
+BoxPlotCell(PreC,@notBoxPlot)
+ylim(YL)
+if sig
+    %[~,p]=ttest2(Ncwt,Ncsi);
+    [~,p(1)]=kstest2(PreC{1},PreC{2});
+    if p(1)>.05
+       p(1)=nan;
+    end
+    sigstar([1 2],p(1))
+end
+
+ylabel(ylab)
+xticklabels(L)
+a = get(gca,'XTickLabel');
+set(gca,'XTickLabel',a,'fontsize',16)
+subplot(2,2,2)
+BoxPlotCell(P3m66C,@notBoxPlot)
+ylim(YL)
+if sig
+    %[~,p]=ttest2(Ncwt,Ncsi);
+    [~,p(2)]=kstest2(P3m66C{1},P3m66C{2});
+    if p(2)>.05
+       p(2)=nan; 
+    end
+    sigstar([1 2],p(2))
+end
+ylim(YL)
+ylabel(ylab)
+xticklabels(L)
+a = get(gca,'XTickLabel');
+set(gca,'XTickLabel',a,'fontsize',16)
+% subplot(2,2,3)
+% BoxPlotCell(P10m66C,@notBoxPlot)
+% if sig
+%     %[~,p]=ttest2(Ncwt,Ncsi);
+%     [~,p(3)]=kstest2(P10m66C{1},P10m66C{2});
+%     if p(3)>.05
+%       %  p(3)=nan;
+%     end
+%     sigstar([1 2],p(3))
+% end
+% ylim(YL)
+% ylabel(ylab)
+% xticklabels(L)
+subplot(2,2,4)
+BoxPlotCell(P3m80C,@notBoxPlot)
+ylim(YL)
+if sig
+    %[~,p]=ttest2(Ncwt,Ncsi);
+    [~,p(4)]=kstest2(P3m80C{1},P3m80C{2});
+    if p(4)>.05
+       p(4)=nan;
+    end
+    sigstar([1 2],p(4))
+end
+ylim(YL)
+ylabel(ylab)
+xticklabels(L)
+a = get(gca,'XTickLabel');
+set(gca,'XTickLabel',a,'fontsize',16)
+% subplot(2,2,6)
+% BoxPlotCell(P10m80C,@notBoxPlot)
+% if sig
+%     %[~,p]=ttest2(Ncwt,Ncsi);
+%     [~,p(5)]=kstest2(P10m80C{1},P10m80C{2});
+%     if p(5)>.05
+%        % p(5)=nan;
+%     end
+%     sigstar([1 2],p(5))
+% end
+% ylim(YL)
+% ylabel(ylab)
+% xticklabels(L)
+
 %%
+
 
 clear all
 load('BothDSIO_DSIOFilesStruct.mat')
@@ -433,10 +684,10 @@ xticklabels(L)
 
 %%
 
-clear all
-load('BothDSIO_DSIOFilesStruct.mat')
+% clear all
+% load('BothDSIO_DSIOFilesStruct.mat')
 YL=[0 10*10^4];
-ClathMin=10^4;
+ClathMin=.5*10^4;
 ylab='CALM Intensity at Internalization';
 L={'Control','CALM siRNA'};
 
@@ -530,3 +781,420 @@ BoxPlotCell(P10m80C,@notBoxPlot)
 ylim(YL)
 ylabel(ylab)
 xticklabels(L)
+
+notbox=1;
+figure
+if notbox
+BoxPlotCell({PreC{2},P3m66C{2},P10m66C{2}},@notBoxPlot)
+title('siRNA cells under 66% water')
+ylabel('Max CALM Intensity by Trace')
+xticklabels({'Control','3 minutes post','10 minutes post'})
+figure
+BoxPlotCell({PreC{2},P3m80C{2},P10m80C{2}},@notBoxPlot)
+title('siRNA cells under 80% water')
+ylabel('Max CALM Intensity by Trace')
+xticklabels({'Control','3 minutes post','10 minutes post'})
+figure
+BoxPlotCell({PreC{1},P3m66C{1},P10m66C{1}},@notBoxPlot)
+title('Control cells under 66% water')
+ylabel('Max CALM Intensity by Trace')
+xticklabels({'Control','3 minutes post','10 minutes post'})
+figure
+BoxPlotCell({PreC{1},P3m80C{1},P10m80C{1}},@notBoxPlot)
+title('Control cells under 80% water')
+ylabel('Max CALM Intensity by Trace')
+xticklabels({'Control','3 minutes post','10 minutes post'})
+else
+BoxPlotCell({PreC{2},P3m66C{2},P10m66C{2}})
+title('siRNA cells under 66% water')
+ylabel('Max CALM Intensity by Trace')
+xticklabels({'Control','3 minutes post','10 minutes post'})
+figure
+BoxPlotCell({PreC{2},P3m80C{2},P10m80C{2}})
+title('siRNA cells under 80% water')
+ylabel('Max CALM Intensity by Trace')
+xticklabels({'Control','3 minutes post','10 minutes post'})
+
+figure
+BoxPlotCell({PreC{1},P3m66C{1},P10m66C{1}})
+title('Control cells under 66% water')
+ylabel('Max CALM Intensity by Trace')
+xticklabels({'Control','3 minutes post','10 minutes post'})
+figure
+BoxPlotCell({PreC{1},P3m80C{1},P10m80C{1}})
+title('Control cells under 80% water')
+ylabel('Max CALM Intensity by Trace')
+xticklabels({'Control','3 minutes post','10 minutes post'})
+end
+
+%% Based on Full Trace Maxima
+
+% clear all
+% load('BothDSIO_DSIOFilesStruct.mat')
+notbox=0;
+YL=[0 7*10^4];
+ClathMin=.6*10^4;
+ylab='CALM Intensity at Internalization';
+L={'Control','CALM siRNA'};
+
+SIpre=find([DSIOfiles.TimeGroup]==0 & [DSIOfiles.siRNA]==1 & [DSIOfiles.MedianClath]>=ClathMin);   %Index preosmo files
+WTpre=find([DSIOfiles.TimeGroup]==0 & [DSIOfiles.siRNA]==0 & [DSIOfiles.MedianClath]>=ClathMin);
+
+SI3m66=find([DSIOfiles.TimeGroup]==1 & [DSIOfiles.siRNA]==1 & [DSIOfiles.pWater]==66 & [DSIOfiles.MedianClath]>=ClathMin);  %Index 3 min post osmo files
+WT3m66=find([DSIOfiles.TimeGroup]==1 & [DSIOfiles.siRNA]==0 & [DSIOfiles.pWater]==66 & [DSIOfiles.MedianClath]>=ClathMin);
+SI3m80=find([DSIOfiles.TimeGroup]==1 & [DSIOfiles.siRNA]==1 & [DSIOfiles.pWater]==80 & [DSIOfiles.MedianClath]>=ClathMin);
+WT3m80=find([DSIOfiles.TimeGroup]==1 & [DSIOfiles.siRNA]==0 & [DSIOfiles.pWater]==80 & [DSIOfiles.MedianClath]>=ClathMin);
+
+SI10m66=find([DSIOfiles.TimeGroup]==2 & [DSIOfiles.siRNA]==1 & [DSIOfiles.pWater]==66 & [DSIOfiles.MedianClath]>=ClathMin);  %Index 10 min post osmo files
+WT10m66=find([DSIOfiles.TimeGroup]==2 & [DSIOfiles.siRNA]==0 & [DSIOfiles.pWater]==66 & [DSIOfiles.MedianClath]>=ClathMin);
+SI10m80=find([DSIOfiles.TimeGroup]==2 & [DSIOfiles.siRNA]==1 & [DSIOfiles.pWater]==80 & [DSIOfiles.MedianClath]>=ClathMin);
+WT10m80=find([DSIOfiles.TimeGroup]==2 & [DSIOfiles.siRNA]==0 & [DSIOfiles.pWater]==80 & [DSIOfiles.MedianClath]>=ClathMin);
+
+SIpreMS=[];
+for i=1:length(SIpre)
+    SIpreMS=[SIpreMS MSft{SIpre(i)}];
+end
+WTpreMS=[];
+for i=1:length(WTpre)
+    WTpreMS=[WTpreMS MSft{WTpre(i)}];
+end
+
+SI3m66MS=[];
+for i=1:length(SI3m66)
+    SI3m66MS=[SI3m66MS MSft{SI3m66(i)}];
+end
+WT3m66MS=[];
+for i=1:length(WT3m66)
+    WT3m66MS=[WT3m66MS MSft{WT3m66(i)}];
+end
+
+SI10m66MS=[];
+for i=1:length(SI10m66)
+    SI10m66MS=[SI10m66MS MSft{SI10m66(i)}];
+end
+WT10m66MS=[];
+for i=1:length(WT10m66)
+    WT10m66MS=[WT10m66MS MSft{WT10m66(i)}];
+end
+
+SI3m80MS=[];
+for i=1:length(SI3m80)
+    SI3m80MS=[SI3m80MS MSft{SI3m80(i)}];
+end
+WT3m80MS=[];
+for i=1:length(WT3m80)
+    WT3m80MS=[WT3m80MS MSft{WT3m80(i)}];
+end
+
+SI10m80MS=[];
+for i=1:length(SI10m80)
+    SI10m80MS=[SI10m80MS MSft{SI10m80(i)}];
+end
+WT10m80MS=[];
+for i=1:length(WT10m80)
+    WT10m80MS=[WT10m80MS MSft{WT10m80(i)}];
+end
+
+PreC={WTpreMS,SIpreMS};
+P3m66C={WT3m66MS,SI3m66MS};
+P10m66C={WT10m66MS,SI10m66MS};
+P3m80C={WT3m80MS,SI3m80MS};
+P10m80C={WT10m80MS,SI10m80MS};
+
+if notbox
+figure
+subplot(2,3,1)
+BoxPlotCell(PreC,@notBoxPlot)
+ylim(YL)
+ylabel(ylab)
+xticklabels(L)
+subplot(2,3,2)
+BoxPlotCell(P3m66C,@notBoxPlot)
+ylim(YL)
+ylabel(ylab)
+xticklabels(L)
+subplot(2,3,3)
+BoxPlotCell(P10m66C,@notBoxPlot)
+ylim(YL)
+ylabel(ylab)
+xticklabels(L)
+subplot(2,3,5)
+BoxPlotCell(P3m80C,@notBoxPlot)
+ylim(YL)
+ylabel(ylab)
+xticklabels(L)
+subplot(2,3,6)
+BoxPlotCell(P10m80C,@notBoxPlot)
+ylim(YL)
+ylabel(ylab)
+xticklabels(L)
+else
+figure
+subplot(2,3,1)
+BoxPlotCell(PreC)
+ylim(YL)
+ylabel(ylab)
+xticklabels(L)
+subplot(2,3,2)
+BoxPlotCell(P3m66C)
+ylim(YL)
+ylabel(ylab)
+xticklabels(L)
+subplot(2,3,3)
+BoxPlotCell(P10m66C)
+ylim(YL)
+ylabel(ylab)
+xticklabels(L)
+subplot(2,3,5)
+BoxPlotCell(P3m80C)
+ylim(YL)
+ylabel(ylab)
+xticklabels(L)
+subplot(2,3,6)
+BoxPlotCell(P10m80C)
+ylim(YL)
+ylabel(ylab)
+xticklabels(L)
+end
+figure
+if notbox
+BoxPlotCell({PreC{2},P3m66C{2},P10m66C{2}},@notBoxPlot)
+title('siRNA cells under 66% water')
+ylabel('Max CALM Intensity by Trace')
+xticklabels({'Control','3 minutes post','10 minutes post'})
+figure
+BoxPlotCell({PreC{2},P3m80C{2},P10m80C{2}},@notBoxPlot)
+title('siRNA cells under 80% water')
+ylabel('Max CALM Intensity by Trace')
+xticklabels({'Control','3 minutes post','10 minutes post'})
+
+BoxPlotCell({PreC{1},P3m66C{1},P10m66C{1}},@notBoxPlot)
+title('Control cells under 66% water')
+ylabel('Max CALM Intensity by Trace')
+xticklabels({'Control','3 minutes post','10 minutes post'})
+figure
+BoxPlotCell({PreC{1},P3m80C{1},P10m80C{1}},@notBoxPlot)
+title('Control cells under 80% water')
+ylabel('Max CALM Intensity by Trace')
+xticklabels({'Control','3 minutes post','10 minutes post'})
+else
+BoxPlotCell({PreC{2},P3m66C{2},P10m66C{2}})
+title('siRNA cells under 66% water')
+ylabel('Max CALM Intensity by Trace')
+xticklabels({'Control','3 minutes post','10 minutes post'})
+figure
+BoxPlotCell({PreC{2},P3m80C{2},P10m80C{2}})
+title('siRNA cells under 80% water')
+ylabel('Max CALM Intensity by Trace')
+xticklabels({'Control','3 minutes post','10 minutes post'})
+
+figure
+BoxPlotCell({PreC{1},P3m66C{1},P10m66C{1}})
+title('Control cells under 66% water')
+ylabel('Max CALM Intensity by Trace')
+xticklabels({'Control','3 minutes post','10 minutes post'})
+figure
+BoxPlotCell({PreC{1},P3m80C{1},P10m80C{1}})
+title('Control cells under 80% water')
+ylabel('Max CALM Intensity by Trace')
+xticklabels({'Control','3 minutes post','10 minutes post'})
+end
+
+%%
+%clear all
+%load('BothDSIO_DSIOFilesStruct.mat')
+YL=[0 .2];
+ClathMin=.5*10^4;
+sig=1;
+ylab='Full Traces/um^2/5 min';
+L={'Control','CALM siRNA'};
+
+SIpre=find([DSIOfiles.TimeGroup]==0 & [DSIOfiles.siRNA]==1 & [DSIOfiles.MedianClath]>=ClathMin);   %Index preosmo files
+WTpre=find([DSIOfiles.TimeGroup]==0 & [DSIOfiles.siRNA]==0 & [DSIOfiles.MedianClath]>=ClathMin);
+
+SI3m66=find([DSIOfiles.TimeGroup]==1 & [DSIOfiles.siRNA]==1 & [DSIOfiles.pWater]==66 & [DSIOfiles.MedianClath]>=ClathMin);  %Index 3 min post osmo files
+WT3m66=find([DSIOfiles.TimeGroup]==1 & [DSIOfiles.siRNA]==0 & [DSIOfiles.pWater]==66 & [DSIOfiles.MedianClath]>=ClathMin);
+SI3m80=find([DSIOfiles.TimeGroup]==1 & [DSIOfiles.siRNA]==1 & [DSIOfiles.pWater]==80 & [DSIOfiles.MedianClath]>=ClathMin);
+WT3m80=find([DSIOfiles.TimeGroup]==1 & [DSIOfiles.siRNA]==0 & [DSIOfiles.pWater]==80 & [DSIOfiles.MedianClath]>=ClathMin);
+
+SI10m66=find([DSIOfiles.TimeGroup]==2 & [DSIOfiles.siRNA]==1 & [DSIOfiles.pWater]==66 & [DSIOfiles.MedianClath]>=ClathMin);  %Index 10 min post osmo files
+WT10m66=find([DSIOfiles.TimeGroup]==2 & [DSIOfiles.siRNA]==0 & [DSIOfiles.pWater]==66 & [DSIOfiles.MedianClath]>=ClathMin);
+SI10m80=find([DSIOfiles.TimeGroup]==2 & [DSIOfiles.siRNA]==1 & [DSIOfiles.pWater]==80 & [DSIOfiles.MedianClath]>=ClathMin);
+WT10m80=find([DSIOfiles.TimeGroup]==2 & [DSIOfiles.siRNA]==0 & [DSIOfiles.pWater]==80 & [DSIOfiles.MedianClath]>=ClathMin);
+
+PreC={[DSIOfiles(WTpre).ClusteredFullTracesPerArea],[DSIOfiles(SIpre).ClusteredFullTracesPerArea]};
+P3m66C={[DSIOfiles(WT3m66).ClusteredFullTracesPerArea],[DSIOfiles(SI3m66).ClusteredFullTracesPerArea]};
+P10m66C={[DSIOfiles(WT10m66).ClusteredFullTracesPerArea],[DSIOfiles(SI10m66).ClusteredFullTracesPerArea]};
+P3m80C={[DSIOfiles(WT3m80).ClusteredFullTracesPerArea],[DSIOfiles(SI3m80).ClusteredFullTracesPerArea]};
+P10m80C={[DSIOfiles(WT10m80).ClusteredFullTracesPerArea],[DSIOfiles(SI10m80).ClusteredFullTracesPerArea]};
+
+figure
+subplot(2,3,1)
+BoxPlotCell(PreC,@notBoxPlot)
+if sig
+    %[~,p]=ttest2(Ncwt,Ncsi);
+    [~,p(1)]=kstest2(PreC{1},PreC{2});
+    if p(1)>.05
+       % p(1)=nan;
+    end
+    sigstar([1 2],p(1))
+end
+ylim(YL)
+ylabel(ylab)
+xticklabels(L)
+subplot(2,3,2)
+BoxPlotCell(P3m66C,@notBoxPlot)
+if sig
+    %[~,p]=ttest2(Ncwt,Ncsi);
+    [~,p(2)]=kstest2(P3m66C{1},P3m66C{2});
+    if p(2)>.05
+       % p(2)=nan; 
+    end
+    sigstar([1 2],p(2))
+end
+ylim(YL)
+ylabel(ylab)
+xticklabels(L)
+subplot(2,3,3)
+BoxPlotCell(P10m66C,@notBoxPlot)
+if sig
+    %[~,p]=ttest2(Ncwt,Ncsi);
+    [~,p(3)]=kstest2(P10m66C{1},P10m66C{2});
+    if p(3)>.05
+      %  p(3)=nan;
+    end
+    sigstar([1 2],p(3))
+end
+ylim(YL)
+ylabel(ylab)
+xticklabels(L)
+subplot(2,3,5)
+BoxPlotCell(P3m80C,@notBoxPlot)
+if sig
+    %[~,p]=ttest2(Ncwt,Ncsi);
+    [~,p(4)]=kstest2(P3m80C{1},P3m80C{2});
+    if p(4)>.05
+       % p(4)=nan;
+    end
+    sigstar([1 2],p(4))
+end
+ylim(YL)
+ylabel(ylab)
+xticklabels(L)
+subplot(2,3,6)
+BoxPlotCell(P10m80C,@notBoxPlot)
+if sig
+    %[~,p]=ttest2(Ncwt,Ncsi);
+    [~,p(5)]=kstest2(P10m80C{1},P10m80C{2});
+    if p(5)>.05
+       % p(5)=nan;
+    end
+    sigstar([1 2],p(5))
+end
+ylim(YL)
+ylabel(ylab)
+xticklabels(L)
+
+%%  Same with both times of 66% pooled
+% clear all
+% load('BothDSIO_DSIOFilesStruct.mat')
+YL=[0 .04];
+ClathMin=.5*10^4;
+sig=0;
+ylab='Full Traces/um^2/min';
+L={'Control','CALM siRNA'};
+
+SIpre=find([DSIOfiles.TimeGroup]==0 & [DSIOfiles.siRNA]==1 & [DSIOfiles.MedianClath]>=ClathMin);   %Index preosmo files
+WTpre=find([DSIOfiles.TimeGroup]==0 & [DSIOfiles.siRNA]==0 & [DSIOfiles.MedianClath]>=ClathMin);
+
+SI3m66=find([DSIOfiles.TimeGroup]>=1 & [DSIOfiles.siRNA]==1 & [DSIOfiles.pWater]==66 & [DSIOfiles.MedianClath]>=ClathMin);  %Index 3 min post osmo files
+WT3m66=find([DSIOfiles.TimeGroup]>=1 & [DSIOfiles.siRNA]==0 & [DSIOfiles.pWater]==66 & [DSIOfiles.MedianClath]>=ClathMin);
+SI3m80=find([DSIOfiles.TimeGroup]==1 & [DSIOfiles.siRNA]==1 & [DSIOfiles.pWater]==80 & [DSIOfiles.MedianClath]>=ClathMin);
+WT3m80=find([DSIOfiles.TimeGroup]==1 & [DSIOfiles.siRNA]==0 & [DSIOfiles.pWater]==80 & [DSIOfiles.MedianClath]>=ClathMin);
+
+SI10m66=find([DSIOfiles.TimeGroup]==2 & [DSIOfiles.siRNA]==1 & [DSIOfiles.pWater]==66 & [DSIOfiles.MedianClath]>=ClathMin);  %Index 10 min post osmo files
+WT10m66=find([DSIOfiles.TimeGroup]==2 & [DSIOfiles.siRNA]==0 & [DSIOfiles.pWater]==66 & [DSIOfiles.MedianClath]>=ClathMin);
+SI10m80=find([DSIOfiles.TimeGroup]==2 & [DSIOfiles.siRNA]==1 & [DSIOfiles.pWater]==80 & [DSIOfiles.MedianClath]>=ClathMin);
+WT10m80=find([DSIOfiles.TimeGroup]==2 & [DSIOfiles.siRNA]==0 & [DSIOfiles.pWater]==80 & [DSIOfiles.MedianClath]>=ClathMin);
+
+PreC={[DSIOfiles(WTpre).ClusteredFullTracesPerArea]/5,[DSIOfiles(SIpre).ClusteredFullTracesPerArea]/5};
+P3m66C={[DSIOfiles(WT3m66).ClusteredFullTracesPerArea]/5,[DSIOfiles(SI3m66).ClusteredFullTracesPerArea]/5};
+P10m66C={[DSIOfiles(WT10m66).ClusteredFullTracesPerArea]/5,[DSIOfiles(SI10m66).ClusteredFullTracesPerArea]/5};
+P3m80C={[DSIOfiles(WT3m80).ClusteredFullTracesPerArea]/5,[DSIOfiles(SI3m80).ClusteredFullTracesPerArea]/5};
+P10m80C={[DSIOfiles(WT10m80).ClusteredFullTracesPerArea]/5,[DSIOfiles(SI10m80).ClusteredFullTracesPerArea]/5};
+
+figure
+subplot(2,2,1)
+BoxPlotCell(PreC,@notBoxPlot)
+ylim(YL)
+if sig
+    %[~,p]=ttest2(Ncwt,Ncsi);
+    [~,p(1)]=kstest2(PreC{1},PreC{2});
+    if p(1)>.05
+       p(1)=nan;
+    end
+    sigstar([1 2],p(1))
+end
+
+ylabel(ylab)
+xticklabels(L)
+a = get(gca,'XTickLabel');
+set(gca,'XTickLabel',a,'fontsize',16)
+subplot(2,2,2)
+BoxPlotCell(P3m66C,@notBoxPlot)
+ylim(YL)
+if sig
+    %[~,p]=ttest2(Ncwt,Ncsi);
+    [~,p(2)]=kstest2(P3m66C{1},P3m66C{2});
+    if p(2)>.05
+       p(2)=nan; 
+    end
+    sigstar([1 2],p(2))
+end
+ylim(YL)
+ylabel(ylab)
+xticklabels(L)
+a = get(gca,'XTickLabel');
+set(gca,'XTickLabel',a,'fontsize',16)
+% subplot(2,2,3)
+% BoxPlotCell(P10m66C,@notBoxPlot)
+% if sig
+%     %[~,p]=ttest2(Ncwt,Ncsi);
+%     [~,p(3)]=kstest2(P10m66C{1},P10m66C{2});
+%     if p(3)>.05
+%       %  p(3)=nan;
+%     end
+%     sigstar([1 2],p(3))
+% end
+% ylim(YL)
+% ylabel(ylab)
+% xticklabels(L)
+subplot(2,2,4)
+BoxPlotCell(P3m80C,@notBoxPlot)
+ylim(YL)
+if sig
+    %[~,p]=ttest2(Ncwt,Ncsi);
+    [~,p(4)]=kstest2(P3m80C{1},P3m80C{2});
+    if p(4)>.05
+       p(4)=nan;
+    end
+    sigstar([1 2],p(4))
+end
+ylim(YL)
+ylabel(ylab)
+xticklabels(L)
+a = get(gca,'XTickLabel');
+set(gca,'XTickLabel',a,'fontsize',16)
+% subplot(2,2,6)
+% BoxPlotCell(P10m80C,@notBoxPlot)
+% if sig
+%     %[~,p]=ttest2(Ncwt,Ncsi);
+%     [~,p(5)]=kstest2(P10m80C{1},P10m80C{2});
+%     if p(5)>.05
+%        % p(5)=nan;
+%     end
+%     sigstar([1 2],p(5))
+% end
+% ylim(YL)
+% ylabel(ylab)
+% xticklabels(L)

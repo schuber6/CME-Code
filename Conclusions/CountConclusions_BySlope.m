@@ -13,20 +13,24 @@ function [Nc,varargout]=CountConclusions_BySlope(FXYCMS,Tmast,MinLTF,FrameGap,va
         end
     end
     Cutoff=-.06; %Cutoff for growth rate (default -.06 for 2 second framegap)
-    r2Cutoff=.85; %Cutoff for growth rate R^2 (default .85)
-    DCutoff=1.5; %Cutoff for max distance moved during conclusion (default 1.5)
-    FCutoff=-3; %Cutoff for z-score of the likelihood that the intensities from the end of the conclusion match those from the beginning
-    Rad=6; %Number of frames backwards and forwards to consider part of the conclusion
+    r2Cutoff=.80; %Cutoff for growth rate R^2 (default .85)
+    DCutoff=2; %Cutoff for max distance moved during conclusion (default 1.5)
+    FCutoff=0; %Cutoff for z-score of the likelihood that the intensities from the end of the conclusion match those from the beginning
+    MinCutoff=10^4;
+    RadB=8; %Number of frames backwards and forwards to consider part of the conclusion
+    RadF=4;
     Ni=0;
     Nc=0;
     Fs=[];
     FXYCMS_Sel={};
     slopes={};
     Minslope=[];
+    Fades=[];
     D={};
     R2=[];
     MMs=[];
     MSs=[];
+    Is=[];
     ind=1;
     FXYCMS=AddMSJoshSlopes(FXYCMS,FrameGap);
     for i=1:length(FXYCMS)
@@ -38,15 +42,16 @@ function [Nc,varargout]=CountConclusions_BySlope(FXYCMS,Tmast,MinLTF,FrameGap,va
             if MM>=Tmast && min(fxyc(:,8))<=Cutoff &&  length(fxyc(:,1))>=MinLTF && length(fxyc(:,1))<=MaxLTF
                 F=find(fxyc(:,8)<=Cutoff,1,'last');
                 L=length(fxyc(:,1));
-                R=max(1,F(1)-Rad):min(L,F(1)+Rad);
+                R=max(1,F(1)-RadB):min(L,F(1)+RadF);
                 MM=max(fxyc(R,6));
+                MinM=min(fxyc(R,6));
                 MS=max(fxyc(R,7));
                 D{ind}=zeros(1,length(R));
                 for i2=1:length(R)-1
                     D{ind}(i2)=norm([fxyc(R(i2),2)-fxyc(R(i2+1),2) fxyc(R(i2),3)-fxyc(R(i2+1),3)]);
                 end
                 Fade=QuantifyConclusionFades(fxyc(R,6));
-                if max(D{ind})<=DCutoff && fxyc(F(1),10)>=r2Cutoff && Fade<=FCutoff
+                if max(D{ind})<=DCutoff && fxyc(F(1),10)>=r2Cutoff && Fade<=FCutoff && MinM<=MinCutoff
                     Nc=Nc+1;
                     
                     Fs=[Fs fxyc(F(1),1)];
@@ -59,14 +64,19 @@ function [Nc,varargout]=CountConclusions_BySlope(FXYCMS,Tmast,MinLTF,FrameGap,va
                         D{ind}(length(R))=0;
                         R2(ind)=fxyc(F(1),10);
                         MMs(ind)=MM;
+                        MinMs(ind)=MinM;
                         MSs(ind)=MS;
+                        Fades(ind)=Fade;
+                        Is(ind)=i;
                     else
                         FXYCMS_Sel{ind}=fxyc;
                         slopes{ind}=fxyc(:,8);
                         Minslope(ind)=min(fxyc(:,8));
                         R2(ind)=0;
-                        MMs(ind)=0;
-                        MSs(ind)=0;
+                        MMs(ind)=max(fxyc(:,6));
+                        MinMs(ind)=MinM;
+                        MSs(ind)=max(fxyc(:,7));
+                        Is(ind)=i;
                     end
                     ind=ind+1;
                 end
@@ -82,3 +92,6 @@ function [Nc,varargout]=CountConclusions_BySlope(FXYCMS,Tmast,MinLTF,FrameGap,va
     varargout{6}=R2;
     varargout{7}=MMs;
     varargout{8}=MSs;
+    varargout{9}=Fades;
+    varargout{10}=Is;
+    varargout{11}=MinMs;

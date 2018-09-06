@@ -5,6 +5,7 @@ Tslave=0;
 MinLTF=30/FrameGap;
 MaxLTF=Inf;
 
+
 for Group=[3 5 6]
     FXYCMS_Good{Group}={};
     for i=1:length(files{Group})

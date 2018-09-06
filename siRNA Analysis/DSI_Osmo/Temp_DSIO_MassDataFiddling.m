@@ -7,10 +7,15 @@ BoxPlotCell(CC)
 
 %%
 
-Claths=[DSIOfiles.MedianClath];
-Concs=[DSIOfiles.NConclusions];
+Claths=[DSIOfiles.MedianClath]/10^4;
+Concs=[DSIOfiles.ConcsPerArea];
 figure
 scatter(Claths,Concs)
+hold on
+thresh=0;
+used=find(Claths>=thresh);
+AddLinearRegLine(Claths(used),Concs(used))
+scatter(Claths(used),Concs(used),'g')
 %After MedClath~10^4, these are independent
 
 %%

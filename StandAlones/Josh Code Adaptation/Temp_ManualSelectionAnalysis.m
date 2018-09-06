@@ -117,18 +117,25 @@ figure_code_for_scott_StaticArea(movieR,movieR,filetst);
 %%
 
 %folder='E:\CME Superfolder\CME Data\180723_SUM_CALM_Clath_DSIRNA_Osmo\SI_cont\Movies';
-folder='E:\CME Superfolder\CME Data\DoubleSIRNA_Analysis\Clath SI\Movies';
-files=FindFiles(folder,'*FXYCMS.mat').';
-i=3;
+% folder='E:\CME Superfolder\CME Data\180821 DSI Osmo Analysis\WT 3 min\Traces';
+% files=FindFiles(folder,'*FXYCMS.mat').';
+ClathMin=0;
+SI3m66=find([DSIOfiles.pWater]==66 & [DSIOfiles.MedianClath]>=ClathMin);
+i=7;
+file=DSIOfiles(i).file;
+movieR=DSIOfiles(i).movieR;
+movieG=DSIOfiles(i).movieG;
+
 FrameGap=2;
-load(files{i})
+load(file)
 FXYCMS=AddMSJoshSlopes(FXYCMS,FrameGap); 
 %[FXYCMS_Sel,Value,Slopes]=SelectStallsByJoshSlopes(FXYCMS);
-[Nc,Fs,FXYCMS_Sel,slopes,value,D,R2]=CountConclusions_BySlope(FXYCMS,900,5,FrameGap);
-movieR=strcat(files{i}(1:end-11),'.tif');
-movieG=strcat(files{i}(1:end-14),'Green.tif');
-filetst=strcat(files{i}(1:end-11),'_tst_Small.mat');
-tracest=FXYCMS2Tracest(FXYCMS_Sel,R2,D);
+[Nc,Fs,FXYCMS_Sel,slopes,value,D,R2,~,~,Fade,Is]=CountConclusions_BySlope(FXYCMS,0,5,FrameGap);
+%FXYCMS_Sel=ThresholdMaster(FXYCMS,0);
+% movieR=strcat(files{i}(1:end-11),'.tif');
+% movieG=strcat(files{i}(1:end-14),'Green.tif');
+filetst=strcat(file(1:end-11),'_ManualConclusionCheck.mat');
+tracest=FXYCMS2Tracest(FXYCMS_Sel,Is,D);
 save(filetst,'tracest')
 figure_code_for_scott_StaticArea(movieR,movieR,filetst);
 

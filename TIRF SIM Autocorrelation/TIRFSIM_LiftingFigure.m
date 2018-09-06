@@ -16,7 +16,7 @@ Ys=[[0 16];[0 16];[0 16];[0 16];[0 16]]+1;
 % % Xs=[[1 26];[10 20];[10 20];[8 19];[7 19]]+1;
 % % Ys=[[3 18];[0 21];[0 21];[0 21];[0 21]]+1;
 
-CIM='E:\CME Superfolder\Lines.tif';
+ %CIM='E:\CME Superfolder\Lines.tif';
 
 folder='Z:\Scott\TIRF SIM\Control CALM Clathrin 4';
 Inds=[7 8];
@@ -34,13 +34,13 @@ for i0=1:NF
     IMG{1}=imread(files{Inds(1)},'Index',Frames(i0));
     IMG{2}=imread(files{Inds(2)},'Index',Frames(i0));
     %IMG{2}=IMG{2}(3:end,:);
-    [shift_x(i0),shift_y(i0),DM,SIM{i0}{1},SIM{i0}{2}]=AlignAndMaxXCorr(IMG{1},IMG{2},0);
+    [shift_x(i0),shift_y(i0),DM,SIM{i0}{2},SIM{i0}{1}]=AlignAndMaxXCorr(IMG{1},IMG{2},0);
     clear MP
     for i=1:length(Inds)
         if i==1
-            Col='c';
-        else
             Col='r';
+        else
+            Col='c';
         end
         %IM=imread(files{Inds(i)},'Index',1);
         %subplot(3,NF,(i-1)*NF+i0)
@@ -70,12 +70,12 @@ for i0=1:NF
     end
 end
 % subplot(3,NF,1)
-axes(ha(1))
+axes(ha(NF+1))
 ylabel('CALM Channel')
 % subplot(3,NF,NF+1)
-axes(ha(NF+1))
+axes(ha(1))
 ylabel('Clathrin Channel')
 % subplot(3,NF,2*NF+1)
 axes(ha(2*NF+1))
 ylabel('Cross Section')
-legend('CALM','Clathrin')
+legend('Clathrin','CALM')

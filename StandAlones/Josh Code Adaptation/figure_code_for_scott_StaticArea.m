@@ -191,7 +191,7 @@ uicontrol('Parent',fh_text,...
     'Style','Text',...
     'Units','Normalized',...
     'Position',[1/4 .1 1/2 .15],...
-    'String','(n,h,p): show index number, declare hotspot, declare pair')
+    'String','(n,r,v): show index number, declare hotspot, declare pair')
 
 upz = false;
 disp_er = true;
@@ -357,7 +357,7 @@ end
             zoom_in
             mod = 0;
         end
-        if strcmp(event.Key,'h')
+        if strcmp(event.Key,'r')
             if ind>0
                 if tracest(ind).ishot
                     tracest(ind).ishot = false;
@@ -370,7 +370,7 @@ end
                 move_callback(fh_img)
             end
         end
-        if strcmp(event.Key,'p')
+        if strcmp(event.Key,'v')
             if ind>0
                 if tracest(ind).ispair
                     tracest(ind).ispair = false;
@@ -656,7 +656,7 @@ end
                 end
             end
         end
-        if ~done || redo
+        if false % ~done || redo  %false added by scott to stop it from erroring
             if redo, [oxpos, oypos] = cofint(oimg,rxpos,rypos,frame); end
             ifgc = get(fh_int_fit_graph,'Children');
             for i = 1:length(ifgc)

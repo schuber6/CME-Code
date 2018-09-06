@@ -173,8 +173,8 @@ end
 
 %%
 %clear all
-Tmast=1000;
-MinLTF=10;
+Tmast=0;
+MinLTF=5;
 FrameGap=2;
 %load('BothDSIO_DSIOFilesStruct.mat')
 for i=1:length(DSIOfiles)
@@ -226,12 +226,25 @@ end
 %%
 
 clear all
-Tmast=1000;
-MinLTF=10;
+Tmast=0;
+MinLTF=5;
 FrameGap=2;
 load('BothDSIO_DSIOFilesStruct.mat')
 for i=1:length(DSIOfiles)
     A=DSIOfiles(i).file;
     load(A)
     [Ncwt,~,~,~,~,~,~,~,MS{i}]=CountConclusions_BySlope(FXYCMS,Tmast,MinLTF,FrameGap);
+    DSIOfiles(i).NConclusions=Ncwt;
+    DSIOfiles(i).ConcsPerArea=DSIOfiles(i).NConclusions/DSIOfiles(i).area;
+end
+save('BothDSIO_Struct_180831.mat','DSIOfiles','MS')
+
+%%
+
+for i=1:length(DSIOfiles)
+    A=DSIOfiles(i).file;
+    DSIOfiles(i).NStall=length(MedS{i});
+    DSIOfiles(i).NStallPerArea=DSIOfiles(i).NStall/DSIOfiles(i).area;
+    DSIOfiles(i).StallCALMMedian=median(MedS{i});
+    DSIOfiles(i).StallCALMMax=median(MedS{i});
 end

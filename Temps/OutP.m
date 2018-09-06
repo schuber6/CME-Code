@@ -1,0 +1,3 @@
+function OutP(str)
+
+str
