@@ -20,18 +20,66 @@ xlabel('Max # AP2')
 %%
 figure
 HD=hist(MMI_DNM_pool,0:5:130);
-plot(0:5:130,HD/sum(HD))
+plot(0:5:130,HD/sum(HD),'LineWidth',3)
 hold on
 xlim([0 130])
 YL=ylim;
-line([26 26],YL,'Color','g','LineStyle','--')
+line([26 26],YL,'Color','g','LineStyle','--','LineWidth',3)
+ylabel('Frequency','FontSize',18)
+xlabel('Max # Dynamin','FontSize',18)
+a = get(gca,'XTickLabel');
+set(gca,'XTickLabel',a,'fontsize',14)
+ylim(YL)
+
+%%
+V=0:15:150;
+CMMI_AP2_V=CohortMaxIntensities(MMI_AP2,LT_AP2,V);
+CMMI_CALM_V=CohortMaxIntensities(MMI_CALM,LT_CALM,V);
+figure
+HA=hist(LT_AP2,V);
+HC=hist(LT_CALM,V);
+plot(V,HA/sum(HA))
+hold on
+plot(V,HC/sum(HC),'g')
+xlabel('Lifetime (s)')
 ylabel('Frequency')
-xlabel('Max # Dynamin')
-legend({'Dynamin'})
+legend({'AP2','CALM'})
+
+%%
+LW=3;
+figure
+Med_AP2=StatCell_Fancy(CMMI_AP2_V,@median);
+Med_CALM=StatCell_Fancy(CMMI_CALM_V,@median);
+subplot(1,2,1)
+plot(V(1:end-1),Med_AP2,'LineWidth',LW)
+hold on
+plot(V(1:end-1),Med_CALM,'c','LineWidth',LW)
+xlabel('Lifetime (s)')
+ylabel('Median Peak Protein Count')
+legend({'AP2','CALM'})
+a = get(gca,'XTickLabel');
+set(gca,'XTickLabel',a,'fontsize',18)
+subplot(1,2,2)
+plot(V(1:end-1),Med_AP2./Med_CALM,'LineWidth',LW)
+YL=ylim;
+xlabel('Lifetime (s)')
+ylabel('AP2:CALM Ratio')
+a = get(gca,'XTickLabel');
+ylim(YL)
+set(gca,'XTickLabel',a,'fontsize',18)
 
 %%
 figure
-substit=3;
+scatter(Med_AP2,Med_CALM)
+hold on
+useda=find(~isnan(Med_AP2));
+AddLinearRegLine_Color_0Intercept(Med_AP2(useda),Med_CALM(useda),[1 0 0])
+xlabel('AP2 Number')
+ylabel('CALM Number')
+
+%%
+figure
+substit=1;
 Range=0:5:350;
 HC=hist(MMI_CALM*substit,Range);
 
@@ -40,14 +88,16 @@ HC=hist(MMI_CALM*substit,Range);
 
 
 HA=hist(MMI_AP2,Range);
-plot(Range,HA/sum(HA),'b')
+plot(Range,HA/sum(HA),'b','LineWidth',3)
 hold on
-plot(Range,HC/sum(HC),'r')
-xlim([0 345])
+plot(Range,HC/sum(HC),'c','LineWidth',3)
+xlim([0 200])
 YL=ylim;
 %line([60 60],YL,'Color','g','LineStyle','--')
-ylabel('Frequency')
-xlabel('Max Number Present')
+ylabel('Frequency','FontSize',18)
+xlabel('Peak Number Present','FontSize',18)
+a = get(gca,'XTickLabel');
+set(gca,'XTickLabel',a,'fontsize',14)
 legend({'AP2','CALM'})
 %%
 figure
@@ -237,3 +287,34 @@ plot(V(2:end),SD_CALM./Med_CALM,'g')
 xlabel('Lifetime (s)')
 ylabel('St. Dev / Median')
 legend({'AP2','CALM'})
+
+%%
+
+figure
+hist(nmMMI_CALM,0:5:200)
+hold on
+xlim([0 200])
+YL=ylim;
+%line([60 60],YL,'Color','g','LineStyle','--')
+ylabel('Events')
+xlabel('Max # CALM')
+
+%%
+
+figure
+hist(nmMMI_CALM,0:5:200)
+hold on
+xlim([0 200])
+YL=ylim;
+%line([60 60],YL,'Color','g','LineStyle','--')
+ylabel('Events')
+xlabel('Max # CALM')
+%%
+figure
+hist(nmMMI_DNM,0:5:120)
+hold on
+xlim([0 120])
+YL=ylim;
+%line([60 60],YL,'Color','g','LineStyle','--')
+ylabel('Events')
+xlabel('Max # AP2')

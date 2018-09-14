@@ -233,11 +233,26 @@ load('BothDSIO_DSIOFilesStruct.mat')
 for i=1:length(DSIOfiles)
     A=DSIOfiles(i).file;
     load(A)
-    [Ncwt,~,~,~,~,~,~,~,MS{i}]=CountConclusions_BySlope(FXYCMS,Tmast,MinLTF,FrameGap);
+    [Ncwt,~,~,~,~,~,~,MM{i},MS{i},~,~,~,LT{i}]=CountConclusions_BySlope(FXYCMS,Tmast,MinLTF,FrameGap);
     DSIOfiles(i).NConclusions=Ncwt;
     DSIOfiles(i).ConcsPerArea=DSIOfiles(i).NConclusions/DSIOfiles(i).area;
 end
-save('BothDSIO_Struct_180831.mat','DSIOfiles','MS')
+for i=1:length(DSIOfiles)
+    LT{i}=2*LT{i};
+end
+save('BothDSIO_Struct_180913_LTs.mat','DSIOfiles','MS','MM','LT')
+
+%%
+clear all
+Tmast=0;
+MinLTF=5;
+FrameGap=2;
+load('BothDSIO_Struct_180913_LTs.mat')
+for i=1:length(DSIOfiles)
+    load(DSIOfiles(i).file)
+    [StallM{i},StallS{i}]=QuantifyStallIntensities(FXYCMS);
+end
+save('DSIO_StallIntensities_180913.mat','StallM','StallS','DSIOfiles')
 
 %%
 
@@ -248,3 +263,15 @@ for i=1:length(DSIOfiles)
     DSIOfiles(i).StallCALMMedian=median(MedS{i});
     DSIOfiles(i).StallCALMMax=median(MedS{i});
 end
+
+%%
+clear
+load('DSIO_StallIntensities_180913.mat')
+for i=1:length(StallM)
+    StallAC{i}=StallS{i}./StallM{i};
+end
+load('BothDSIO_Struct_180913_LTs.mat')
+for i=1:length(MS)
+    AC_P{i}=MS{i}./MM{i};
+end
+save DSIO_PVS_AC.mat

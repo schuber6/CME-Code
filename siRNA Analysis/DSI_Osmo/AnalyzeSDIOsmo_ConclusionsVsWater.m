@@ -827,6 +827,77 @@ ylabel('Max CALM Intensity by Trace')
 xticklabels({'Control','3 minutes post','10 minutes post'})
 end
 
+%%
+
+bins=10;
+
+figure
+HistCell({PreC{2},P3m66C{2},P10m66C{2}},bins)
+title('siRNA cells under 66% water')
+legend({'Control','3 minutes post','10 minutes post'})
+
+figure
+HistCell({PreC{2},P3m80C{2},P10m80C{2}},bins)
+title('siRNA cells under 80% water')
+legend({'Control','3 minutes post','10 minutes post'})
+
+figure
+HistCell({PreC{1},P3m66C{1},P10m66C{1}},bins)
+title('control cells under 66% water')
+legend({'Control','3 minutes post','10 minutes post'})
+
+figure
+HistCell({PreC{1},P3m80C{1},P10m80C{1}},bins)
+title('control cells under 80% water')
+legend({'Control','3 minutes post','10 minutes post'})
+
+%%
+
+bins=15;
+
+figure
+subplot(2,2,3)
+CDFCell({PreC{2},P3m66C{2},P10m66C{2}},bins)
+title('siRNA cells under 66% water')
+legend({'Control','3 minutes post','10 minutes post'})
+ylabel('CDF')
+xlabel('Peak CALM Intensity of Pits')
+
+subplot(2,2,4)
+CDFCell({PreC{2},P3m80C{2},P10m80C{2}},bins)
+title('siRNA cells under 80% water')
+legend({'Control','3 minutes post','10 minutes post'})
+ylabel('CDF')
+xlabel('Peak CALM Intensity of Pits')
+
+subplot(2,2,1)
+CDFCell({PreC{1},P3m66C{1},P10m66C{1}},bins)
+title('control cells under 66% water')
+legend({'Control','3 minutes post','10 minutes post'})
+ylabel('CDF')
+xlabel('Peak CALM Intensity of Pits')
+
+subplot(2,2,2)
+CDFCell({PreC{1},P3m80C{1},P10m80C{1}},bins)
+title('control cells under 80% water')
+legend({'Control','3 minutes post','10 minutes post'})
+ylabel('CDF')
+xlabel('Peak CALM Intensity of Pits')
+
+figure
+CDFCell({PreC{1},PreC{2},P10m80C{2}},bins)
+legend({'Control pre-osmo','siRNA pre-osmo','siRNA 10 minutes post 80% water'})
+ylabel('CDF')
+xlabel('Peak CALM Intensity of Pits')
+
+figure
+CDFCell({PreC{1},PreC{2},P10m80C{1},P10m80C{2}},bins)
+legend({'Control pre-osmo','siRNA pre-osmo','control 10 minutes post 80% water','siRNA 10 minutes post 80% water'})
+ylabel('CDF')
+xlabel('Peak CALM Intensity of Pits')
+
+[h,p]=kstest2(P10m80C{1},P10m80C{2});
+
 %% Based on Full Trace Maxima
 
 % clear all
@@ -1198,3 +1269,340 @@ set(gca,'XTickLabel',a,'fontsize',16)
 % ylim(YL)
 % ylabel(ylab)
 % xticklabels(L)
+
+%%
+
+YL=[0 10*10^4];
+ClathMin=.5*10^4;
+ylab='CALM Intensity at Internalization';
+L={'Control','CALM siRNA'};
+
+SIpre=find([DSIOfiles.TimeGroup]==0 & [DSIOfiles.siRNA]==1 & [DSIOfiles.MedianClath]>=ClathMin);   %Index preosmo files
+WTpre=find([DSIOfiles.TimeGroup]==0 & [DSIOfiles.siRNA]==0 & [DSIOfiles.MedianClath]>=ClathMin);
+
+SI3m66=find([DSIOfiles.TimeGroup]==1 & [DSIOfiles.siRNA]==1 & [DSIOfiles.pWater]==66 & [DSIOfiles.MedianClath]>=ClathMin);  %Index 3 min post osmo files
+WT3m66=find([DSIOfiles.TimeGroup]==1 & [DSIOfiles.siRNA]==0 & [DSIOfiles.pWater]==66 & [DSIOfiles.MedianClath]>=ClathMin);
+SI3m80=find([DSIOfiles.TimeGroup]==1 & [DSIOfiles.siRNA]==1 & [DSIOfiles.pWater]==80 & [DSIOfiles.MedianClath]>=ClathMin);
+WT3m80=find([DSIOfiles.TimeGroup]==1 & [DSIOfiles.siRNA]==0 & [DSIOfiles.pWater]==80 & [DSIOfiles.MedianClath]>=ClathMin);
+
+SI10m66=find([DSIOfiles.TimeGroup]==2 & [DSIOfiles.siRNA]==1 & [DSIOfiles.pWater]==66 & [DSIOfiles.MedianClath]>=ClathMin);  %Index 10 min post osmo files
+WT10m66=find([DSIOfiles.TimeGroup]==2 & [DSIOfiles.siRNA]==0 & [DSIOfiles.pWater]==66 & [DSIOfiles.MedianClath]>=ClathMin);
+SI10m80=find([DSIOfiles.TimeGroup]==2 & [DSIOfiles.siRNA]==1 & [DSIOfiles.pWater]==80 & [DSIOfiles.MedianClath]>=ClathMin);
+WT10m80=find([DSIOfiles.TimeGroup]==2 & [DSIOfiles.siRNA]==0 & [DSIOfiles.pWater]==80 & [DSIOfiles.MedianClath]>=ClathMin);
+
+SIpreLT=[];
+for i=1:length(SIpre)
+    SIpreLT=[SIpreLT LT{SIpre(i)}];
+end
+WTpreLT=[];
+for i=1:length(WTpre)
+    WTpreLT=[WTpreLT LT{WTpre(i)}];
+end
+
+SI3m66LT=[];
+for i=1:length(SI3m66)
+    SI3m66LT=[SI3m66LT LT{SI3m66(i)}];
+end
+WT3m66LT=[];
+for i=1:length(WT3m66)
+    WT3m66LT=[WT3m66LT LT{WT3m66(i)}];
+end
+
+SI10m66LT=[];
+for i=1:length(SI10m66)
+    SI10m66LT=[SI10m66LT LT{SI10m66(i)}];
+end
+WT10m66LT=[];
+for i=1:length(WT10m66)
+    WT10m66LT=[WT10m66LT LT{WT10m66(i)}];
+end
+
+SI3m80LT=[];
+for i=1:length(SI3m80)
+    SI3m80LT=[SI3m80LT LT{SI3m80(i)}];
+end
+WT3m80LT=[];
+for i=1:length(WT3m80)
+    WT3m80LT=[WT3m80LT LT{WT3m80(i)}];
+end
+
+SI10m80LT=[];
+for i=1:length(SI10m80)
+    SI10m80LT=[SI10m80LT LT{SI10m80(i)}];
+end
+WT10m80LT=[];
+for i=1:length(WT10m80)
+    WT10m80LT=[WT10m80LT LT{WT10m80(i)}];
+end
+
+figure
+subplot(2,2,2)
+CDFCell({WTpreLT,WT3m80LT,WT10m80LT},10)
+legend({'Pre-Osmoshock','3 minutes Post-Osmoshock','10 minutes Post-Osmoshock'},'Location','southeast')
+title('Control Cells under 80% Water')
+xlabel('Lifetime (s)')
+ylabel('CDF')
+subplot(2,2,1)
+CDFCell({WTpreLT,WT3m66LT,WT10m66LT},20)
+legend({'Pre-Osmoshock','3 minutes Post-Osmoshock','10 minutes Post-Osmoshock'},'Location','southeast')
+title('Control Cells under 66% Water')
+xlabel('Lifetime (s)')
+ylabel('CDF')
+subplot(2,2,4)
+CDFCell({SIpreLT,SI3m80LT,SI10m80LT},10)
+legend({'Pre-Osmoshock','3 minutes Post-Osmoshock','10 minutes Post-Osmoshock'},'Location','southeast')
+title('siRNA Cells under 80% Water')
+xlabel('Lifetime (s)')
+ylabel('CDF')
+subplot(2,2,3)
+CDFCell({SIpreLT,SI3m66LT,SI10m66LT},20)
+legend({'Pre-Osmoshock','3 minutes Post-Osmoshock','10 minutes Post-Osmoshock'},'Location','southeast')
+title('siRNA Cells under 66% Water')
+xlabel('Lifetime (s)')
+ylabel('CDF')
+
+%%
+
+YL=[0 10*10^4];
+ClathMin=.5*10^4;
+ylab='CALM Intensity at Internalization';
+L={'Control','CALM siRNA'};
+
+SIpre=find([DSIOfiles.TimeGroup]==0 & [DSIOfiles.siRNA]==1 & [DSIOfiles.MedianClath]>=ClathMin);   %Index preosmo files
+WTpre=find([DSIOfiles.TimeGroup]==0 & [DSIOfiles.siRNA]==0 & [DSIOfiles.MedianClath]>=ClathMin);
+
+SI3m66=find([DSIOfiles.TimeGroup]==1 & [DSIOfiles.siRNA]==1 & [DSIOfiles.pWater]==66 & [DSIOfiles.MedianClath]>=ClathMin);  %Index 3 min post osmo files
+WT3m66=find([DSIOfiles.TimeGroup]==1 & [DSIOfiles.siRNA]==0 & [DSIOfiles.pWater]==66 & [DSIOfiles.MedianClath]>=ClathMin);
+SI3m80=find([DSIOfiles.TimeGroup]==1 & [DSIOfiles.siRNA]==1 & [DSIOfiles.pWater]==80 & [DSIOfiles.MedianClath]>=ClathMin);
+WT3m80=find([DSIOfiles.TimeGroup]==1 & [DSIOfiles.siRNA]==0 & [DSIOfiles.pWater]==80 & [DSIOfiles.MedianClath]>=ClathMin);
+
+SI10m66=find([DSIOfiles.TimeGroup]==2 & [DSIOfiles.siRNA]==1 & [DSIOfiles.pWater]==66 & [DSIOfiles.MedianClath]>=ClathMin);  %Index 10 min post osmo files
+WT10m66=find([DSIOfiles.TimeGroup]==2 & [DSIOfiles.siRNA]==0 & [DSIOfiles.pWater]==66 & [DSIOfiles.MedianClath]>=ClathMin);
+SI10m80=find([DSIOfiles.TimeGroup]==2 & [DSIOfiles.siRNA]==1 & [DSIOfiles.pWater]==80 & [DSIOfiles.MedianClath]>=ClathMin);
+WT10m80=find([DSIOfiles.TimeGroup]==2 & [DSIOfiles.siRNA]==0 & [DSIOfiles.pWater]==80 & [DSIOfiles.MedianClath]>=ClathMin);
+
+SIpreStallS=[];
+for i=1:length(SIpre)
+    SIpreStallS=[SIpreStallS StallS{SIpre(i)}];
+end
+WTpreStallS=[];
+for i=1:length(WTpre)
+    WTpreStallS=[WTpreStallS StallS{WTpre(i)}];
+end
+
+SI3m66StallS=[];
+for i=1:length(SI3m66)
+    SI3m66StallS=[SI3m66StallS StallS{SI3m66(i)}];
+end
+WT3m66StallS=[];
+for i=1:length(WT3m66)
+    WT3m66StallS=[WT3m66StallS StallS{WT3m66(i)}];
+end
+
+SI10m66StallS=[];
+for i=1:length(SI10m66)
+    SI10m66StallS=[SI10m66StallS StallS{SI10m66(i)}];
+end
+WT10m66StallS=[];
+for i=1:length(WT10m66)
+    WT10m66StallS=[WT10m66StallS StallS{WT10m66(i)}];
+end
+
+SI3m80StallS=[];
+for i=1:length(SI3m80)
+    SI3m80StallS=[SI3m80StallS StallS{SI3m80(i)}];
+end
+WT3m80StallS=[];
+for i=1:length(WT3m80)
+    WT3m80StallS=[WT3m80StallS StallS{WT3m80(i)}];
+end
+
+SI10m80StallS=[];
+for i=1:length(SI10m80)
+    SI10m80StallS=[SI10m80StallS StallS{SI10m80(i)}];
+end
+WT10m80StallS=[];
+for i=1:length(WT10m80)
+    WT10m80StallS=[WT10m80StallS StallS{WT10m80(i)}];
+end
+
+figure
+subplot(2,2,2)
+CDFCell({WTpreStallS,WT3m80StallS,WT10m80StallS},10)
+legend({'Pre-Osmoshock','3 minutes Post-Osmoshock','10 minutes Post-Osmoshock'},'Location','southeast')
+title('Control Cells under 80% Water')
+xlabel('CALM Intensity of Stalled Structures')
+ylabel('CDF')
+subplot(2,2,1)
+CDFCell({WTpreStallS,WT3m66StallS,WT10m66StallS},20)
+legend({'Pre-Osmoshock','3 minutes Post-Osmoshock','10 minutes Post-Osmoshock'},'Location','southeast')
+title('Control Cells under 66% Water')
+xlabel('CALM Intensity of Stalled Structures')
+ylabel('CDF')
+subplot(2,2,4)
+CDFCell({SIpreStallS,SI3m80StallS,SI10m80StallS},10)
+legend({'Pre-Osmoshock','3 minutes Post-Osmoshock','10 minutes Post-Osmoshock'},'Location','southeast')
+title('siRNA Cells under 80% Water')
+xlabel('CALM Intensity of Stalled Structures')
+ylabel('CDF')
+subplot(2,2,3)
+CDFCell({SIpreStallS,SI3m66StallS,SI10m66StallS},20)
+legend({'Pre-Osmoshock','3 minutes Post-Osmoshock','10 minutes Post-Osmoshock'},'Location','southeast')
+title('siRNA Cells under 66% Water')
+xlabel('CALM Intensity of Stalled Structures')
+ylabel('CDF')
+
+%%
+
+YL=[0 10*10^4];
+ClathMin=.5*10^4;
+ylab='CALM Intensity at Internalization';
+L={'Control','CALM siRNA'};
+
+SIpre=find([DSIOfiles.TimeGroup]==0 & [DSIOfiles.siRNA]==1 & [DSIOfiles.MedianClath]>=ClathMin);   %Index preosmo files
+WTpre=find([DSIOfiles.TimeGroup]==0 & [DSIOfiles.siRNA]==0 & [DSIOfiles.MedianClath]>=ClathMin);
+
+SI3m66=find([DSIOfiles.TimeGroup]==1 & [DSIOfiles.siRNA]==1 & [DSIOfiles.pWater]==66 & [DSIOfiles.MedianClath]>=ClathMin);  %Index 3 min post osmo files
+WT3m66=find([DSIOfiles.TimeGroup]==1 & [DSIOfiles.siRNA]==0 & [DSIOfiles.pWater]==66 & [DSIOfiles.MedianClath]>=ClathMin);
+SI3m80=find([DSIOfiles.TimeGroup]==1 & [DSIOfiles.siRNA]==1 & [DSIOfiles.pWater]==80 & [DSIOfiles.MedianClath]>=ClathMin);
+WT3m80=find([DSIOfiles.TimeGroup]==1 & [DSIOfiles.siRNA]==0 & [DSIOfiles.pWater]==80 & [DSIOfiles.MedianClath]>=ClathMin);
+
+SI10m66=find([DSIOfiles.TimeGroup]==2 & [DSIOfiles.siRNA]==1 & [DSIOfiles.pWater]==66 & [DSIOfiles.MedianClath]>=ClathMin);  %Index 10 min post osmo files
+WT10m66=find([DSIOfiles.TimeGroup]==2 & [DSIOfiles.siRNA]==0 & [DSIOfiles.pWater]==66 & [DSIOfiles.MedianClath]>=ClathMin);
+SI10m80=find([DSIOfiles.TimeGroup]==2 & [DSIOfiles.siRNA]==1 & [DSIOfiles.pWater]==80 & [DSIOfiles.MedianClath]>=ClathMin);
+WT10m80=find([DSIOfiles.TimeGroup]==2 & [DSIOfiles.siRNA]==0 & [DSIOfiles.pWater]==80 & [DSIOfiles.MedianClath]>=ClathMin);
+
+SIpreAC_P=[];
+for i=1:length(SIpre)
+    SIpreAC_P=[SIpreAC_P AC_P{SIpre(i)}];
+end
+WTpreAC_P=[];
+for i=1:length(WTpre)
+    WTpreAC_P=[WTpreAC_P AC_P{WTpre(i)}];
+end
+
+SI3m66AC_P=[];
+for i=1:length(SI3m66)
+    SI3m66AC_P=[SI3m66AC_P AC_P{SI3m66(i)}];
+end
+WT3m66AC_P=[];
+for i=1:length(WT3m66)
+    WT3m66AC_P=[WT3m66AC_P AC_P{WT3m66(i)}];
+end
+
+SI10m66AC_P=[];
+for i=1:length(SI10m66)
+    SI10m66AC_P=[SI10m66AC_P AC_P{SI10m66(i)}];
+end
+WT10m66AC_P=[];
+for i=1:length(WT10m66)
+    WT10m66AC_P=[WT10m66AC_P AC_P{WT10m66(i)}];
+end
+
+SI3m80AC_P=[];
+for i=1:length(SI3m80)
+    SI3m80AC_P=[SI3m80AC_P AC_P{SI3m80(i)}];
+end
+WT3m80AC_P=[];
+for i=1:length(WT3m80)
+    WT3m80AC_P=[WT3m80AC_P AC_P{WT3m80(i)}];
+end
+
+SI10m80AC_P=[];
+for i=1:length(SI10m80)
+    SI10m80AC_P=[SI10m80AC_P AC_P{SI10m80(i)}];
+end
+WT10m80AC_P=[];
+for i=1:length(WT10m80)
+    WT10m80AC_P=[WT10m80AC_P AC_P{WT10m80(i)}];
+end
+
+SIpreStallAC=[];
+for i=1:length(SIpre)
+    SIpreStallAC=[SIpreStallAC StallAC{SIpre(i)}];
+end
+WTpreStallAC=[];
+for i=1:length(WTpre)
+    WTpreStallAC=[WTpreStallAC StallAC{WTpre(i)}];
+end
+
+SI3m66StallAC=[];
+for i=1:length(SI3m66)
+    SI3m66StallAC=[SI3m66StallAC StallAC{SI3m66(i)}];
+end
+WT3m66StallAC=[];
+for i=1:length(WT3m66)
+    WT3m66StallAC=[WT3m66StallAC StallAC{WT3m66(i)}];
+end
+
+SI10m66StallAC=[];
+for i=1:length(SI10m66)
+    SI10m66StallAC=[SI10m66StallAC StallAC{SI10m66(i)}];
+end
+WT10m66StallAC=[];
+for i=1:length(WT10m66)
+    WT10m66StallAC=[WT10m66StallAC StallAC{WT10m66(i)}];
+end
+
+SI3m80StallAC=[];
+for i=1:length(SI3m80)
+    SI3m80StallAC=[SI3m80StallAC StallAC{SI3m80(i)}];
+end
+WT3m80StallAC=[];
+for i=1:length(WT3m80)
+    WT3m80StallAC=[WT3m80StallAC StallAC{WT3m80(i)}];
+end
+
+SI10m80StallAC=[];
+for i=1:length(SI10m80)
+    SI10m80StallAC=[SI10m80StallAC StallAC{SI10m80(i)}];
+end
+WT10m80StallAC=[];
+for i=1:length(WT10m80)
+    WT10m80StallAC=[WT10m80StallAC StallAC{WT10m80(i)}];
+end
+
+% figure
+% subplot(4,3,1)
+% CDFCell({SIpreAC_P,SIpreStallAC},15)
+% legend('Productive Pits','Stalled Pits')
+% xlabel('CALM:Clathrin Ratio')
+% ylabel('CDF')
+% title('siRNA Cells before osmotic shock')
+% 
+% subplot(4,3,7)
+% CDFCell({WTpreAC_P,WTpreStallAC},15)
+% legend('Productive Pits','Stalled Pits')
+% xlabel('CALM:Clathrin Ratio')
+% ylabel('CDF')
+% title('Control Cells before osmotic shock')
+for i=1:length(SIpre)
+    SuperSubplot(i)
+    Ind=SIpre(i);
+    CDFCell({AC_P{Ind},StallAC{Ind}},15)
+    
+    if i==1
+        title('siRNA cells before osmotic shock')
+        legend('Productive Pits','Stalled Pits')
+    end
+end
+for i=1:length(SI3m80)
+    SuperSubplot(i)
+    Ind=SIpre(i);
+    CDFCell({AC_P{Ind},StallAC{Ind}},15)
+    
+    if i==1
+        title('siRNA cells 3 min after osmotic shock')
+        legend('Productive Pits','Stalled Pits')
+    end
+end
+for i=1:length(SI10m80)
+    SuperSubplot(i)
+    Ind=SIpre(i);
+    CDFCell({AC_P{Ind},StallAC{Ind}},15)
+    
+    if i==1
+        title('siRNA cells 10 min after osmotic shock')
+        legend('Productive Pits','Stalled Pits')
+    end
+end

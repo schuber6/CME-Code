@@ -1,22 +1,31 @@
 function [Nc,varargout]=CountConclusions_BySlope(FXYCMS,Tmast,MinLTF,FrameGap,varargin)
     
-    if nargin==4
-        MaxLTF=MaxFrameFXYCMS(FXYCMS);
-        dontcrop=0;
-    else
-        if nargin==5
+if nargin==4
+    MaxLTF=MaxFrameFXYCMS(FXYCMS);
+    dontcrop=0;
+    mult=1;
+else
+    if nargin==5
         MaxLTF=varargin{1};
         dontcrop=0;
+        mult=1;
+    else
+        if nargin==6
+            MaxLTF=varargin{1};
+            dontcrop=varargin{2};
+            mult=1;
         else
             MaxLTF=varargin{1};
             dontcrop=varargin{2};
+            mult=varargin{3};
         end
     end
+end
     Cutoff=-.06; %Cutoff for growth rate (default -.06 for 2 second framegap)
     r2Cutoff=.80; %Cutoff for growth rate R^2 (default .85)
     DCutoff=2; %Cutoff for max distance moved during conclusion (default 1.5)
     FCutoff=0; %Cutoff for z-score of the likelihood that the intensities from the end of the conclusion match those from the beginning
-    MinCutoff=10^4;
+    MinCutoff=10^4*mult;
     RadB=8; %Number of frames backwards and forwards to consider part of the conclusion
     RadF=4;
     Ni=0;
@@ -31,6 +40,7 @@ function [Nc,varargout]=CountConclusions_BySlope(FXYCMS,Tmast,MinLTF,FrameGap,va
     MMs=[];
     MSs=[];
     Is=[];
+    LTs=[];
     ind=1;
     FXYCMS=AddMSJoshSlopes(FXYCMS,FrameGap);
     for i=1:length(FXYCMS)
@@ -55,7 +65,9 @@ function [Nc,varargout]=CountConclusions_BySlope(FXYCMS,Tmast,MinLTF,FrameGap,va
                     Nc=Nc+1;
                     
                     Fs=[Fs fxyc(F(1),1)];
-                    
+                    if fxyc(1,4)==3
+                        LTs=[LTs length(fxyc(:,1))];
+                    end
                     
                     if ~dontcrop
                         FXYCMS_Sel{ind}=fxyc(R,:);
@@ -95,3 +107,4 @@ function [Nc,varargout]=CountConclusions_BySlope(FXYCMS,Tmast,MinLTF,FrameGap,va
     varargout{9}=Fades;
     varargout{10}=Is;
     varargout{11}=MinMs;
+    varargout{12}=LTs;

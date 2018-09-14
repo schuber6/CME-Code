@@ -127,8 +127,8 @@ for(i=1:length(list_good_clusters))
     %do the same for the standard deviation of the traces in the cluster
    
     temp = std( traces(c==list_good_clusters(i),:) ,1);
-   
     temp2 = temp(temp~=0);
+    
     clusters(i).SD = interp1([1:length(temp2)],temp2,[1:1/tpf:length(temp2)]);
     
     %save relevant information about the cluster to the output structure
@@ -195,8 +195,8 @@ while(start<length(clusters))
         plot(1:clusters(i).LT,clusters(i).ave_tr,'b')
         hold on
         
-        plot(1:clusters(i).LT,clusters(i).ave_tr + clusters(i).SD,'r')%/clusters(i).norm,'r')
-        plot(1:clusters(i).LT,clusters(i).ave_tr - clusters(i).SD,'r')%/clusters(i).norm,'r')
+        %plot(1:clusters(i).LT,clusters(i).ave_tr + clusters(i).SD,'r')%/clusters(i).norm,'r')
+        %plot(1:clusters(i).LT,clusters(i).ave_tr - clusters(i).SD,'r')%/clusters(i).norm,'r')
 
         title({strcat('cluster ',num2str(i),' LT: ',num2str(clusters(i).LT),'s'),
             strcat('num: ',num2str(clusters(i).num),' MaxInt: ',num2str(round(clusters(i).max)))})
