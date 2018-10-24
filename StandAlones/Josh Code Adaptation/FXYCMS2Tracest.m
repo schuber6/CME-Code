@@ -14,6 +14,11 @@ function Tracest=FXYCMS2Tracest(FXYCMS,varargin)
             Tracest(i).SNR=zeros(1,length(fxyc(:,6)))+1;
             Tracest(i).area=zeros(1,length(fxyc(:,6)))+1;
             Tracest(i).Value=0;
+            Tracest(i).mask=zeros(11,11,length(fxyc(:,1)));
+            for i2=1:length(fxyc(:,1))
+                Tracest(i).mask(6,6,i2)=1;
+            end
+            Tracest(i).donutframe=[];
         end
     else
         if nargin==2

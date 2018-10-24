@@ -307,7 +307,7 @@ xticklabels(L)
 %%  Compare the 2 days of osmoshock
 
 clear all
-load('BothDSIO_Struct_180831.mat')
+load('BothDSIO_Struct_180914_LTs.mat')
 YL=[0 .2];
 ClathMin=.5*10^4;
 sig=0;
@@ -408,15 +408,87 @@ ylim(YL)
 ylabel(ylab)
 xticklabels(L)
 
+%%  Internalizations barplot
+B80(1,2)=sum([DSIOfiles(SIpre).NConclusions])/sum([DSIOfiles(SIpre).area]);
+B80(1,1)=sum([DSIOfiles(WTpre).NConclusions])/sum([DSIOfiles(WTpre).area]);
+B80(2,2)=sum([DSIOfiles(SI3m80).NConclusions])/sum([DSIOfiles(SI3m80).area]);
+B80(2,1)=sum([DSIOfiles(WT3m80).NConclusions])/sum([DSIOfiles(WT3m80).area]);
+B80(3,2)=sum([DSIOfiles(SI10m80).NConclusions])/sum([DSIOfiles(SI10m80).area]);
+B80(3,1)=sum([DSIOfiles(WT10m80).NConclusions])/sum([DSIOfiles(WT10m80).area]);
+
+S80=[length(SIpre) length(WTpre) length(SI3m80) length(WT3m80) length(SI10m80) length(WT10m80)];
+S66=[length(SIpre) length(WTpre) length(SI3m66) length(WT3m66) length(SI10m66) length(WT10m66)];
+
+
+E80(1,2)=sqrt(var([DSIOfiles(SIpre).NConclusions]./[DSIOfiles(SIpre).area]))/sqrt(length(SIpre));
+E80(1,1)=sqrt(var([DSIOfiles(WTpre).NConclusions]./[DSIOfiles(WTpre).area]))/sqrt(length(WTpre));
+E80(2,2)=sqrt(var([DSIOfiles(SI3m80).NConclusions]./[DSIOfiles(SI3m80).area]))/sqrt(length(SI3m80));
+E80(2,1)=sqrt(var([DSIOfiles(WT3m80).NConclusions]./[DSIOfiles(WT3m80).area]))/sqrt(length(WT3m80));
+E80(3,2)=sqrt(var([DSIOfiles(SI10m80).NConclusions]./[DSIOfiles(SI10m80).area]))/sqrt(length(SI10m80));
+E80(3,1)=sqrt(var([DSIOfiles(WT10m80).NConclusions]./[DSIOfiles(WT10m80).area]))/sqrt(length(WT10m80));
+
+figure
+subplot(1,2,1)
+b=bar(B80/5,'FaceAlpha',.75);
+hold on
+b(1).FaceColor = 'c';
+b(2).FaceColor = 'r';
+errorbar([1 2 3]-.15,B80(:,1)/5,E80(:,1)/5,'.','Color','k')
+errorbar([1 2 3]+.15,B80(:,2)/5,E80(:,2)/5,'.','Color','k')
+
+legend('Control Cells','CALM siRNA Cells')
+xticks(1:3)
+xticklabels({'Before','3-8 min After','10-15 min After'})
+ylabel('Internalizations/um^2/min')
+a = get(gca,'XTickLabel');
+set(gca,'XTickLabel',a,'fontsize',16)
+title('80% Osmotic Shock','FontSize',20)
+
+
+B66(1,2)=sum([DSIOfiles(SIpre).NConclusions])/sum([DSIOfiles(SIpre).area]);
+B66(1,1)=sum([DSIOfiles(WTpre).NConclusions])/sum([DSIOfiles(WTpre).area]);
+B66(2,2)=sum([DSIOfiles(SI3m66).NConclusions])/sum([DSIOfiles(SI3m66).area]);
+B66(2,1)=sum([DSIOfiles(WT3m66).NConclusions])/sum([DSIOfiles(WT3m66).area]);
+B66(3,2)=sum([DSIOfiles(SI10m66).NConclusions])/sum([DSIOfiles(SI10m66).area]);
+B66(3,1)=sum([DSIOfiles(WT10m66).NConclusions])/sum([DSIOfiles(WT10m66).area]);
+
+E66(1,2)=sqrt(var([DSIOfiles(SIpre).NConclusions]./[DSIOfiles(SIpre).area]))/sqrt(length(SIpre));
+E66(1,1)=sqrt(var([DSIOfiles(WTpre).NConclusions]./[DSIOfiles(WTpre).area]))/sqrt(length(WTpre));
+E66(2,2)=sqrt(var([DSIOfiles(SI3m66).NConclusions]./[DSIOfiles(SI3m66).area]))/sqrt(length(SI3m66));
+E66(2,1)=sqrt(var([DSIOfiles(WT3m66).NConclusions]./[DSIOfiles(WT3m66).area]))/sqrt(length(WT3m66));
+E66(3,2)=sqrt(var([DSIOfiles(SI10m66).NConclusions]./[DSIOfiles(SI10m66).area]))/sqrt(length(SI10m66));
+E66(3,1)=sqrt(var([DSIOfiles(WT10m66).NConclusions]./[DSIOfiles(WT10m66).area]))/sqrt(length(WT10m66));
+
+subplot(1,2,2)
+b=bar(B66/5,'FaceAlpha',.75);
+hold on
+b(1).FaceColor = 'c';
+b(2).FaceColor = 'r';
+errorbar([1 2 3]-.15,B66(:,1)/5,E66(:,1)/5,'.','Color','k')
+errorbar([1 2 3]+.15,B66(:,2)/5,E66(:,2)/5,'.','Color','k')
+legend('Control Cells','CALM siRNA Cells')
+ylabel('Internalizations/um^2/min')
+xticks(1:3)
+xticklabels({'Before','3-8 min After','10-15 min After'})
+a = get(gca,'XTickLabel');
+set(gca,'XTickLabel',a,'fontsize',16)
+title('66% Osmotic Shock','FontSize',20)
 
 %%  Same with both times of 66% pooled
-% clear all
-% load('BothDSIO_DSIOFilesStruct.mat')
+clear all
+load('BothDSIO_Struct_180914_LTs.mat')
 YL=[0 .07];
 ClathMin=.5*10^4;
 sig=1;
+BP=1;
 ylab='Internalizations/um^2/min';
 L={'Control','CALM siRNA'};
+
+if BP==1
+    FN=@boxplot;
+else
+    FN=@notBoxPlot;
+end
 
 SIpre=find([DSIOfiles.TimeGroup]==0 & [DSIOfiles.siRNA]==1 & [DSIOfiles.MedianClath]>=ClathMin);   %Index preosmo files
 WTpre=find([DSIOfiles.TimeGroup]==0 & [DSIOfiles.siRNA]==0 & [DSIOfiles.MedianClath]>=ClathMin);
@@ -439,15 +511,16 @@ P10m80C={[DSIOfiles(WT10m80).ConcsPerArea]/5,[DSIOfiles(SI10m80).ConcsPerArea]/5
 
 figure
 subplot(2,2,1)
-BoxPlotCell(PreC,@notBoxPlot)
+BoxPlotCell(PreC,FN)
 ylim(YL)
 if sig
     %[~,p]=ttest2(Ncwt,Ncsi);
-    [~,p(1)]=kstest2(PreC{1},PreC{2});
+    [~,p(1)]=ttest2(PreC{1},PreC{2});
     if p(1)>.05
-       p(1)=nan;
-    end
+       sigstar([1 2],nan)
+    else
     sigstar([1 2],p(1))
+    end
 end
 
 ylabel(ylab)
@@ -455,63 +528,41 @@ xticklabels(L)
 a = get(gca,'XTickLabel');
 set(gca,'XTickLabel',a,'fontsize',16)
 subplot(2,2,2)
-BoxPlotCell(P3m66C,@notBoxPlot)
+BoxPlotCell(P3m66C,FN)
 ylim(YL)
 if sig
     %[~,p]=ttest2(Ncwt,Ncsi);
-    [~,p(2)]=kstest2(P3m66C{1},P3m66C{2});
+    [~,p(2)]=ttest2(P3m66C{1},P3m66C{2});
     if p(2)>.05
-       p(2)=nan; 
-    end
+       sigstar([1 2],nan)
+    else
     sigstar([1 2],p(2))
+    end
 end
 ylim(YL)
 ylabel(ylab)
 xticklabels(L)
 a = get(gca,'XTickLabel');
 set(gca,'XTickLabel',a,'fontsize',16)
-% subplot(2,2,3)
-% BoxPlotCell(P10m66C,@notBoxPlot)
-% if sig
-%     %[~,p]=ttest2(Ncwt,Ncsi);
-%     [~,p(3)]=kstest2(P10m66C{1},P10m66C{2});
-%     if p(3)>.05
-%       %  p(3)=nan;
-%     end
-%     sigstar([1 2],p(3))
-% end
-% ylim(YL)
-% ylabel(ylab)
-% xticklabels(L)
+
 subplot(2,2,4)
-BoxPlotCell(P3m80C,@notBoxPlot)
+BoxPlotCell(P3m80C,FN)
 ylim(YL)
 if sig
     %[~,p]=ttest2(Ncwt,Ncsi);
-    [~,p(4)]=kstest2(P3m80C{1},P3m80C{2});
+    [~,p(4)]=ttest2(P3m80C{1},P3m80C{2});
     if p(4)>.05
-       p(4)=nan;
-    end
+       sigstar([1 2],nan)
+    else
     sigstar([1 2],p(4))
+    end
 end
 ylim(YL)
 ylabel(ylab)
 xticklabels(L)
 a = get(gca,'XTickLabel');
 set(gca,'XTickLabel',a,'fontsize',16)
-% subplot(2,2,6)
-% BoxPlotCell(P10m80C,@notBoxPlot)
-% if sig
-%     %[~,p]=ttest2(Ncwt,Ncsi);
-%     [~,p(5)]=kstest2(P10m80C{1},P10m80C{2});
-%     if p(5)>.05
-%        % p(5)=nan;
-%     end
-%     sigstar([1 2],p(5))
-% end
-% ylim(YL)
-% ylabel(ylab)
-% xticklabels(L)
+
 
 %%
 
@@ -681,11 +732,10 @@ BoxPlotCell(P10m80C,@notBoxPlot)
 ylim(YL)
 ylabel(ylab)
 xticklabels(L)
-
 %%
 
 % clear all
-% load('BothDSIO_DSIOFilesStruct.mat')
+% load('BothDSIO_Struct_180914_LTs.mat')
 YL=[0 10*10^4];
 ClathMin=.5*10^4;
 ylab='CALM Intensity at Internalization';
@@ -826,6 +876,844 @@ title('Control cells under 80% water')
 ylabel('Max CALM Intensity by Trace')
 xticklabels({'Control','3 minutes post','10 minutes post'})
 end
+%%
+
+clear all
+load('BothDSIO_Struct_180920_EndoFilter_30s.mat')
+YL=[0 10*10^4];
+ClathMin=.5*10^4;
+ylab='CALM Intensity at Internalization';
+L={'Control','CALM siRNA'};
+
+SIpre=find([DSIOfiles.TimeGroup]==0 & [DSIOfiles.siRNA]==1 & [DSIOfiles.MedianClath]>=ClathMin);   %Index preosmo files
+WTpre=find([DSIOfiles.TimeGroup]==0 & [DSIOfiles.siRNA]==0 & [DSIOfiles.MedianClath]>=ClathMin);
+
+SI3m66=find([DSIOfiles.TimeGroup]==1 & [DSIOfiles.siRNA]==1 & [DSIOfiles.pWater]==66 & [DSIOfiles.MedianClath]>=ClathMin);  %Index 3 min post osmo files
+WT3m66=find([DSIOfiles.TimeGroup]==1 & [DSIOfiles.siRNA]==0 & [DSIOfiles.pWater]==66 & [DSIOfiles.MedianClath]>=ClathMin);
+SI3m80=find([DSIOfiles.TimeGroup]==1 & [DSIOfiles.siRNA]==1 & [DSIOfiles.pWater]==80 & [DSIOfiles.MedianClath]>=ClathMin);
+WT3m80=find([DSIOfiles.TimeGroup]==1 & [DSIOfiles.siRNA]==0 & [DSIOfiles.pWater]==80 & [DSIOfiles.MedianClath]>=ClathMin);
+
+SI10m66=find([DSIOfiles.TimeGroup]==2 & [DSIOfiles.siRNA]==1 & [DSIOfiles.pWater]==66 & [DSIOfiles.MedianClath]>=ClathMin);  %Index 10 min post osmo files
+WT10m66=find([DSIOfiles.TimeGroup]==2 & [DSIOfiles.siRNA]==0 & [DSIOfiles.pWater]==66 & [DSIOfiles.MedianClath]>=ClathMin);
+SI10m80=find([DSIOfiles.TimeGroup]==2 & [DSIOfiles.siRNA]==1 & [DSIOfiles.pWater]==80 & [DSIOfiles.MedianClath]>=ClathMin);
+WT10m80=find([DSIOfiles.TimeGroup]==2 & [DSIOfiles.siRNA]==0 & [DSIOfiles.pWater]==80 & [DSIOfiles.MedianClath]>=ClathMin);
+
+SIpreMS=[];
+for i=1:length(SIpre)
+    SIpreMS=[SIpreMS MS_EF{SIpre(i)}];
+end
+WTpreMS=[];
+for i=1:length(WTpre)
+    WTpreMS=[WTpreMS MS_EF{WTpre(i)}];
+end
+
+SI3m66MS=[];
+for i=1:length(SI3m66)
+    SI3m66MS=[SI3m66MS MS_EF{SI3m66(i)}];
+end
+WT3m66MS=[];
+for i=1:length(WT3m66)
+    WT3m66MS=[WT3m66MS MS_EF{WT3m66(i)}];
+end
+
+SI10m66MS=[];
+for i=1:length(SI10m66)
+    SI10m66MS=[SI10m66MS MS_EF{SI10m66(i)}];
+end
+WT10m66MS=[];
+for i=1:length(WT10m66)
+    WT10m66MS=[WT10m66MS MS_EF{WT10m66(i)}];
+end
+
+SI3m80MS=[];
+for i=1:length(SI3m80)
+    SI3m80MS=[SI3m80MS MS_EF{SI3m80(i)}];
+end
+WT3m80MS=[];
+for i=1:length(WT3m80)
+    WT3m80MS=[WT3m80MS MS_EF{WT3m80(i)}];
+end
+
+SI10m80MS=[];
+for i=1:length(SI10m80)
+    SI10m80MS=[SI10m80MS MS_EF{SI10m80(i)}];
+end
+WT10m80MS=[];
+for i=1:length(WT10m80)
+    WT10m80MS=[WT10m80MS MS_EF{WT10m80(i)}];
+end
+
+PreC={WTpreMS,SIpreMS};
+P3m66C={WT3m66MS,SI3m66MS};
+P10m66C={WT10m66MS,SI10m66MS};
+P3m80C={WT3m80MS,SI3m80MS};
+P10m80C={WT10m80MS,SI10m80MS};
+
+figure
+subplot(2,3,1)
+BoxPlotCell(PreC,@notBoxPlot)
+ylim(YL)
+ylabel(ylab)
+xticklabels(L)
+subplot(2,3,2)
+BoxPlotCell(P3m66C,@notBoxPlot)
+ylim(YL)
+ylabel(ylab)
+xticklabels(L)
+subplot(2,3,3)
+BoxPlotCell(P10m66C,@notBoxPlot)
+ylim(YL)
+ylabel(ylab)
+xticklabels(L)
+subplot(2,3,5)
+BoxPlotCell(P3m80C,@notBoxPlot)
+ylim(YL)
+ylabel(ylab)
+xticklabels(L)
+subplot(2,3,6)
+BoxPlotCell(P10m80C,@notBoxPlot)
+ylim(YL)
+ylabel(ylab)
+xticklabels(L)
+
+notbox=1;
+figure
+if notbox
+BoxPlotCell({PreC{2},P3m66C{2},P10m66C{2}},@notBoxPlot)
+title('siRNA cells under 66% water')
+ylabel('Max CALM Intensity by Trace')
+xticklabels({'Control','3 minutes post','10 minutes post'})
+figure
+BoxPlotCell({PreC{2},P3m80C{2},P10m80C{2}},@notBoxPlot)
+title('siRNA cells under 80% water')
+ylabel('Max CALM Intensity by Trace')
+xticklabels({'Control','3 minutes post','10 minutes post'})
+figure
+BoxPlotCell({PreC{1},P3m66C{1},P10m66C{1}},@notBoxPlot)
+title('Control cells under 66% water')
+ylabel('Max CALM Intensity by Trace')
+xticklabels({'Control','3 minutes post','10 minutes post'})
+figure
+BoxPlotCell({PreC{1},P3m80C{1},P10m80C{1}},@notBoxPlot)
+title('Control cells under 80% water')
+ylabel('Max CALM Intensity by Trace')
+xticklabels({'Control','3 minutes post','10 minutes post'})
+else
+BoxPlotCell({PreC{2},P3m66C{2},P10m66C{2}})
+title('siRNA cells under 66% water')
+ylabel('Max CALM Intensity by Trace')
+xticklabels({'Control','3 minutes post','10 minutes post'})
+figure
+BoxPlotCell({PreC{2},P3m80C{2},P10m80C{2}})
+title('siRNA cells under 80% water')
+ylabel('Max CALM Intensity by Trace')
+xticklabels({'Control','3 minutes post','10 minutes post'})
+
+figure
+BoxPlotCell({PreC{1},P3m66C{1},P10m66C{1}})
+title('Control cells under 66% water')
+ylabel('Max CALM Intensity by Trace')
+xticklabels({'Control','3 minutes post','10 minutes post'})
+figure
+BoxPlotCell({PreC{1},P3m80C{1},P10m80C{1}})
+title('Control cells under 80% water')
+ylabel('Max CALM Intensity by Trace')
+xticklabels({'Control','3 minutes post','10 minutes post'})
+end
+
+%%  66% figure in the style of Ema's dynamin one
+bins=40;
+PRCs=[.25 .50 .75];
+figure
+subplot(2,3,1)
+
+[H,CBins]=hist(PreC{1}/10^4,bins);
+bar(CBins,H/sum(H)*100)
+title('      Control Cells \newline Before Osmoshock')
+xlim([0 max(CBins)])
+ylabel('Coated Pits \newline % Events')
+xlabel('Peak CALM Intensity (AU)')
+xticks(0:7)
+a = get(gca,'XTickLabel');
+set(gca,'XTickLabel',a,'fontsize',14)
+subplot(2,3,4)
+clear CDF
+for i2=1:length(H)
+    CDF(i2)=sum(H(1:i2))/sum(H);
+end
+plot(CBins,CDF)
+hold on
+Xs=CDF_PrctileLines(CBins,CDF,PRCs);
+xlim([0 max(CBins)])
+xlabel('Peak CALM Intensity (AU)')
+ylabel('         Coated Pits \newline Cumulative Frequency')
+xticks(0:7)
+a = get(gca,'XTickLabel');
+set(gca,'XTickLabel',a,'fontsize',14)
+
+subplot(2,3,2)
+
+[H,CBins]=hist(P3m66C{1}/10^4,CBins);
+bar(CBins,H/sum(H)*100)
+title('                 Control Cells \newline 3 minutes after 66% Osmoshock')
+xlim([0 max(CBins)])
+ylabel('Coated Pits \newline % Events')
+xlabel('Peak CALM Intensity (AU)')
+xticks(0:7)
+a = get(gca,'XTickLabel');
+set(gca,'XTickLabel',a,'fontsize',14)
+subplot(2,3,5)
+clear CDF
+for i2=1:length(H)
+    CDF(i2)=sum(H(1:i2))/sum(H);
+end
+plot(CBins,CDF)
+hold on
+CDF_XLines(CBins,CDF,Xs);
+xlim([0 max(CBins)])
+xlabel('Peak CALM Intensity (AU)')
+ylabel('         Coated Pits \newline Cumulative Frequency')
+xticks(0:7)
+a = get(gca,'XTickLabel');
+set(gca,'XTickLabel',a,'fontsize',14)
+
+subplot(2,3,3)
+
+[H,CBins]=hist(P10m66C{1}/10^4,CBins);
+bar(CBins,H/sum(H)*100)
+title('                 Control Cells \newline 10 minutes after 66% Osmoshock')
+xlim([0 max(CBins)])
+ylabel('Coated Pits \newline % Events')
+xlabel('Peak CALM Intensity (AU)')
+xticks(0:7)
+a = get(gca,'XTickLabel');
+set(gca,'XTickLabel',a,'fontsize',14)
+subplot(2,3,6)
+clear CDF
+for i2=1:length(H)
+    CDF(i2)=sum(H(1:i2))/sum(H);
+end
+plot(CBins,CDF)
+hold on
+CDF_XLines(CBins,CDF,Xs);
+xlim([0 max(CBins)])
+xlabel('Peak CALM Intensity (AU)')
+ylabel('         Coated Pits \newline Cumulative Frequency')
+xticks(0:7)
+a = get(gca,'XTickLabel');
+set(gca,'XTickLabel',a,'fontsize',14)
+
+
+figure
+subplot(2,3,1)
+[H]=hist(PreC{2}/10^4,CBins);
+bar(CBins,H/sum(H)*100)
+title(' CALM siRNA Cells \newline Before Osmoshock')
+xlim([0 max(CBins)])
+ylabel('Coated Pits \newline % Events')
+xlabel('Peak CALM Intensity (AU)')
+xticks(0:7)
+a = get(gca,'XTickLabel');
+set(gca,'XTickLabel',a,'fontsize',14)
+subplot(2,3,4)
+clear CDF
+for i2=1:length(H)
+    CDF(i2)=sum(H(1:i2))/sum(H);
+end
+plot(CBins,CDF)
+hold on
+Xs=CDF_PrctileLines(CBins,CDF,PRCs);
+xlim([0 max(CBins)])
+xlabel('Peak CALM Intensity (AU)')
+ylabel('         Coated Pits \newline Cumulative Frequency')
+xticks(0:7)
+a = get(gca,'XTickLabel');
+set(gca,'XTickLabel',a,'fontsize',14)
+
+subplot(2,3,2)
+
+[H,CBins]=hist(P3m66C{2}/10^4,CBins);
+bar(CBins,H/sum(H)*100)
+title('             CALM siRNA Cells \newline 3 minutes after 66% Osmoshock')
+xlim([0 max(CBins)])
+ylabel('Coated Pits \newline % Events')
+xlabel('Peak CALM Intensity (AU)')
+xticks(0:7)
+a = get(gca,'XTickLabel');
+set(gca,'XTickLabel',a,'fontsize',14)
+subplot(2,3,5)
+clear CDF
+for i2=1:length(H)
+    CDF(i2)=sum(H(1:i2))/sum(H);
+end
+plot(CBins,CDF)
+hold on
+CDF_XLines(CBins,CDF,Xs);
+xlim([0 max(CBins)])
+xlabel('Peak CALM Intensity (AU)')
+ylabel('         Coated Pits \newline Cumulative Frequency')
+xticks(0:7)
+a = get(gca,'XTickLabel');
+set(gca,'XTickLabel',a,'fontsize',14)
+
+subplot(2,3,3)
+
+[H,CBins]=hist(P10m66C{2}/10^4,CBins);
+bar(CBins,H/sum(H)*100)
+title('             CALM siRNA Cells \newline 10 minutes after 66% Osmoshock')
+xlim([0 max(CBins)])
+ylabel('Coated Pits \newline % Events')
+xlabel('Peak CALM Intensity (AU)')
+xticks(0:7)
+a = get(gca,'XTickLabel');
+set(gca,'XTickLabel',a,'fontsize',14)
+subplot(2,3,6)
+clear CDF
+for i2=1:length(H)
+    CDF(i2)=sum(H(1:i2))/sum(H);
+end
+plot(CBins,CDF)
+hold on
+CDF_XLines(CBins,CDF,Xs);
+xlim([0 max(CBins)])
+xlabel('Peak CALM Intensity (AU)')
+ylabel('         Coated Pits \newline Cumulative Frequency')
+xticks(0:7)
+a = get(gca,'XTickLabel');
+set(gca,'XTickLabel',a,'fontsize',14)
+
+%%  80% figure in the style of Ema's dynamin one
+bins=40;
+PRCs=[.25 .50 .75];
+figure
+subplot(2,3,1)
+
+[H,CBins]=hist(PreC{1}/10^4,bins);
+bar(CBins,H/sum(H)*100)
+title('      Control Cells \newline Before Osmoshock')
+xlim([0 max(CBins)])
+ylabel('Coated Pits \newline % Events')
+xlabel('Peak CALM Intensity (AU)')
+xticks(0:7)
+a = get(gca,'XTickLabel');
+set(gca,'XTickLabel',a,'fontsize',14)
+subplot(2,3,4)
+clear CDF
+for i2=1:length(H)
+    CDF(i2)=sum(H(1:i2))/sum(H);
+end
+plot(CBins,CDF)
+hold on
+Xs=CDF_PrctileLines(CBins,CDF,PRCs);
+xlim([0 max(CBins)])
+xlabel('Peak CALM Intensity (AU)')
+ylabel('         Coated Pits \newline Cumulative Frequency')
+xticks(0:7)
+a = get(gca,'XTickLabel');
+set(gca,'XTickLabel',a,'fontsize',14)
+
+subplot(2,3,2)
+
+[H,CBins]=hist(P3m80C{1}/10^4,CBins);
+bar(CBins,H/sum(H)*100)
+title('                 Control Cells \newline 3 minutes after 80% Osmoshock')
+xlim([0 max(CBins)])
+ylabel('Coated Pits \newline % Events')
+xlabel('Peak CALM Intensity (AU)')
+xticks(0:7)
+a = get(gca,'XTickLabel');
+set(gca,'XTickLabel',a,'fontsize',14)
+subplot(2,3,5)
+clear CDF
+for i2=1:length(H)
+    CDF(i2)=sum(H(1:i2))/sum(H);
+end
+plot(CBins,CDF)
+hold on
+CDF_XLines(CBins,CDF,Xs);
+xlim([0 max(CBins)])
+xlabel('Peak CALM Intensity (AU)')
+ylabel('         Coated Pits \newline Cumulative Frequency')
+xticks(0:7)
+a = get(gca,'XTickLabel');
+set(gca,'XTickLabel',a,'fontsize',14)
+
+subplot(2,3,3)
+
+[H,CBins]=hist(P10m80C{1}/10^4,CBins);
+bar(CBins,H/sum(H)*100)
+title('                 Control Cells \newline 10 minutes after 80% Osmoshock')
+xlim([0 max(CBins)])
+ylabel('Coated Pits \newline % Events')
+xlabel('Peak CALM Intensity (AU)')
+xticks(0:7)
+a = get(gca,'XTickLabel');
+set(gca,'XTickLabel',a,'fontsize',14)
+subplot(2,3,6)
+clear CDF
+for i2=1:length(H)
+    CDF(i2)=sum(H(1:i2))/sum(H);
+end
+plot(CBins,CDF)
+hold on
+CDF_XLines(CBins,CDF,Xs);
+xlim([0 max(CBins)])
+xlabel('Peak CALM Intensity (AU)')
+ylabel('         Coated Pits \newline Cumulative Frequency')
+xticks(0:7)
+a = get(gca,'XTickLabel');
+set(gca,'XTickLabel',a,'fontsize',14)
+
+
+figure
+subplot(2,3,1)
+[H]=hist(PreC{2}/10^4,CBins);
+bar(CBins,H/sum(H)*100)
+title(' CALM siRNA Cells \newline Before Osmoshock')
+xlim([0 max(CBins)])
+ylabel('Coated Pits \newline % Events')
+xlabel('Peak CALM Intensity (AU)')
+xticks(0:7)
+a = get(gca,'XTickLabel');
+set(gca,'XTickLabel',a,'fontsize',14)
+subplot(2,3,4)
+clear CDF
+for i2=1:length(H)
+    CDF(i2)=sum(H(1:i2))/sum(H);
+end
+plot(CBins,CDF)
+hold on
+Xs=CDF_PrctileLines(CBins,CDF,PRCs);
+xlim([0 max(CBins)])
+xlabel('Peak CALM Intensity (AU)')
+ylabel('         Coated Pits \newline Cumulative Frequency')
+xticks(0:7)
+a = get(gca,'XTickLabel');
+set(gca,'XTickLabel',a,'fontsize',14)
+
+subplot(2,3,2)
+
+[H,CBins]=hist(P3m80C{2}/10^4,CBins);
+bar(CBins,H/sum(H)*100)
+title('             CALM siRNA Cells \newline 3 minutes after 80% Osmoshock')
+xlim([0 max(CBins)])
+ylabel('Coated Pits \newline % Events')
+xlabel('Peak CALM Intensity (AU)')
+xticks(0:7)
+a = get(gca,'XTickLabel');
+set(gca,'XTickLabel',a,'fontsize',14)
+subplot(2,3,5)
+clear CDF
+for i2=1:length(H)
+    CDF(i2)=sum(H(1:i2))/sum(H);
+end
+plot(CBins,CDF)
+hold on
+CDF_XLines(CBins,CDF,Xs);
+xlim([0 max(CBins)])
+xlabel('Peak CALM Intensity (AU)')
+ylabel('         Coated Pits \newline Cumulative Frequency')
+xticks(0:7)
+a = get(gca,'XTickLabel');
+set(gca,'XTickLabel',a,'fontsize',14)
+
+subplot(2,3,3)
+
+[H,CBins]=hist(P10m80C{2}/10^4,CBins);
+bar(CBins,H/sum(H)*100)
+title('             CALM siRNA Cells \newline 10 minutes after 80% Osmoshock')
+xlim([0 max(CBins)])
+ylabel('Coated Pits \newline % Events')
+xlabel('Peak CALM Intensity (AU)')
+xticks(0:7)
+a = get(gca,'XTickLabel');
+set(gca,'XTickLabel',a,'fontsize',14)
+subplot(2,3,6)
+clear CDF
+for i2=1:length(H)
+    CDF(i2)=sum(H(1:i2))/sum(H);
+end
+plot(CBins,CDF)
+hold on
+CDF_XLines(CBins,CDF,Xs);
+xlim([0 max(CBins)])
+xlabel('Peak CALM Intensity (AU)')
+ylabel('         Coated Pits \newline Cumulative Frequency')
+xticks(0:7)
+a = get(gca,'XTickLabel');
+set(gca,'XTickLabel',a,'fontsize',14)
+
+%%  66+80% combined figure in the style of Ema's dynamin one
+bins=40;
+FS=12;
+YL=[0 25];
+YT=[0 5 10 15 20];
+XT=0:5;
+XL=[0 5];
+PRCs=[.25 .50 .75];
+figure
+
+
+clear h
+Mc=median(PreC{1}/10^4);
+[H,CBins]=hist(PreC{1}/10^4,bins);
+subplot(2,5,6)
+clear CDF
+for i2=1:length(H)
+    CDF(i2)=sum(H(1:i2))/sum(H);
+end
+plot(CBins,CDF)
+hold on
+Xs=CDF_PrctileLines(CBins,CDF,PRCs);
+xlim([0 max(CBins)])
+xlabel('Peak CALM Intensity (AU)')
+ylabel('         Coated Pits \newline Cumulative Frequency')
+xticks(XT)
+xlim(XL)
+line([Xs(2) Xs(2)],[0 .5],'Color','r','LineStyle','--')
+a = get(gca,'XTickLabel');
+set(gca,'XTickLabel',a,'fontsize',FS)
+subplot(2,5,1)
+bar(CBins,H/sum(H)*100,1)
+
+title('      Control Cells \newline Before Osmoshock')
+xlim([0 max(CBins)])
+ylim(YL)
+ylabel('Coated Pits \newline % Events')
+xlabel('Peak CALM Intensity (AU)')
+xticks(XT)
+xlim(XL)
+yticks(YT)
+line([Xs(2) Xs(2)],YL,'Color','r','LineStyle','--')
+legend(strcat('N=',num2str(sum(H))))
+a = get(gca,'XTickLabel');
+set(gca,'XTickLabel',a,'fontsize',FS)
+
+
+subplot(2,5,2)
+
+[H,CBins]=hist(P3m66C{1}/10^4,CBins);
+bar(CBins,H/sum(H)*100,1)
+title('                 Control Cells \newline 3 minutes after 66% Osmoshock')
+xlim([0 max(CBins)])
+ylim(YL)
+yticks(YT)
+line([Xs(2) Xs(2)],YL,'Color','r','LineStyle','--')
+legend(strcat('N=',num2str(sum(H))))
+%ylabel('Coated Pits \newline % Events')
+xlabel('Peak CALM Intensity (AU)')
+xticks(XT)
+xlim(XL)
+a = get(gca,'XTickLabel');
+set(gca,'XTickLabel',a,'fontsize',FS)
+subplot(2,5,7)
+clear CDF
+for i2=1:length(H)
+    CDF(i2)=sum(H(1:i2))/sum(H);
+end
+plot(CBins,CDF)
+hold on
+CDF_PrctileLines(CBins,CDF,PRCs);
+xlim([0 max(CBins)])
+xlabel('Peak CALM Intensity (AU)')
+%ylabel('         Coated Pits \newline Cumulative Frequency')
+xticks(XT)
+xlim(XL)
+a = get(gca,'XTickLabel');
+set(gca,'XTickLabel',a,'fontsize',FS)
+
+subplot(2,5,3)
+
+[H,CBins]=hist(P10m66C{1}/10^4,CBins);
+bar(CBins,H/sum(H)*100,1)
+title('                 Control Cells \newline 10 minutes after 66% Osmoshock')
+xlim([0 max(CBins)])
+ylim(YL)
+yticks(YT)
+line([Xs(2) Xs(2)],YL,'Color','r','LineStyle','--')
+legend(strcat('N=',num2str(sum(H))))
+%ylabel('Coated Pits \newline % Events')
+xlabel('Peak CALM Intensity (AU)')
+xticks(XT)
+xlim(XL)
+a = get(gca,'XTickLabel');
+set(gca,'XTickLabel',a,'fontsize',FS)
+subplot(2,5,8)
+clear CDF
+for i2=1:length(H)
+    CDF(i2)=sum(H(1:i2))/sum(H);
+end
+plot(CBins,CDF)
+hold on
+CDF_PrctileLines(CBins,CDF,PRCs);
+xlim([0 max(CBins)])
+xlabel('Peak CALM Intensity (AU)')
+%ylabel('         Coated Pits \newline Cumulative Frequency')
+xticks(XT)
+xlim(XL)
+a = get(gca,'XTickLabel');
+set(gca,'XTickLabel',a,'fontsize',FS)
+
+subplot(2,5,4)
+
+[H,CBins]=hist(P3m80C{1}/10^4,CBins);
+bar(CBins,H/sum(H)*100,1)
+title('                 Control Cells \newline 3 minutes after 80% Osmoshock')
+xlim([0 max(CBins)])
+ylim(YL)
+yticks(YT)
+line([Xs(2) Xs(2)],YL,'Color','r','LineStyle','--')
+%ylabel('Coated Pits \newline % Events')
+xlabel('Peak CALM Intensity (AU)')
+xticks(XT)
+xlim(XL)
+a = get(gca,'XTickLabel');
+set(gca,'XTickLabel',a,'fontsize',FS)
+subplot(2,5,9)
+clear CDF
+for i2=1:length(H)
+    CDF(i2)=sum(H(1:i2))/sum(H);
+end
+plot(CBins,CDF)
+hold on
+CDF_PrctileLines(CBins,CDF,PRCs);
+xlim([0 max(CBins)])
+xlabel('Peak CALM Intensity (AU)')
+%ylabel('         Coated Pits \newline Cumulative Frequency')
+xticks(XT)
+xlim(XL)
+a = get(gca,'XTickLabel');
+set(gca,'XTickLabel',a,'fontsize',FS)
+
+subplot(2,5,5)
+
+[H,CBins]=hist(P10m80C{1}/10^4,CBins);
+bar(CBins,H/sum(H)*100,1)
+title('                 Control Cells \newline 10 minutes after 80% Osmoshock')
+xlim([0 max(CBins)])
+ylim(YL)
+yticks(YT)
+line([Xs(2) Xs(2)],YL,'Color','r','LineStyle','--')
+%ylabel('Coated Pits \newline % Events')
+xlabel('Peak CALM Intensity (AU)')
+xticks(XT)
+xlim(XL)
+a = get(gca,'XTickLabel');
+set(gca,'XTickLabel',a,'fontsize',FS)
+subplot(2,5,10)
+clear CDF
+for i2=1:length(H)
+    CDF(i2)=sum(H(1:i2))/sum(H);
+end
+plot(CBins,CDF)
+hold on
+CDF_PrctileLines(CBins,CDF,PRCs);
+xlim([0 max(CBins)])
+xlabel('Peak CALM Intensity (AU)')
+%ylabel('         Coated Pits \newline Cumulative Frequency')
+xticks(XT)
+xlim(XL)
+a = get(gca,'XTickLabel');
+set(gca,'XTickLabel',a,'fontsize',FS)
+
+
+
+figure
+[H]=hist(PreC{2}/10^4,CBins);
+subplot(2,5,6)
+clear CDF
+for i2=1:length(H)
+    CDF(i2)=sum(H(1:i2))/sum(H);
+end
+plot(CBins,CDF)
+hold on
+Xs=CDF_PrctileLines(CBins,CDF,PRCs);
+xlim([0 max(CBins)])
+xlabel('Peak CALM Intensity (AU)')
+ylabel('         Coated Pits \newline Cumulative Frequency')
+xticks(XT)
+xlim(XL)
+line([Xs(2) Xs(2)],[0 .5],'Color','r','LineStyle','--')
+a = get(gca,'XTickLabel');
+set(gca,'XTickLabel',a,'fontsize',FS)
+subplot(2,5,1)
+bar(CBins,H/sum(H)*100,1)
+title(' CALM siRNA Cells \newline Before Osmoshock')
+xlim([0 max(CBins)])
+ylim(YL)
+yticks(YT)
+line([Xs(2) Xs(2)],YL,'Color','r','LineStyle','--')
+ylabel('Coated Pits \newline % Events')
+xlabel('Peak CALM Intensity (AU)')
+xticks(XT)
+xlim(XL)
+a = get(gca,'XTickLabel');
+set(gca,'XTickLabel',a,'fontsize',FS)
+
+
+subplot(2,5,2)
+
+[H,CBins]=hist(P3m66C{2}/10^4,CBins);
+bar(CBins,H/sum(H)*100,1)
+title('             CALM siRNA Cells \newline 3 minutes after 66% Osmoshock')
+xlim([0 max(CBins)])
+ylim(YL)
+yticks(YT)
+line([Xs(2) Xs(2)],YL,'Color','r','LineStyle','--')
+%ylabel('Coated Pits \newline % Events')
+xlabel('Peak CALM Intensity (AU)')
+xticks(XT)
+xlim(XL)
+a = get(gca,'XTickLabel');
+set(gca,'XTickLabel',a,'fontsize',FS)
+subplot(2,5,7)
+clear CDF
+for i2=1:length(H)
+    CDF(i2)=sum(H(1:i2))/sum(H);
+end
+plot(CBins,CDF)
+hold on
+CDF_PrctileLines(CBins,CDF,PRCs);
+xlim([0 max(CBins)])
+xlabel('Peak CALM Intensity (AU)')
+%ylabel('         Coated Pits \newline Cumulative Frequency')
+xticks(XT)
+xlim(XL)
+a = get(gca,'XTickLabel');
+set(gca,'XTickLabel',a,'fontsize',FS)
+
+subplot(2,5,3)
+
+[H,CBins]=hist(P10m66C{2}/10^4,CBins);
+bar(CBins,H/sum(H)*100,1)
+title('             CALM siRNA Cells \newline 10 minutes after 66% Osmoshock')
+xlim([0 max(CBins)])
+ylim(YL)
+yticks(YT)
+line([Xs(2) Xs(2)],YL,'Color','r','LineStyle','--')
+%ylabel('Coated Pits \newline % Events')
+xlabel('Peak CALM Intensity (AU)')
+xticks(XT)
+xlim(XL)
+a = get(gca,'XTickLabel');
+set(gca,'XTickLabel',a,'fontsize',FS)
+subplot(2,5,8)
+clear CDF
+for i2=1:length(H)
+    CDF(i2)=sum(H(1:i2))/sum(H);
+end
+plot(CBins,CDF)
+hold on
+CDF_PrctileLines(CBins,CDF,PRCs);
+xlim([0 max(CBins)])
+xlabel('Peak CALM Intensity (AU)')
+%ylabel('         Coated Pits \newline Cumulative Frequency')
+xticks(XT)
+xlim(XL)
+a = get(gca,'XTickLabel');
+set(gca,'XTickLabel',a,'fontsize',FS)
+
+subplot(2,5,4)
+
+[H,CBins]=hist(P3m80C{2}/10^4,CBins);
+bar(CBins,H/sum(H)*100,1)
+title('             CALM siRNA Cells \newline 3 minutes after 80% Osmoshock')
+xlim([0 max(CBins)])
+ylim(YL)
+yticks(YT)
+line([Xs(2) Xs(2)],YL,'Color','r','LineStyle','--')
+%ylabel('Coated Pits \newline % Events')
+xlabel('Peak CALM Intensity (AU)')
+xticks(XT)
+xlim(XL)
+a = get(gca,'XTickLabel');
+set(gca,'XTickLabel',a,'fontsize',FS)
+subplot(2,5,9)
+clear CDF
+for i2=1:length(H)
+    CDF(i2)=sum(H(1:i2))/sum(H);
+end
+plot(CBins,CDF)
+hold on
+CDF_PrctileLines(CBins,CDF,PRCs);
+xlim([0 max(CBins)])
+xlabel('Peak CALM Intensity (AU)')
+%ylabel('         Coated Pits \newline Cumulative Frequency')
+xticks(XT)
+xlim(XL)
+a = get(gca,'XTickLabel');
+set(gca,'XTickLabel',a,'fontsize',FS)
+
+subplot(2,5,5)
+
+[H,CBins]=hist(P10m80C{2}/10^4,CBins);
+bar(CBins,H/sum(H)*100,1)
+title('             CALM siRNA Cells \newline 10 minutes after 80% Osmoshock')
+xlim([0 max(CBins)])
+ylim(YL)
+yticks(YT)
+line([Xs(2) Xs(2)],YL,'Color','r','LineStyle','--')
+%ylabel('Coated Pits \newline % Events')
+xlabel('Peak CALM Intensity (AU)')
+xticks(XT)
+xlim(XL)
+a = get(gca,'XTickLabel');
+set(gca,'XTickLabel',a,'fontsize',FS)
+subplot(2,5,10)
+clear CDF
+for i2=1:length(H)
+    CDF(i2)=sum(H(1:i2))/sum(H);
+end
+plot(CBins,CDF)
+hold on
+CDF_PrctileLines(CBins,CDF,PRCs);
+xlim([0 max(CBins)])
+xlabel('Peak CALM Intensity (AU)')
+%ylabel('         Coated Pits \newline Cumulative Frequency')
+xticks(XT)
+xlim(XL)
+a = get(gca,'XTickLabel');
+set(gca,'XTickLabel',a,'fontsize',FS)
+
+%%  66+80% combined figure in the style of Ema's dynamin one
+bins=40;
+FS=12;
+YL=[0 17];
+YT=[0 5 10 15];
+XT=0:5;
+XL=[0 5];
+PRCs=[.25 .50 .75];
+figure
+
+[H,CBins]=hist(PreC{1}/10^4,bins);
+clear CDF
+for i2=1:length(H)
+    CDF(i2)=sum(H(1:i2))/sum(H);
+end
+Xs=CDF_PrctileLines(CBins,CDF,PRCs,0);
+
+EmaSubFig(PreC{1},CBins,1,Xs(2),'      Control Cells \newline Before Osmoshock',1)
+EmaSubFig(P3m66C{1},CBins,2,Xs(2),'                 Control Cells \newline 3 minutes after 66% Osmoshock',0)
+EmaSubFig(P10m66C{1},CBins,3,Xs(2),'                 Control Cells \newline 10 minutes after 66% Osmoshock',0)
+EmaSubFig(P3m80C{1},CBins,4,Xs(2),'                 Control Cells \newline 3 minutes after 80% Osmoshock',0)
+EmaSubFig(P10m80C{1},CBins,5,Xs(2),'                 Control Cells \newline 10 minutes after 80% Osmoshock',0)
+
+figure
+
+[H,CBins2]=hist(PreC{2}/10^4,CBins);
+clear CDF
+for i2=1:length(H)
+    CDF(i2)=sum(H(1:i2))/sum(H);
+end
+Xs=CDF_PrctileLines(CBins2,CDF,PRCs,0);
+
+EmaSubFig(PreC{2},CBins,1,Xs(2),' CALM siRNA Cells \newline Before Osmoshock',1)
+EmaSubFig(P3m66C{2},CBins,2,Xs(2),'             CALM siRNA Cells \newline 3 minutes after 66% Osmoshock',0)
+EmaSubFig(P10m66C{2},CBins,3,Xs(2),'             CALM siRNA Cells \newline 10 minutes after 66% Osmoshock',0)
+EmaSubFig(P3m80C{2},CBins,4,Xs(2),'             CALM siRNA Cells \newline 3 minutes after 80% Osmoshock',0)
+EmaSubFig(P10m80C{2},CBins,5,Xs(2),'             CALM siRNA Cells \newline 10 minutes after 80% Osmoshock',0)
+
+
 
 %%
 
@@ -1361,6 +2249,97 @@ title('siRNA Cells under 66% Water')
 xlabel('Lifetime (s)')
 ylabel('CDF')
 
+%%
+clear
+load('BothDSIO_Struct_180920_EndoFilter_30s.mat')
+YL=[0 10*10^4];
+ClathMin=.5*10^4;
+ylab='CALM Intensity at Internalization';
+L={'Control','CALM siRNA'};
+
+SIpre=find([DSIOfiles.TimeGroup]==0 & [DSIOfiles.siRNA]==1 & [DSIOfiles.MedianClath]>=ClathMin);   %Index preosmo files
+WTpre=find([DSIOfiles.TimeGroup]==0 & [DSIOfiles.siRNA]==0 & [DSIOfiles.MedianClath]>=ClathMin);
+
+SI3m66=find([DSIOfiles.TimeGroup]==1 & [DSIOfiles.siRNA]==1 & [DSIOfiles.pWater]==66 & [DSIOfiles.MedianClath]>=ClathMin);  %Index 3 min post osmo files
+WT3m66=find([DSIOfiles.TimeGroup]==1 & [DSIOfiles.siRNA]==0 & [DSIOfiles.pWater]==66 & [DSIOfiles.MedianClath]>=ClathMin);
+SI3m80=find([DSIOfiles.TimeGroup]==1 & [DSIOfiles.siRNA]==1 & [DSIOfiles.pWater]==80 & [DSIOfiles.MedianClath]>=ClathMin);
+WT3m80=find([DSIOfiles.TimeGroup]==1 & [DSIOfiles.siRNA]==0 & [DSIOfiles.pWater]==80 & [DSIOfiles.MedianClath]>=ClathMin);
+
+SI10m66=find([DSIOfiles.TimeGroup]==2 & [DSIOfiles.siRNA]==1 & [DSIOfiles.pWater]==66 & [DSIOfiles.MedianClath]>=ClathMin);  %Index 10 min post osmo files
+WT10m66=find([DSIOfiles.TimeGroup]==2 & [DSIOfiles.siRNA]==0 & [DSIOfiles.pWater]==66 & [DSIOfiles.MedianClath]>=ClathMin);
+SI10m80=find([DSIOfiles.TimeGroup]==2 & [DSIOfiles.siRNA]==1 & [DSIOfiles.pWater]==80 & [DSIOfiles.MedianClath]>=ClathMin);
+WT10m80=find([DSIOfiles.TimeGroup]==2 & [DSIOfiles.siRNA]==0 & [DSIOfiles.pWater]==80 & [DSIOfiles.MedianClath]>=ClathMin);
+
+SIpreLT=[];
+for i=1:length(SIpre)
+    SIpreLT=[SIpreLT LT_EF{SIpre(i)}];
+end
+WTpreLT=[];
+for i=1:length(WTpre)
+    WTpreLT=[WTpreLT LT_EF{WTpre(i)}];
+end
+
+SI3m66LT=[];
+for i=1:length(SI3m66)
+    SI3m66LT=[SI3m66LT LT_EF{SI3m66(i)}];
+end
+WT3m66LT=[];
+for i=1:length(WT3m66)
+    WT3m66LT=[WT3m66LT LT_EF{WT3m66(i)}];
+end
+
+SI10m66LT=[];
+for i=1:length(SI10m66)
+    SI10m66LT=[SI10m66LT LT_EF{SI10m66(i)}];
+end
+WT10m66LT=[];
+for i=1:length(WT10m66)
+    WT10m66LT=[WT10m66LT LT_EF{WT10m66(i)}];
+end
+
+SI3m80LT=[];
+for i=1:length(SI3m80)
+    SI3m80LT=[SI3m80LT LT_EF{SI3m80(i)}];
+end
+WT3m80LT=[];
+for i=1:length(WT3m80)
+    WT3m80LT=[WT3m80LT LT_EF{WT3m80(i)}];
+end
+
+SI10m80LT=[];
+for i=1:length(SI10m80)
+    SI10m80LT=[SI10m80LT LT_EF{SI10m80(i)}];
+end
+WT10m80LT=[];
+for i=1:length(WT10m80)
+    WT10m80LT=[WT10m80LT LT_EF{WT10m80(i)}];
+end
+
+figure
+subplot(2,2,2)
+CDFCell({WTpreLT,WT3m80LT,WT10m80LT},10)
+legend({'Pre-Osmoshock','3 minutes Post-Osmoshock','10 minutes Post-Osmoshock'},'Location','southeast')
+title('Control Cells under 80% Water')
+xlabel('Lifetime (s)')
+ylabel('CDF')
+subplot(2,2,1)
+CDFCell({WTpreLT,WT3m66LT,WT10m66LT},20)
+legend({'Pre-Osmoshock','3 minutes Post-Osmoshock','10 minutes Post-Osmoshock'},'Location','southeast')
+title('Control Cells under 66% Water')
+xlabel('Lifetime (s)')
+ylabel('CDF')
+subplot(2,2,4)
+CDFCell({SIpreLT,SI3m80LT,SI10m80LT},10)
+legend({'Pre-Osmoshock','3 minutes Post-Osmoshock','10 minutes Post-Osmoshock'},'Location','southeast')
+title('siRNA Cells under 80% Water')
+xlabel('Lifetime (s)')
+ylabel('CDF')
+subplot(2,2,3)
+CDFCell({SIpreLT,SI3m66LT,SI10m66LT},20)
+legend({'Pre-Osmoshock','3 minutes Post-Osmoshock','10 minutes Post-Osmoshock'},'Location','southeast')
+title('siRNA Cells under 66% Water')
+xlabel('Lifetime (s)')
+ylabel('CDF')
 %%
 
 YL=[0 10*10^4];

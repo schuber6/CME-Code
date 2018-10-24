@@ -8,7 +8,7 @@ FrameGap=2;
 filetst=strcat(filepath,'\',name(1:end-10),'ManualConclusionAnalysis.mat');
 fileFXYC=strcat(filepath,'\',name(1:end-10),'ManualConclusionAnalysis_FXYC.mat');
 if exist(filetst)==0
-    [~,~,FXYCMS_Sel]=CountConclusions_BySlope(FXYCMS,Tmast,MinLTF,FrameGap);
+    [~,~,FXYCMS_Sel]=CountConclusions_BySlope(FXYCMS,Tmast,MinLTF,FrameGap,Inf,0,2);
     tracest=FXYCMS2Tracest(FXYCMS_Sel,varargin{:});
     save(filetst,'tracest')
     save(fileFXYC,'FXYCMS_Sel')

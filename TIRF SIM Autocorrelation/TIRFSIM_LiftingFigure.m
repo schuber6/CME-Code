@@ -18,11 +18,11 @@ Ys=[[0 16];[0 16];[0 16];[0 16];[0 16]]+1;
 
  %CIM='E:\CME Superfolder\Lines.tif';
 
-folder='Z:\Scott\TIRF SIM\Control CALM Clathrin 4';
-Inds=[7 8];
-Frames=4:8;
-Xs=[[14 7];[18 6];[17 8];[16 10];[16 10]]+1;
-Ys=[[0 29];[0 29];[0 29];[0 29];[0 29]]+1;
+% folder='Z:\Scott\TIRF SIM\Control CALM Clathrin 4';
+% Inds=[7 8];
+% Frames=4:8;
+% Xs=[[14 7];[18 6];[17 8];[16 10];[16 10]]+1;
+% Ys=[[0 29];[0 29];[0 29];[0 29];[0 29]]+1;
 
 files=FindFiles(folder,'*.tif').';
 NF=max(Frames)-min(Frames)+1;
@@ -64,6 +64,7 @@ for i0=1:NF
         plot((MP-min(MP))/(max(MP)-min(MP)),Col)
         hold on
         ylim([0 1])
+        xlim([1 length(MP)])
         yticks([])
         xticks([])
         %imwrite(double(SIM{i0}{1}(1:22,1:28)),CIM,'Writemode','append','Compression','none')
@@ -71,11 +72,11 @@ for i0=1:NF
 end
 % subplot(3,NF,1)
 axes(ha(NF+1))
-ylabel('CALM Channel')
+ylabel('CALM Channel','Color','c')
 % subplot(3,NF,NF+1)
 axes(ha(1))
-ylabel('Clathrin Channel')
+ylabel('Clathrin Channel','Color','r')
 % subplot(3,NF,2*NF+1)
 axes(ha(2*NF+1))
-ylabel('Cross Section')
+ylabel('Normalized Cross Section')
 legend('Clathrin','CALM')

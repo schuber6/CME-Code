@@ -1,13 +1,19 @@
 clear all
+close all
 Name488='AP2';
 Name560='Clathrin';
 %folder='E:\CME Superfolder\CME Data\TIRF SIM\488 Beads 170nm';
 %folder='E:\CME Superfolder\CME Data\TIRF SIM\Control CALM Clathrin';
 nbins=50;
 %folder='E:\CME Superfolder\CME Data\TIRF SIM\Control CALM Clathrin 2';
-folder='Z:\Scott\TIRF SIM\Control SIM Movies\AP2\0329_W1_103046';
-files=FindFiles(folder,'*.tif').';
+% folder='Z:\Scott\TIRF SIM\Control SIM Movies\AP2\0329_W1_103046';
+% Inds=[1 2];
+% folder='Z:\Scott\TIRF SIM\Control SIM Movies\AP2\0329_W1_102123';
+% Inds=[1 2];
+folder='Z:\Scott\TIRF SIM\Control SIM Movies\AP2\0330_W1_104121';
 Inds=[1 2];
+files=FindFiles(folder,'*.tif').';
+
 %FSFig
 %[ha,pos] = tight_subplot(2,3,[.15 -.02],[.03 .03],[-.02 .01]);
 IMG{1}=imread(files{Inds(1)},'Index',1);
@@ -62,15 +68,17 @@ end
 %subplot(2,3,1)
 %axes(ha(1))
 figure(1)
-title(strcat(Name488,' Channel'),'Color','b')
+title(strcat(Name488,' Channel'),'Color','b','FontSize',20)
 %subplot(2,3,2)
 %axes(ha(2))
 figure(2)
-title(strcat(Name560,' Channel'),'Color','r')
+title(strcat(Name560,' Channel'),'Color','r','FontSize',20)
 %subplot(2,3,3)
 %axes(ha(3))
 figure(3)
 legend(Name488,FWHMx{1},Name560,FWHMx{2})
+a = get(gca,'XTickLabel');
+set(gca,'XTickLabel',a,'fontsize',16)
 %subplot(2,3,6)
 %legend(Name488,FWHMy{1},Name560,FWHMy{2})
 
@@ -80,9 +88,12 @@ Name560='Clathrin';
 %folder='E:\CME Superfolder\CME Data\TIRF SIM\Control CALM Clathrin';
 nbins=50;
 %folder='E:\CME Superfolder\CME Data\TIRF SIM\Control CALM Clathrin 2';
-folder='Z:\Scott\TIRF SIM\Control SIM Movies\CALM\0330_W1_151234';
+% folder='Z:\Scott\TIRF SIM\Control SIM Movies\CALM\0330_W1_151234';
+% Inds=[3 4];
+folder='Z:\Scott\TIRF SIM\Control SIM Movies\CALM\0330_W1_145705';
+Inds=[1 2];
 files=FindFiles(folder,'*.tif').';
-Inds=[3 4];
+
 IMG{1}=imread(files{Inds(1)},'Index',1);
 IMG{2}=imread(files{Inds(2)},'Index',1);
 [shift_x,shift_y,DM,SIM{1},SIM{2}]=AlignAndMaxXCorr(IMG{1},IMG{2},0);
@@ -134,12 +145,14 @@ end
 %subplot(2,3,4)
 %axes(ha(4))
 figure(4)
-title(strcat(Name488,' Channel'),'Color','c')
+title(strcat(Name488,' Channel'),'Color','c','FontSize',20)
 %subplot(2,3,2)
 %axes(ha(5))
 figure(5)
-title(strcat(Name560,' Channel'),'Color','r')
+title(strcat(Name560,' Channel'),'Color','r','FontSize',20)
 %subplot(2,3,6)
 %axes(ha(6))
 figure(6)
 legend(Name488,FWHMx{1},Name560,FWHMx{2})
+a = get(gca,'XTickLabel');
+set(gca,'XTickLabel',a,'fontsize',16)

@@ -64,7 +64,7 @@ for i=1:length(filessi)
 end
 
 %%
-Clusts=8;
+Clusts=10;
 FXYC_TOT=CombineCells(FXYC_WT,FXYC_SI);
 Gs=[zeros(1,length(FXYC_WT))+1 zeros(1,length(FXYC_SI))+2];
 LTs=zeros(1,length(FXYC_TOT));
@@ -77,7 +77,7 @@ N2=length(FXYC_SI);
 [clusters] = createTraceLibrary_Temp(IntCellM,FrameGap,Clusts,10,0,1);
 VisualizeClusterSplit(clusters,N1,N2,LTs);
 PlotClusterSlaveIntensities(IntCellS,clusters,Gs);
-
+save('DSI_Clusters.mat','clusters','IntCellM','IntCellS','Gs','LTs','N1','N2','FXYC_TOT','FrameGap')
 %%
 load('BothDSIO_DSIOFilesStruct.mat')
 ClathMin=.5*10^4;
@@ -119,7 +119,7 @@ end
 
 %%
 load('BothDSIO_DSIOFilesStruct.mat')
-ClathMin=.65*10^4;
+ClathMin=.5*10^4;
 MinLTF=6;
 Tmast=0;
 ylab='CALM Intensity at Internalization';
@@ -205,6 +205,7 @@ YL=ylim;
 ylim([0 YL(2)])
 %%
 %Sample=10000;
+FrameGap=2;
 Clusts=10;
 FXYC_TOT=CombineCells(FXYC_WT,FXYC_SI);
 Gs=[zeros(1,length(FXYC_WT))+1 zeros(1,length(FXYC_SI))+2];
@@ -222,7 +223,10 @@ N2=length(FXYC_SI);
 [IntCellMus,IntCellSus]=FXYCMS2IntCells(FXYC_TOT,3,0,1);
 [IntCellMus2,IntCellSus2]=FXYCMS2IntCells(FXYC_TOT,3,0,0);
 [clusters] = createTraceLibrary_Temp(IntCellM,FrameGap,Clusts,10,0,1);
-VisualizeClusterSplit(clusters,N1,N2,LTs);
+
+%%
+NC1=length(WTpre);
+VisualizeClusterSplit(clusters,N1,N2,LTs,Cell,NC1);
 %PlotClusterSlaveIntensities(IntCellSus2,clusters,Gs);
 PlotClusterSlaveIntensities_Selected(IntCellS,IntCellM,clusters,Gs,[1 2 3],2,3);
 
@@ -321,3 +325,25 @@ for i=1:length(SIpre)
         end
     end
 end
+%%
+Is=clusters(2).index
+figure
+for i=1:25
+    subplot(5,5,i)
+    R=ceil(rand*length(Is));
+    fxyc=FXYC_TOT{Is(R)};
+    t=(1:length(fxyc(:,1)))*2;
+    plot(t,fxyc(:,6))
+    title(num2str(R))
+end
+%c2 #721
+%%
+load('DSI_Clusters.mat')
+Is=clusters(2).index;
+fxyc=FXYC_TOT{Is(721)};
+figure
+t=(1:length(fxyc(:,1)))*2;
+plot(t,fxyc(:,6),'LineWidth',2)
+ylabel('Intensity (AU)','FontSize',20)
+xlabel('Time (s)','FontSize',20)
+    

@@ -127,9 +127,10 @@ for(i=1:length(list_good_clusters))
     %do the same for the standard deviation of the traces in the cluster
    
     temp = std( traces(c==list_good_clusters(i),:) ,1);
-    temp2 = temp(temp~=0);
+    temp2=temp;
+    %temp2 = temp(temp~=0);
     
-    clusters(i).SD = interp1([1:length(temp2)],temp2,[1:1/tpf:length(temp2)]);
+    %clusters(i).SD = interp1([1:length(temp2)],temp2,[1:1/tpf:length(temp2)]);
     
     %save relevant information about the cluster to the output structure
     clusters(i).norm = normalization;

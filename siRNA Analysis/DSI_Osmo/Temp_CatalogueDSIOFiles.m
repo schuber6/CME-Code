@@ -227,20 +227,23 @@ end
 
 clear all
 Tmast=0;
-MinLTF=5;
+MinLTF=15;
 FrameGap=2;
 load('BothDSIO_DSIOFilesStruct.mat')
 for i=1:length(DSIOfiles)
     A=DSIOfiles(i).file;
     load(A)
     [Ncwt,~,~,~,~,~,~,MM{i},MS{i},~,~,~,LT{i}]=CountConclusions_BySlope(FXYCMS,Tmast,MinLTF,FrameGap);
+    [Ncwt,FXYC_EF{i},~,~,~,~,~,MM_EF{i},MS_EF{i},~,~,~,LT_EF{i},MSLT_EF{i}]=CountConclusions_BySlope_EndoFilter(FXYCMS,Tmast,MinLTF,FrameGap);
     DSIOfiles(i).NConclusions=Ncwt;
     DSIOfiles(i).ConcsPerArea=DSIOfiles(i).NConclusions/DSIOfiles(i).area;
 end
 for i=1:length(DSIOfiles)
     LT{i}=2*LT{i};
+    LT_EF{i}=2*LT_EF{i};
 end
-save('BothDSIO_Struct_180913_LTs.mat','DSIOfiles','MS','MM','LT')
+%save('BothDSIO_Struct_180913_LTs.mat','DSIOfiles','MS','MM','LT')
+save('BothDSIO_Struct_180925_EndoFilter_30s.mat','DSIOfiles','MS_EF','MM_EF','LT_EF','MSLT_EF','FXYC_EF')
 
 %%
 clear all

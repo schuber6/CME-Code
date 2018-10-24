@@ -41,6 +41,7 @@ end
     MSs=[];
     Is=[];
     LTs=[];
+    MSLTs=[];
     ind=1;
     FXYCMS=AddMSJoshSlopes(FXYCMS,FrameGap);
     for i=1:length(FXYCMS)
@@ -67,6 +68,7 @@ end
                     Fs=[Fs fxyc(F(1),1)];
                     if fxyc(1,4)==3
                         LTs=[LTs length(fxyc(:,1))];
+                        MSLTs=[MSLTs ; [MS length(fxyc(:,1))]];
                     end
                     
                     if ~dontcrop
@@ -108,3 +110,4 @@ end
     varargout{10}=Is;
     varargout{11}=MinMs;
     varargout{12}=LTs;
+    varargout{13}=MSLTs;

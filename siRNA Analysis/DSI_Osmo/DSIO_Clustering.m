@@ -4,7 +4,7 @@ load('BothDSIO_Struct_180831.mat')
 FrameGap=2;
 Tmast=0;
 MinLTF=5;
-ClathMin=.6*10^4;
+ClathMin=.5*10^4;
 
 SIpre=find([DSIOfiles.TimeGroup]==0 & [DSIOfiles.siRNA]==1 & [DSIOfiles.MedianClath]>=ClathMin);   %Index preosmo files
 WTpre=find([DSIOfiles.TimeGroup]==0 & [DSIOfiles.siRNA]==0 & [DSIOfiles.MedianClath]>=ClathMin);
@@ -51,11 +51,13 @@ for i0=1:10
         end
     end
 end
-
+save('DSIO_Data_ToCluster_180918.mat','FXYC_TOT','G','C','MSt')
 %%
+clear all
+load('DSIO_Data_ToCluster_180918.mat')
+FrameGap=2;
 
-
-Clusts=5;
+Clusts=10;
 
 LTs=zeros(1,length(FXYC_TOT));
 for i=1:length(FXYC_TOT)
@@ -64,13 +66,54 @@ end
 
 [IntCellM,IntCellS]=FXYCMS2IntCells(FXYC_TOT,3,1,1);
 [clusters] = createTraceLibrary_Temp(IntCellM,FrameGap,Clusts,10,0,1);
-VisualizeClusterSplit_DSIO(clusters,G,LTs)
+VisualizeClusterSplit_DSIO(clusters,G,LTs,[])
 VisualizeClusterTraces_DSIO(clusters,G,FXYC_TOT)
+
+%% Resort with only the traces from good clusters
+FXYC_Good={};
+Gs_Good=[];
+Cs_Good=[];
+GoodClusts=[1 2 3 9];
+for i=GoodClusts
+    Is=clusters(i).index;
+    Gs=G(Is);
+    Cs=C(Is);
+    FXYC_Good=CombineCells(FXYC_Good,FXYC_TOT(Is));
+    Gs_Good=[Gs_Good Gs];
+    Cs_Good=[Cs_Good Cs];
+end
+save('DSIO_OnceClusteredData_ToCluster_180918.mat','FXYC_Good','Gs_Good','Cs_Good')
+
+%%
+
+
+Clusts=5;
+
+LTs=zeros(1,length(FXYC_Good));
+for i=1:length(FXYC_Good)
+    LTs(i)=length(FXYC_Good{i}(:,1))*FrameGap;
+end
+
+[IntCellM,IntCellS]=FXYCMS2IntCells(FXYC_Good,3,1,1);
+[clusters] = createTraceLibrary_Temp(IntCellM,FrameGap,Clusts,10,0,1);
+Areas=SumGroupAreas(DSIOfiles,used);
+VisualizeClusterSplit_DSIO(clusters,Gs_Good,LTs,Areas)
+VisualizeClusterTraces_DSIO(clusters,Gs_Good,FXYC_TOT)
+
+%%
+GSel=[2 6 10];
+Sel=[1 2 3];
+px=2;
+py=3;
+Areas=SumGroupAreas(DSIOfiles,used);
+VisualizeClusterSplit_DSIO(clusters,Gs_Good,LTs,Areas)
+PlotClusterSlaveIntensities_Selected_Selected(IntCellS,IntCellM,clusters,Gs_Good,GSel,Sel,px,py)
 
 %%
 CP=zeros(1,length(DSIOfiles));
 MSft=cell(1,length(DSIOfiles));
-for i=1:2
+GoodClusts=[1 2 3 9];
+for i=GoodClusts
     Is=clusters(i).index;
     Gs=G(Is);
     Cs=C(Is);

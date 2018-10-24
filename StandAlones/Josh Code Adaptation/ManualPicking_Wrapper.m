@@ -30,7 +30,31 @@ i=12;
 load(files{i})
 movieR=strcat(files{i}(1:end-11),'.tif');
 movieG=strcat(files{i}(1:end-14),'Green.tif');
+%filetst=strcat(files{i}(1:end-11),'Empty_tst.mat');
 filetst=strcat(files{i}(1:end-11),'_tst.mat');
+tracest=EmptyTracest();
 tracest=FXYCMS2Tracest(FXYCMS);
+%save(filetst,'tracest')
+combined_analysis_code(movieR,movieR,filetst);
+
+%%
+load(filetst)
+
+%%
+clear all
+movieR='Z:\Josh\random_movies_from_other_people\TIRF - SIM data_Betzig and Dong Li\COS7 cells\COS7-clathrin_6sec_cycle_time.tif';
+file='Z:\Josh\random_movies_from_other_people\TIRF - SIM data_Betzig and Dong Li\COS7 cells\COS7-6s-donuts.mat';
+load(file)
+nsta=nsta_donuts;
+inds=[];
+for i=1:length(nsta)
+    if sum(nsta(i).donut)>=0
+        inds=[inds i];
+    end
+end
+nsta_donuts=nsta_donuts(inds);
+tracest=NSTA2Tracest(nsta_donuts);
+filetst='E:\CME Superfolder\CME Data\DonutTST.mat';
 save(filetst,'tracest')
-figure_code_for_scott(movieR,movieR,filetst);
+combined_analysis_code(movieR,movieR,filetst);
+

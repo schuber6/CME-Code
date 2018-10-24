@@ -131,7 +131,9 @@ for i=1:length(Pairs)
     Y2{i}=FM(u2{i});
     [h(i),p(i)] = ttest2(Y1{i},Y2{i});
 end
-H=sigstar(Pairs,p);
+a = get(gca,'XTickLabel');
+set(gca,'XTickLabel',a,'fontsize',26)
+%H=sigstar(Pairs,p);
 
 %%
 FM2=[];

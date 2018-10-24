@@ -20,11 +20,11 @@ WT10m66=find([DSIOfiles.TimeGroup]==2 & [DSIOfiles.siRNA]==0 & [DSIOfiles.pWater
 SI10m80=find([DSIOfiles.TimeGroup]==2 & [DSIOfiles.siRNA]==1 & [DSIOfiles.pWater]==80 & [DSIOfiles.MedianClath]>=ClathMin);
 WT10m80=find([DSIOfiles.TimeGroup]==2 & [DSIOfiles.siRNA]==0 & [DSIOfiles.pWater]==80 & [DSIOfiles.MedianClath]>=ClathMin);
 
-Gs={SI10m80,WT10m80,SI3m80};
+Gs={SIpre,WT3m80,SI10m80,WT10m80,SI3m80};
 
-for Group=1:1
+for Group=4:4
     Group
-    for i=1:length(Gs{Group})
+    for i=2:2 %1:length(Gs{Group})
         i/length(Gs{Group})
 
         Ind=Gs{Group}(i);
@@ -56,7 +56,7 @@ ManualConclusionAnalysis(DSIOfiles(Ind).file,DSIOfiles(Ind).movieR);
 
 %%
 clear
-load('BothDSIO_Struct_180913_LTs.mat')
+load('BothDSIO_Struct_180925_EndoFilter_30s.mat')
 MaxLTF=Inf;
 FrameGap=2;
 MinLTF=5;
@@ -76,17 +76,123 @@ WT10m66=find([DSIOfiles.TimeGroup]==2 & [DSIOfiles.siRNA]==0 & [DSIOfiles.pWater
 SI10m80=find([DSIOfiles.TimeGroup]==2 & [DSIOfiles.siRNA]==1 & [DSIOfiles.pWater]==80 & [DSIOfiles.MedianClath]>=ClathMin);
 WT10m80=find([DSIOfiles.TimeGroup]==2 & [DSIOfiles.siRNA]==0 & [DSIOfiles.pWater]==80 & [DSIOfiles.MedianClath]>=ClathMin);
 
-Gs={SI10m80,WT10m80,SI3m80};
+Gs={WT10m66,SI10m80,WT10m80,SI3m80};
 
-for Group=1:length(Gs)
-
+for Group=2:length(Gs)
+    
     for i=1:length(Gs{Group})
         Ind=Gs{Group}(i);
-        [MS{Ind},Nc(Ind),LT{Ind},~]=ManualConclusionAnalysis_Results(DSIOfiles(Ind).file);
-        LT{Ind}=LT{Ind}*2;
+        [MS{Ind},Nc(Ind),LT{Ind},~,MSLT{Ind},MM{Ind}]=ManualConclusionAnalysis_Results(DSIOfiles(Ind).file);
+        [MS_EF{Ind},Nc_EF(Ind),LT_EF{Ind},~,MSLT_EF{Ind},MM_EF{Ind},FXYC_EF{Ind}]=ManualConclusionAnalysis_Results_EndoFileter(DSIOfiles(Ind).file);
+        LT{Ind}=LT{Ind}*FrameGap;
+        LT_EF{Ind}=LT_EF{Ind}*FrameGap;
+        if ~isempty(MSLT{Ind})
+            MSLT{Ind}(:,2)=MSLT{Ind}(:,2)*FrameGap;
+        end
     end
 end
 
-save('BothDSIO_Struct_180914_LTs.mat','DSIOfiles','MS','LT')
+%save('BothDSIO_Struct_180920_EndoFilter_30s.mat','DSIOfiles','MS_EF','MM_EF','LT_EF','MSLT_EF')
+%save('BothDSIO_Struct_180914_LTs.mat','DSIOfiles','MS','LT')
+%%
+clear CALM CA Clath CL
+Group=2;
+ind=1;
+for i=1:length(Gs{Group})
+    M=Gs{Group}(i);
+    fxycC=FXYC_EF{M};
+    CA{i}=[];
+    CL{i}=[];
+    for i2=1:length(fxycC)
+        fxyc=fxycC{i2};
+        fxycG{ind}=fxyc;
+        SuperSubplot(ind)
+        plot(fxyc(:,6),'r')
+        hold on
+        plot(fxyc(:,7),'g')
+        CALM(ind)=max(fxyc(:,7))/10^4;
+        CA{i}(i2)=max(fxyc(:,7))/10^4;
+        Clath(ind)=max(fxyc(:,6))/10^4;
+        CL{i}(i2)=max(fxyc(:,6))/10^4;
+        title(num2str(max(fxyc(:,7))/10^4))
+        cropR{ind}=PitAtMax(fxyc,DSIOfiles(M).movieR);
+        cropG{ind}=PitAtMax(fxyc,DSIOfiles(M).movieG);
+        ind=ind+1;
+    end
+end
+%%
+figure
+for i=1:length(Gs{Group})
+   subplot(3,4,i)
+scatter(CA{i},CL{i})
+hold on
+xlabel('Peak CALM Intensity')
+ylabel('Peak Clathrin Intensity')
+xlim([0 5])
+ylim([0 5])
+end
+
+%%
+sorted=sort(CALM);
+for i=1:length(cropG)
+    ind=find(CALM==sorted(i));
+    SuperSubplot(i)
+    %imagesc(cropG{ind(1)})
+    imshow(cropG{ind(1)},[0 max(max(cropG{ind(1)}))])
+    title(num2str(sorted(i)))
+end
+%%
+sorted=sort(CALM);
+for i=1:length(cropG)
+    ind=find(CALM==sorted(i));
+    fxyc=fxycG{ind(1)};
+    SuperSubplot(i)
+    t=fxyc(:,1)*2;
+    plot(t,fxyc(:,6),'r')
+    hold on
+    plot(t,fxyc(:,7),'g')
+    YL=ylim;
+    ylim([0 YL(2)])
+    title(num2str(sorted(i)))
+end
 %%
 
+Gs={SI10m80,WT10m80,SI3m80};
+mslt_EF=[];
+for Group=2:2
+    for i=1:length(Gs{Group})
+        Ind=Gs{Group}(i);
+        if ~isempty(MSLT_EF{Ind})
+            mslt_EF=[mslt_EF ; MSLT_EF{Ind}];
+        end
+    end
+end
+
+%%
+
+Gs={SI10m80,WT10m80,SI3m80};
+msmm=[];
+for Group=1:1
+    for i=1:length(Gs{Group})
+        Ind=Gs{Group}(i);
+        if ~isempty(MS{Ind})
+            msmm=[msmm ; [MS{Ind}.' MM{Ind}.']];
+        end
+    end
+end
+
+figure
+scatter(msmm(:,2),msmm(:,1))
+
+%%
+
+figure
+scatter(mslt_EF(:,2)*2,mslt_EF(:,1))
+xlabel('Lifetime (s)')
+ylabel('Peak CALM Intensity')
+
+%%
+used=find(mslt(:,2)>=30);
+figure
+C={WTpreMS, WT3m80MS, mslt(used,1)};
+CDFCell(C,10)
