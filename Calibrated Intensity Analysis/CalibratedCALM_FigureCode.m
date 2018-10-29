@@ -48,25 +48,31 @@ legend({'AP2','CALM'})
 %%
 LW=3;
 figure
+subst=3;
 Med_AP2=StatCell_Fancy(CMMI_AP2_V,@median);
 Med_CALM=StatCell_Fancy(CMMI_CALM_V,@median);
+Med_CALM=Med_CALM*subst;
 subplot(1,2,1)
-plot(V(1:end-1),Med_AP2,'LineWidth',LW)
+plot(V(1:end-1),Med_AP2/Med_AP2(3),'LineWidth',LW)
 hold on
-plot(V(1:end-1),Med_CALM,'c','LineWidth',LW)
+plot(V(1:end-1),Med_CALM/Med_CALM(3),'c','LineWidth',LW)
+xlim([30 135])
+xticks([30 60 90 120 150])
 xlabel('Lifetime (s)')
-ylabel('Median Peak Protein Count')
+ylabel('         Median Peak Protein Count \newline (Normalized to Median of 30s Cohort)')
 legend({'AP2','CALM'})
 a = get(gca,'XTickLabel');
-set(gca,'XTickLabel',a,'fontsize',18)
+set(gca,'XTickLabel',a,'fontsize',14)
 subplot(1,2,2)
 plot(V(1:end-1),Med_AP2./Med_CALM,'LineWidth',LW)
+xlim([30 135])
+xticks([30 60 90 120 150])
 YL=ylim;
 xlabel('Lifetime (s)')
 ylabel('AP2:CALM Ratio')
 a = get(gca,'XTickLabel');
 ylim(YL)
-set(gca,'XTickLabel',a,'fontsize',18)
+set(gca,'XTickLabel',a,'fontsize',14)
 
 %%
 figure
@@ -79,10 +85,10 @@ ylabel('CALM Number')
 
 %%
 figure
-substit=1;
+substit=3;
 Range=0:5:350;
 HC=hist(MMI_CALM*substit,Range);
-
+median(MMI_CALM*substit)
 
 %line([60 60],YL,'Color','g','LineStyle','--')
 
@@ -91,7 +97,8 @@ HA=hist(MMI_AP2,Range);
 plot(Range,HA/sum(HA),'b','LineWidth',3)
 hold on
 plot(Range,HC/sum(HC),'c','LineWidth',3)
-xlim([0 200])
+xlim([0 340])
+xticks([0 40 80 120 160 200 240 280 320 360])
 YL=ylim;
 %line([60 60],YL,'Color','g','LineStyle','--')
 ylabel('Frequency','FontSize',18)

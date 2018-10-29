@@ -56,7 +56,7 @@ ManualConclusionAnalysis(DSIOfiles(Ind).file,DSIOfiles(Ind).movieR);
 
 %%
 clear
-load('BothDSIO_Struct_180925_EndoFilter_30s.mat')
+load('BothDSIO_Struct_181024_EndoFilter_FullTraces.mat')
 MaxLTF=Inf;
 FrameGap=2;
 MinLTF=5;
@@ -95,9 +95,10 @@ end
 %save('BothDSIO_Struct_180920_EndoFilter_30s.mat','DSIOfiles','MS_EF','MM_EF','LT_EF','MSLT_EF')
 %save('BothDSIO_Struct_180914_LTs.mat','DSIOfiles','MS','LT')
 %%
-clear CALM CA Clath CL
-Group=2;
+clear CALM CA Clath CL LT
+Group=1;
 ind=1;
+ind2=1;
 for i=1:length(Gs{Group})
     M=Gs{Group}(i);
     fxycC=FXYC_EF{M};
@@ -106,15 +107,21 @@ for i=1:length(Gs{Group})
     for i2=1:length(fxycC)
         fxyc=fxycC{i2};
         fxycG{ind}=fxyc;
-        SuperSubplot(ind)
-        plot(fxyc(:,6),'r')
-        hold on
-        plot(fxyc(:,7),'g')
+
         CALM(ind)=max(fxyc(:,7))/10^4;
         CA{i}(i2)=max(fxyc(:,7))/10^4;
         Clath(ind)=max(fxyc(:,6))/10^4;
         CL{i}(i2)=max(fxyc(:,6))/10^4;
-        title(num2str(max(fxyc(:,7))/10^4))
+        LT{i}(i2)=length(fxyc(:,6))*2;
+        if CA{i}(i2)<=1.5 && LT{i}(i2)<=90 && fxyc(1,4)==3
+            SuperSubplot(ind2)
+            t=(1:length(fxyc(:,6)))*2;
+            plot(t,fxyc(:,6),'r')
+            hold on
+            plot(t,fxyc(:,7),'g')
+            ind2=ind2+1;
+        end
+        %         title(num2str(max(fxyc(:,7))/10^4))
         cropR{ind}=PitAtMax(fxyc,DSIOfiles(M).movieR);
         cropG{ind}=PitAtMax(fxyc,DSIOfiles(M).movieG);
         ind=ind+1;
@@ -123,13 +130,16 @@ end
 %%
 figure
 for i=1:length(Gs{Group})
-   subplot(3,4,i)
-scatter(CA{i},CL{i})
-hold on
-xlabel('Peak CALM Intensity')
-ylabel('Peak Clathrin Intensity')
-xlim([0 5])
-ylim([0 5])
+    subplot(2,3,i)
+    usedr=find(CA{i}<=1.5 & LT{i}<=90);
+    scatter(CA{i},CL{i})
+    hold on
+    scatter(CA{i}(usedr),CL{i}(usedr),'r')
+    xlabel('Peak CALM Intensity')
+    ylabel('Peak Clathrin Intensity')
+    xlim([0 7])
+    ylim([0 7])
+    legend({'All Pits','Ema Region'},'Location','southeast')
 end
 
 %%
