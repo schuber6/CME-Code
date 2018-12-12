@@ -20,7 +20,7 @@ hold on
 xq=0:max(xs);
 yi=interp1(xs,ys,xq);
 [xL,xR]=FindFWeMBoundaries(yi,0,WidthCut);
-FWHMx{i}=strcat('HWHM = ',num2str((xR-1)));
+FWHMx{i}=strcat('SD = ',num2str((xR-1)));
 
 line([0 xR-1],[WidthCut+(i-1)*.01 WidthCut+(i-1)*.01],'Color',Col,'LineStyle','--')
 title(strcat('Radial Average of Image. ',FWHMx))
@@ -38,7 +38,7 @@ hold on
 xq=0:max(xs);
 yi=interp1(xs,ys,xq);
 [xL,xR]=FindFWeMBoundaries(yi,0,WidthCut);
-FWHMx{i}=strcat('HWHM = ',num2str((xR-1)));
+FWHMx{i}=strcat('SD = ',num2str((xR-1)));
     
     line([0 xR-1],[WidthCut+(i-1)*.01 WidthCut+(i-1)*.01],'Color',Col,'LineStyle','--')
     

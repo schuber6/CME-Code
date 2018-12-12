@@ -202,3 +202,16 @@ tracest=FXYCMS2Tracest(FXYCMS_Sel,value,D);
 save(filetst,'tracest')
 figure_code_for_scott_StaticArea(movieR,movieR,filetst);
 
+%%
+folder='E:\CME Superfolder\CME Data\181107_SUM_CALMsiRNA_Calibrated\Data\Split Channels\SI_Cont\Movies\Traces';
+files=FindFiles(folder,'*Red*FXYCMS.mat').';
+folderM='E:\CME Superfolder\CME Data\181107_SUM_CALMsiRNA_Calibrated\Data\Split Channels\SI_Cont\Movies\Movies';
+filesM=FindFiles(folderM,'*Red*.tif').';
+filetst='TST_Test.mat';
+
+i=2;
+load(files{i})
+tracest=FXYCMS2Tracest(FXYCMS);
+save(filetst,'tracest')
+figure_code_for_scott_StaticArea(filesM{i},filesM{i},filetst);
+

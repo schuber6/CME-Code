@@ -1,11 +1,16 @@
-function VisualizeClusterSplit(clusters,N1,N2,LTs,Cs,NC1)
+function VisualizeClusterSplit_Unclust(clusters,N1,N2,LTs,Cs,NC1)
 
 usedWT=1:NC1;
 usedSI=NC1+1:max(Cs);
 Pop=zeros(length(clusters),2);
 LT=zeros(length(clusters),2);
-for i=1:length(clusters)
+for i=1:4 %length(clusters)
     Is=clusters(i).index;
+    if i==4
+        for i2=4:length(clusters)
+            Is=[Is ; clusters(i2).index];
+        end
+    end
     used1=find(Is<=N1);
     used2=find(Is>N1);
     P1=length(used1);
@@ -29,29 +34,31 @@ for i=1:length(clusters)
     SE(i,2)=sqrt(var(LTs(used2)))/sqrt(length(used2));
 end
 figure
-bar([.85 1.85 2.85],Pop(1:3,1)*100,.2,'c','FaceAlpha',.75)
+bar([.85 1.85 2.85 3.85],Pop(1:4,1)*100,.2,'c','FaceAlpha',.75)
 hold on
-bar([1.15 2.15 3.15],Pop(1:3,2)*100,.2,'r','FaceAlpha',.75)
-errorbar([.85 1.85 2.85],Pop(1:3,1)*100,SEpt(1:3,1)*100,'k.')
-errorbar([1.15 2.15 3.15],Pop(1:3,2)*100,SEpt(1:3,2)*100,'k.')
+bar([1.15 2.15 3.15 4.15],Pop(1:4,2)*100,.2,'r','FaceAlpha',.75)
+errorbar([.85 1.85 2.85 3.85],Pop(1:4,1)*100,SEpt(1:4,1)*100,'k.')
+errorbar([1.15 2.15 3.15 4.15],Pop(1:4,2)*100,SEpt(1:4,2)*100,'k.')
 
-xticks([1 2 3])
+xticks([1 2 3 4])
+xticklabels({1,2,3,'Other'})
 
 legend('Control Cells','siRNA Cells')
-ylim([0 40])
-xlim([.5 3.5])
+ylim([0 45])
+xlim([.5 4.5])
 a = get(gca,'XTickLabel');
 set(gca,'XTickLabel',a,'fontsize',13)
 ylabel('Percent of Traces','FontSize',20)
 xlabel('Cluster','FontSize',20)
 figure
-bar([.85 1.85 2.85],LT(1:3,1),.2,'c','FaceAlpha',.75)
+bar([.85 1.85 2.85 3.85],LT(1:4,1),.2,'c','FaceAlpha',.75)
 hold on
-bar([1.15 2.15 3.15],LT(1:3,2),.2,'r','FaceAlpha',.75)
-errorbar([.85 1.85 2.85],LT(1:3,1),SE(1:3,1),'k.')
-errorbar([1.15 2.15 3.15],LT(1:3,2),SE(1:3,2),'k.')
-xticks([1 2 3])
-xlim([.5 3.5])
+bar([1.15 2.15 3.15 4.15],LT(1:4,2),.2,'r','FaceAlpha',.75)
+errorbar([.85 1.85 2.85 3.85],LT(1:4,1),SE(1:4,1),'k.')
+errorbar([1.15 2.15 3.15 4.15],LT(1:4,2),SE(1:4,2),'k.')
+xticks([1 2 3 4])
+xticklabels({1,2,3,'Other'})
+xlim([.5 4.5])
 ylim([0 95])
 legend('Control Cells','siRNA Cells')
 a = get(gca,'XTickLabel');

@@ -211,7 +211,9 @@ subplot(2,3,6)
 
 %%
 clear all
-load('BothDSIO_Struct_180831.mat')
+%load('BothDSIO_Struct_180831.mat')
+load('BothDSIO_Struct_181024_EndoFilter_30s.mat')
+
 YL=[0 .45];
 ClathMin=.5*10^4;
 sig=0;
@@ -307,7 +309,9 @@ xticklabels(L)
 %%  Compare the 2 days of osmoshock
 
 clear all
-load('BothDSIO_Struct_180914_LTs.mat')
+%load('BothDSIO_DSIOFilesStruct_181119_EndoFilter.mat')
+%load('BothDSIO_Struct_181024_EndoFilter_30s.mat')
+load('BothDSIO_Struct_180831.mat')
 YL=[0 .2];
 ClathMin=.5*10^4;
 sig=0;
@@ -408,7 +412,200 @@ ylim(YL)
 ylabel(ylab)
 xticklabels(L)
 
+%%  Look at results from day 3
+% clear all
+% %load('BothDSIO_Struct_180831.mat')
+% load('BothDSIO_DSIOFilesStruct_181119_EndoFilter.mat')
+% YL=[0 .45];
+% ClathMin=.5*10^4;
+% sig=0;
+% ylab='Internalizations/um^2/5 min';
+% L={'Control','CALM siRNA'};
+% 
+% SIpre=find([DSIOfiles.Day]~=3 &[DSIOfiles.TimeGroup]==0 & [DSIOfiles.siRNA]==1 & [DSIOfiles.MedianClath]>=ClathMin);   %Index preosmo files
+% WTpre=find([DSIOfiles.Day]~=3 &[DSIOfiles.TimeGroup]==0 & [DSIOfiles.siRNA]==0 & [DSIOfiles.MedianClath]>=ClathMin);
+% 
+% SI3m66=find([DSIOfiles.Day]~=3 &[DSIOfiles.TimeGroup]==1 & [DSIOfiles.siRNA]==1 & [DSIOfiles.pWater]==66 & [DSIOfiles.MedianClath]>=ClathMin);  %Index 3 min post osmo files
+% WT3m66=find([DSIOfiles.Day]~=3 &[DSIOfiles.TimeGroup]==1 & [DSIOfiles.siRNA]==0 & [DSIOfiles.pWater]==66 & [DSIOfiles.MedianClath]>=ClathMin);
+% SI3m80=find([DSIOfiles.Day]~=3 &[DSIOfiles.TimeGroup]==1 & [DSIOfiles.siRNA]==1 & [DSIOfiles.pWater]==80 & [DSIOfiles.MedianClath]>=ClathMin);
+% WT3m80=find([DSIOfiles.Day]~=3 &[DSIOfiles.TimeGroup]==1 & [DSIOfiles.siRNA]==0 & [DSIOfiles.pWater]==80 & [DSIOfiles.MedianClath]>=ClathMin);
+% 
+% SI10m66=find([DSIOfiles.Day]~=3 &[DSIOfiles.TimeGroup]==2 & [DSIOfiles.siRNA]==1 & [DSIOfiles.pWater]==66 & [DSIOfiles.MedianClath]>=ClathMin);  %Index 10 min post osmo files
+% WT10m66=find([DSIOfiles.Day]~=3 &[DSIOfiles.TimeGroup]==2 & [DSIOfiles.siRNA]==0 & [DSIOfiles.pWater]==66 & [DSIOfiles.MedianClath]>=ClathMin);
+% SI10m80=find([DSIOfiles.Day]~=3 &[DSIOfiles.TimeGroup]==2 & [DSIOfiles.siRNA]==1 & [DSIOfiles.pWater]==80 & [DSIOfiles.MedianClath]>=ClathMin);
+% WT10m80=find([DSIOfiles.Day]~=3 &[DSIOfiles.TimeGroup]==2 & [DSIOfiles.siRNA]==0 & [DSIOfiles.pWater]==80 & [DSIOfiles.MedianClath]>=ClathMin);
+% 
+% SIpred3=find([DSIOfiles.Day]==3 & [DSIOfiles.TimeGroup]==0 & [DSIOfiles.siRNA]==1 & [DSIOfiles.MedianClath]>=ClathMin);   %Index preosmo files
+% WTpred3=find([DSIOfiles.Day]==3 &[DSIOfiles.TimeGroup]==0 & [DSIOfiles.siRNA]==0 & [DSIOfiles.MedianClath]>=ClathMin);
+% 
+% SI3m66d3=find([DSIOfiles.Day]==3 &[DSIOfiles.TimeGroup]==1 & [DSIOfiles.siRNA]==1 & [DSIOfiles.pWater]==66 & [DSIOfiles.MedianClath]>=ClathMin);  %Index 3 min post osmo files
+% WT3m66d3=find([DSIOfiles.Day]==3 &[DSIOfiles.TimeGroup]==1 & [DSIOfiles.siRNA]==0 & [DSIOfiles.pWater]==66 & [DSIOfiles.MedianClath]>=ClathMin);
+% %SI3m80=find([DSIOfiles.Day]==3 &[DSIOfiles.TimeGroup]==1 & [DSIOfiles.siRNA]==1 & [DSIOfiles.pWater]==80 & [DSIOfiles.MedianClath]>=ClathMin);
+% %WT3m80=find([DSIOfiles.Day]==3 &[DSIOfiles.TimeGroup]==1 & [DSIOfiles.siRNA]==0 & [DSIOfiles.pWater]==80 & [DSIOfiles.MedianClath]>=ClathMin);
+% 
+% SI10m66d3=find([DSIOfiles.Day]==3 &[DSIOfiles.TimeGroup]==2 & [DSIOfiles.siRNA]==1 & [DSIOfiles.pWater]==66 & [DSIOfiles.MedianClath]>=ClathMin);  %Index 10 min post osmo files
+% WT10m66d3=find([DSIOfiles.Day]==3 &[DSIOfiles.TimeGroup]==2 & [DSIOfiles.siRNA]==0 & [DSIOfiles.pWater]==66 & [DSIOfiles.MedianClath]>=ClathMin);
+% %SI10m80=find([DSIOfiles.Day]==3 &[DSIOfiles.TimeGroup]==2 & [DSIOfiles.siRNA]==1 & [DSIOfiles.pWater]==80 & [DSIOfiles.MedianClath]>=ClathMin);
+% %WT10m80=find([DSIOfiles.Day]==3 &[DSIOfiles.TimeGroup]==2 & [DSIOfiles.siRNA]==0 & [DSIOfiles.pWater]==80 & [DSIOfiles.MedianClath]>=ClathMin);
+% 
+% B66(1,2)=sum([DSIOfiles(SIpre).NConclusions])/sum([DSIOfiles(SIpre).area]);
+% B66(1,1)=sum([DSIOfiles(WTpre).NConclusions])/sum([DSIOfiles(WTpre).area]);
+% B66(2,2)=sum([DSIOfiles(SI3m66).NConclusions])/sum([DSIOfiles(SI3m66).area]);
+% B66(2,1)=sum([DSIOfiles(WT3m66).NConclusions])/sum([DSIOfiles(WT3m66).area]);
+% B66(3,2)=sum([DSIOfiles(SI10m66).NConclusions])/sum([DSIOfiles(SI10m66).area]);
+% B66(3,1)=sum([DSIOfiles(WT10m66).NConclusions])/sum([DSIOfiles(WT10m66).area]);
+% 
+% B66d3(1,2)=sum([DSIOfiles(SIpred3).NConclusions])/sum([DSIOfiles(SIpred3).area]);
+% B66d3(1,1)=sum([DSIOfiles(WTpred3).NConclusions])/sum([DSIOfiles(WTpred3).area]);
+% B66d3(2,2)=sum([DSIOfiles(SI3m66d3).NConclusions])/sum([DSIOfiles(SI3m66d3).area]);
+% B66d3(2,1)=sum([DSIOfiles(WT3m66d3).NConclusions])/sum([DSIOfiles(WT3m66d3).area]);
+% B66d3(3,2)=sum([DSIOfiles(SI10m66d3).NConclusions])/sum([DSIOfiles(SI10m66d3).area]);
+% B66d3(3,1)=sum([DSIOfiles(WT10m66d3).NConclusions])/sum([DSIOfiles(WT10m66d3).area]);
+% 
+% E66(1,2)=sqrt(var([DSIOfiles(SIpre).NConclusions]./[DSIOfiles(SIpre).area]))/sqrt(length(SIpre));
+% E66(1,1)=sqrt(var([DSIOfiles(WTpre).NConclusions]./[DSIOfiles(WTpre).area]))/sqrt(length(WTpre));
+% E66(2,2)=sqrt(var([DSIOfiles(SI3m66).NConclusions]./[DSIOfiles(SI3m66).area]))/sqrt(length(SI3m66));
+% E66(2,1)=sqrt(var([DSIOfiles(WT3m66).NConclusions]./[DSIOfiles(WT3m66).area]))/sqrt(length(WT3m66));
+% E66(3,2)=sqrt(var([DSIOfiles(SI10m66).NConclusions]./[DSIOfiles(SI10m66).area]))/sqrt(length(SI10m66));
+% E66(3,1)=sqrt(var([DSIOfiles(WT10m66).NConclusions]./[DSIOfiles(WT10m66).area]))/sqrt(length(WT10m66));
+% 
+% E66d3(1,2)=sqrt(var([DSIOfiles(SIpred3).NConclusions]./[DSIOfiles(SIpred3).area]))/sqrt(length(SIpred3));
+% E66d3(1,1)=sqrt(var([DSIOfiles(WTpred3).NConclusions]./[DSIOfiles(WTpred3).area]))/sqrt(length(WTpred3));
+% E66d3(2,2)=sqrt(var([DSIOfiles(SI3m66d3).NConclusions]./[DSIOfiles(SI3m66d3).area]))/sqrt(length(SI3m66d3));
+% E66d3(2,1)=sqrt(var([DSIOfiles(WT3m66d3).NConclusions]./[DSIOfiles(WT3m66d3).area]))/sqrt(length(WT3m66d3));
+% E66d3(3,2)=sqrt(var([DSIOfiles(SI10m66d3).NConclusions]./[DSIOfiles(SI10m66d3).area]))/sqrt(length(SI10m66d3));
+% E66d3(3,1)=sqrt(var([DSIOfiles(WT10m66d3).NConclusions]./[DSIOfiles(WT10m66d3).area]))/sqrt(length(WT10m66d3));
+% 
+% figure
+% subplot(1,2,1)
+% b=bar(B66/5,'FaceAlpha',.75);
+% hold on
+% b(1).FaceColor = 'c';
+% b(2).FaceColor = 'r';
+% errorbar([1 2 3]-.15,B66(:,1)/5,E66(:,1)/5,'.','Color','k')
+% errorbar([1 2 3]+.15,B66(:,2)/5,E66(:,2)/5,'.','Color','k')
+% legend('Control Cells','CALM siRNA Cells')
+% ylabel('Internalizations/um^2/min')
+% xticks(1:3)
+% xticklabels({'Before','3-8 min After','10-15 min After'})
+% a = get(gca,'XTickLabel');
+% set(gca,'XTickLabel',a,'fontsize',16)
+% title('66% Osmotic Shock','FontSize',20)
+% 
+% subplot(1,2,2)
+% b=bar(B66d3/5,'FaceAlpha',.75);
+% hold on
+% b(1).FaceColor = 'c';
+% b(2).FaceColor = 'r';
+% errorbar([1 2 3]-.15,B66d3(:,1)/5,E66d3(:,1)/5,'.','Color','k')
+% errorbar([1 2 3]+.15,B66d3(:,2)/5,E66d3(:,2)/5,'.','Color','k')
+% legend('Control Cells','CALM siRNA Cells')
+% ylabel('Internalizations/um^2/min')
+% xticks(1:3)
+% xticklabels({'Before','3-8 min After','10-15 min After'})
+% a = get(gca,'XTickLabel');
+% set(gca,'XTickLabel',a,'fontsize',16)
+% title('66% Osmotic Shock','FontSize',20)
+
+%%  Look at intensities from day 3
+% clear all
+% %load('BothDSIO_Struct_180831.mat')
+% load('BothDSIO_DSIOFilesStruct_181119_EndoFilter.mat')
+% YL=[0 .45];
+% ClathMin=0*10^4;
+% sig=0;
+% ylab='Internalizations/um^2/5 min';
+% L={'Control','CALM siRNA'};
+% 
+% SIpre=find([DSIOfiles.Day]>0 & [DSIOfiles.Day]<3 &[DSIOfiles.TimeGroup]==0 & [DSIOfiles.siRNA]==1 & [DSIOfiles.MedianClath]>=ClathMin);   %Index preosmo files
+% WTpre=find([DSIOfiles.Day]>0 & [DSIOfiles.Day]<3 &[DSIOfiles.TimeGroup]==0 & [DSIOfiles.siRNA]==0 & [DSIOfiles.MedianClath]>=ClathMin);
+% 
+% SI3m66=find([DSIOfiles.Day]>0 & [DSIOfiles.Day]<3 &[DSIOfiles.TimeGroup]==1 & [DSIOfiles.siRNA]==1 & [DSIOfiles.pWater]==66 & [DSIOfiles.MedianClath]>=ClathMin);  %Index 3 min post osmo files
+% WT3m66=find([DSIOfiles.Day]>0 & [DSIOfiles.Day]<3 &[DSIOfiles.TimeGroup]==1 & [DSIOfiles.siRNA]==0 & [DSIOfiles.pWater]==66 & [DSIOfiles.MedianClath]>=ClathMin);
+% SI3m80=find([DSIOfiles.Day]>0 & [DSIOfiles.Day]<3 &[DSIOfiles.TimeGroup]==1 & [DSIOfiles.siRNA]==1 & [DSIOfiles.pWater]==80 & [DSIOfiles.MedianClath]>=ClathMin);
+% WT3m80=find([DSIOfiles.Day]>0 & [DSIOfiles.Day]<3 &[DSIOfiles.TimeGroup]==1 & [DSIOfiles.siRNA]==0 & [DSIOfiles.pWater]==80 & [DSIOfiles.MedianClath]>=ClathMin);
+% 
+% SI10m66=find([DSIOfiles.Day]>0 & [DSIOfiles.Day]<3 &[DSIOfiles.TimeGroup]==2 & [DSIOfiles.siRNA]==1 & [DSIOfiles.pWater]==66 & [DSIOfiles.MedianClath]>=ClathMin);  %Index 10 min post osmo files
+% WT10m66=find([DSIOfiles.Day]>0 & [DSIOfiles.Day]<3 &[DSIOfiles.TimeGroup]==2 & [DSIOfiles.siRNA]==0 & [DSIOfiles.pWater]==66 & [DSIOfiles.MedianClath]>=ClathMin);
+% SI10m80=find([DSIOfiles.Day]>0 & [DSIOfiles.Day]<3 &[DSIOfiles.TimeGroup]==2 & [DSIOfiles.siRNA]==1 & [DSIOfiles.pWater]==80 & [DSIOfiles.MedianClath]>=ClathMin);
+% WT10m80=find([DSIOfiles.Day]>0 & [DSIOfiles.Day]<3 &[DSIOfiles.TimeGroup]==2 & [DSIOfiles.siRNA]==0 & [DSIOfiles.pWater]==80 & [DSIOfiles.MedianClath]>=ClathMin);
+% 
+% SIpred3=find([DSIOfiles.Day]==3 & [DSIOfiles.TimeGroup]==0 & [DSIOfiles.siRNA]==1 & [DSIOfiles.MedianClath]>=ClathMin);   %Index preosmo files
+% WTpred3=find([DSIOfiles.Day]==3 &[DSIOfiles.TimeGroup]==0 & [DSIOfiles.siRNA]==0 & [DSIOfiles.MedianClath]>=ClathMin);
+% 
+% SI3m66d3=find([DSIOfiles.Day]==3 &[DSIOfiles.TimeGroup]==1 & [DSIOfiles.siRNA]==1 & [DSIOfiles.pWater]==66 & [DSIOfiles.MedianClath]>=ClathMin);  %Index 3 min post osmo files
+% WT3m66d3=find([DSIOfiles.Day]==3 &[DSIOfiles.TimeGroup]==1 & [DSIOfiles.siRNA]==0 & [DSIOfiles.pWater]==66 & [DSIOfiles.MedianClath]>=ClathMin);
+% %SI3m80=find([DSIOfiles.Day]==3 &[DSIOfiles.TimeGroup]==1 & [DSIOfiles.siRNA]==1 & [DSIOfiles.pWater]==80 & [DSIOfiles.MedianClath]>=ClathMin);
+% %WT3m80=find([DSIOfiles.Day]==3 &[DSIOfiles.TimeGroup]==1 & [DSIOfiles.siRNA]==0 & [DSIOfiles.pWater]==80 & [DSIOfiles.MedianClath]>=ClathMin);
+% 
+% SI10m66d3=find([DSIOfiles.Day]==3 &[DSIOfiles.TimeGroup]==2 & [DSIOfiles.siRNA]==1 & [DSIOfiles.pWater]==66 & [DSIOfiles.MedianClath]>=ClathMin);  %Index 10 min post osmo files
+% WT10m66d3=find([DSIOfiles.Day]==3 &[DSIOfiles.TimeGroup]==2 & [DSIOfiles.siRNA]==0 & [DSIOfiles.pWater]==66 & [DSIOfiles.MedianClath]>=ClathMin);
+% %SI10m80=find([DSIOfiles.Day]==3 &[DSIOfiles.TimeGroup]==2 & [DSIOfiles.siRNA]==1 & [DSIOfiles.pWater]==80 & [DSIOfiles.MedianClath]>=ClathMin);
+% %WT10m80=find([DSIOfiles.Day]==3 &[DSIOfiles.TimeGroup]==2 & [DSIOfiles.siRNA]==0 & [DSIOfiles.pWater]==80 & [DSIOfiles.MedianClath]>=ClathMin);
+% 
+% B66(1,2)=sum([DSIOfiles(SIpre).MedianCALM]);
+% B66(1,1)=sum([DSIOfiles(WTpre).MedianCALM]);
+% B66(2,2)=sum([DSIOfiles(SI3m66).MedianCALM]);
+% B66(2,1)=sum([DSIOfiles(WT3m66).MedianCALM]);
+% B66(3,2)=sum([DSIOfiles(SI10m66).MedianCALM]);
+% B66(3,1)=sum([DSIOfiles(WT10m66).MedianCALM]);
+% 
+% B66d3(1,2)=sum([DSIOfiles(SIpred3).MedianCALM]);
+% B66d3(1,1)=sum([DSIOfiles(WTpred3).MedianCALM]);
+% B66d3(2,2)=sum([DSIOfiles(SI3m66d3).MedianCALM]);
+% B66d3(2,1)=sum([DSIOfiles(WT3m66d3).MedianCALM]);
+% B66d3(3,2)=sum([DSIOfiles(SI10m66d3).MedianCALM]);
+% B66d3(3,1)=sum([DSIOfiles(WT10m66d3).MedianCALM]);
+% 
+% E66(1,2)=sqrt(var([DSIOfiles(SIpre).MedianCALM]))/sqrt(length(SIpre));
+% E66(1,1)=sqrt(var([DSIOfiles(WTpre).MedianCALM]))/sqrt(length(WTpre));
+% E66(2,2)=sqrt(var([DSIOfiles(SI3m66).MedianCALM]))/sqrt(length(SI3m66));
+% E66(2,1)=sqrt(var([DSIOfiles(WT3m66).MedianCALM]))/sqrt(length(WT3m66));
+% E66(3,2)=sqrt(var([DSIOfiles(SI10m66).MedianCALM]))/sqrt(length(SI10m66));
+% E66(3,1)=sqrt(var([DSIOfiles(WT10m66).MedianCALM]))/sqrt(length(WT10m66));
+% 
+% E66d3(1,2)=sqrt(var([DSIOfiles(SIpred3).MedianCALM]))/sqrt(length(SIpred3));
+% E66d3(1,1)=sqrt(var([DSIOfiles(WTpred3).MedianCALM]))/sqrt(length(WTpred3));
+% E66d3(2,2)=sqrt(var([DSIOfiles(SI3m66d3).MedianCALM]))/sqrt(length(SI3m66d3));
+% E66d3(2,1)=sqrt(var([DSIOfiles(WT3m66d3).MedianCALM]))/sqrt(length(WT3m66d3));
+% E66d3(3,2)=sqrt(var([DSIOfiles(SI10m66d3).MedianCALM]))/sqrt(length(SI10m66d3));
+% E66d3(3,1)=sqrt(var([DSIOfiles(WT10m66d3).MedianCALM]))/sqrt(length(WT10m66d3));
+% 
+% figure
+% subplot(1,2,1)
+% b=bar(B66/5,'FaceAlpha',.75);
+% hold on
+% b(1).FaceColor = 'c';
+% b(2).FaceColor = 'r';
+% errorbar([1 2 3]-.15,B66(:,1)/5,E66(:,1)/5,'.','Color','k')
+% errorbar([1 2 3]+.15,B66(:,2)/5,E66(:,2)/5,'.','Color','k')
+% legend('Control Cells','CALM siRNA Cells')
+% ylabel('Median CALM Intensity')
+% xticks(1:3)
+% xticklabels({'Before','3-8 min After','10-15 min After'})
+% a = get(gca,'XTickLabel');
+% set(gca,'XTickLabel',a,'fontsize',16)
+% title('66% Osmotic Shock (Old Data)','FontSize',20)
+% 
+% subplot(1,2,2)
+% b=bar(B66d3/5,'FaceAlpha',.75);
+% hold on
+% b(1).FaceColor = 'c';
+% b(2).FaceColor = 'r';
+% errorbar([1 2 3]-.15,B66d3(:,1)/5,E66d3(:,1)/5,'.','Color','k')
+% errorbar([1 2 3]+.15,B66d3(:,2)/5,E66d3(:,2)/5,'.','Color','k')
+% legend('Control Cells','CALM siRNA Cells')
+% ylabel('Median CALM Intensity')
+% xticks(1:3)
+% xticklabels({'Before','3-8 min After','10-15 min After'})
+% a = get(gca,'XTickLabel');
+% set(gca,'XTickLabel',a,'fontsize',16)
+% title('66% Osmotic Shock (New Data)','FontSize',20)
+% ylim([0 25000])
 %%  Internalizations barplot
+% clear all
+% load('BothDSIO_DSIOFilesStruct_181119_EndoFilter.mat')
+
 B80(1,2)=sum([DSIOfiles(SIpre).NConclusions])/sum([DSIOfiles(SIpre).area]);
 B80(1,1)=sum([DSIOfiles(WTpre).NConclusions])/sum([DSIOfiles(WTpre).area]);
 B80(2,2)=sum([DSIOfiles(SI3m80).NConclusions])/sum([DSIOfiles(SI3m80).area]);

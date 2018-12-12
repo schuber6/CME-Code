@@ -2,10 +2,10 @@ clear all
 %folder='E:\CME Superfolder\CME Data\TIRF SIM\488 Beads 170nm';
 %folder='E:\CME Superfolder\CME Data\TIRF SIM\Control CALM Clathrin';
 nbins=50;
-%folder='E:\CME Superfolder\CME Data\TIRF SIM\Control CALM Clathrin 2';
-folder='Z:\Scott\TIRF SIM\Control SIM Movies\CALM\0330_W1_151234';
+folder='Z:\Scott\TIRF SIM\Control CALM Clathrin 2';
+%folder='Z:\Scott\TIRF SIM\Control SIM Movies\CALM\0330_W1_151234';
 files=FindFiles(folder,'*.tif').';
-Inds=[3 4];
+Inds=[9 10];
 FSFig
 IMG{1}=imread(files{Inds(1)},'Index',1);
 IMG{2}=imread(files{Inds(2)},'Index',1);
@@ -26,7 +26,7 @@ for i=1:length(Inds)
     subplot(length(Inds),3,(i-1)*3+2)
     imagesc(SmallAC)
     colorbar
-    title('Autocorrelatoin Image')
+    title('Autocorrelation Image')
     subplot(length(Inds),3,3)
     [xs,ys]=RadialDistancePlot(SmallAC,nbins);
     ys=ys/max(ys); %(ys-min(ys))/(max(ys)-min(ys));

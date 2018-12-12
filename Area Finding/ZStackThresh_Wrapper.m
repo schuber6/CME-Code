@@ -11,12 +11,12 @@
 clear all
 
 %Put all ZStack folders here
-folder{1}='E:\CME Superfolder\CME Data\180723_SUM_CALM_Clath_DSIRNA_Osmo\SI_cont\ZStacks';
-folder{2}='E:\CME Superfolder\CME Data\180723_SUM_CALM_Clath_DSIRNA_Osmo\SI_osmo_3m\ZStacks';
-folder{3}='E:\CME Superfolder\CME Data\180723_SUM_CALM_Clath_DSIRNA_Osmo\SI_osmo_10m\ZStacks';
-folder{4}='E:\CME Superfolder\CME Data\180723_SUM_CALM_Clath_DSIRNA_Osmo\WT_cont\ZStacks';
-folder{5}='E:\CME Superfolder\CME Data\180723_SUM_CALM_Clath_DSIRNA_Osmo\WT_osmo_3m\ZStacks';
-folder{6}='E:\CME Superfolder\CME Data\180723_SUM_CALM_Clath_DSIRNA_Osmo\WT_osmo_10m\ZStacks';
+folder{1}='E:\CME Superfolder\CME Data\181107_SUM_CALMsiRNA_Calibrated\Data\Split Channels\SI_Cont\ZStacks';
+folder{2}='E:\CME Superfolder\CME Data\181107_SUM_CALMsiRNA_Calibrated\Data\Split Channels\SI_3m\ZStacks';
+folder{3}='E:\CME Superfolder\CME Data\181107_SUM_CALMsiRNA_Calibrated\Data\Split Channels\SI_10m\ZStacks';
+folder{4}='E:\CME Superfolder\CME Data\181107_SUM_CALMsiRNA_Calibrated\Data\Split Channels\WT_Cont\ZStacks';
+folder{5}='E:\CME Superfolder\CME Data\181107_SUM_CALMsiRNA_Calibrated\Data\Split Channels\WT_3m\ZStacks';
+folder{6}='E:\CME Superfolder\CME Data\181107_SUM_CALMsiRNA_Calibrated\Data\Split Channels\WT_10m\ZStacks';
 
 %folder{2}='E:\CME Superfolder\CME Data\180821 DSI Omso Analysis\SI 3 min 21\ZStacks';
 

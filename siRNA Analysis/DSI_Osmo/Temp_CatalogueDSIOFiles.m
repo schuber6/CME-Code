@@ -143,9 +143,34 @@ for i=1:length(folder0)
 end
 
 %%
-
-clear all
 load('BothDSIO_DSIOFilesStruct.mat')
+ind=length(DSIOfiles)+1;
+folder{4}='E:\CME Superfolder\CME Data\181107_SUM_CALMsiRNA_Calibrated\Data\Split Channels\SI_Cont\Movies\Traces';
+folder{5}='E:\CME Superfolder\CME Data\181107_SUM_CALMsiRNA_Calibrated\Data\Split Channels\SI_3m\Movies\Traces';
+folder{6}='E:\CME Superfolder\CME Data\181107_SUM_CALMsiRNA_Calibrated\Data\Split Channels\SI_10m\Movies\Traces';
+folder{1}='E:\CME Superfolder\CME Data\181107_SUM_CALMsiRNA_Calibrated\Data\Split Channels\WT_Cont\Movies\Traces';
+folder{2}='E:\CME Superfolder\CME Data\181107_SUM_CALMsiRNA_Calibrated\Data\Split Channels\WT_3m\Movies\Traces';
+folder{3}='E:\CME Superfolder\CME Data\181107_SUM_CALMsiRNA_Calibrated\Data\Split Channels\WT_10m\Movies\Traces';
+for i=1:length(folder)
+    files{i}=FindFiles(folder{i},'*FXYCMS*').';
+    Zfold=strcat(folder{i}(1:end-13),'ZStacks');
+    AF=FindFiles(Zfold,'*Areas_RG*');
+    load(AF{1});
+    AreaC{i}=mean(RedArea,2);
+    for i2=1:length(files{i})
+        DSIOfiles(ind).file=files{i}{i2};
+        DSIOfiles(ind).area=AreaC{i}(i2);
+        DSIOfiles(ind).pWater=66;
+        DSIOfiles(ind).TimeGroup=mod(i-1,3);
+        DSIOfiles(ind).siRNA=floor((i-1)/3);
+        DSIOfiles(ind).Day=3;
+        ind=ind+1;
+    end
+end
+%save('BothDSIO_DSIOFilesStruct_181119.mat','DSIOfiles')
+%%
+clear all
+load('BothDSIO_DSIOFilesStruct_181119.mat')
 for i=1:length(DSIOfiles)
     A=DSIOfiles(i).file;
     n=strfind(A,'Traces');
@@ -162,7 +187,7 @@ end
 clear all
 thresh=1000;
 Rang=1:151;
-load('BothDSIO_DSIOFilesStruct.mat')
+load('BothDSIO_DSIOFilesStruct_181119.mat')
 for i=1:length(DSIOfiles)
     A=DSIOfiles(i).file;
     load(A)
@@ -172,11 +197,11 @@ for i=1:length(DSIOfiles)
 end
 
 %%
-%clear all
+clear all
 Tmast=0;
 MinLTF=5;
 FrameGap=2;
-%load('BothDSIO_DSIOFilesStruct.mat')
+load('BothDSIO_DSIOFilesStruct_181119.mat')
 for i=1:length(DSIOfiles)
     A=DSIOfiles(i).file;
     load(A)
@@ -215,7 +240,7 @@ clear all
 Tmast=1000;
 MinLTF=10;
 FrameGap=2;
-load('BothDSIO_DSIOFilesStruct.mat')
+load('BothDSIO_DSIOFilesStruct_181119.mat')
 for i=1:length(DSIOfiles)
     A=DSIOfiles(i).file;
     load(A)
@@ -229,21 +254,24 @@ clear all
 Tmast=0;
 MinLTF=15;
 FrameGap=2;
-load('BothDSIO_DSIOFilesStruct.mat')
+load('BothDSIO_DSIOFilesStruct_181119.mat')
 for i=1:length(DSIOfiles)
     A=DSIOfiles(i).file;
     load(A)
     [Ncwt,~,~,~,~,~,~,MM{i},MS{i},~,~,~,LT{i}]=CountConclusions_BySlope(FXYCMS,Tmast,MinLTF,FrameGap);
-    [Ncwt,~,FXYC_EF{i},~,~,~,~,MM_EF{i},MS_EF{i},~,~,~,LT_EF{i},MSLT_EF{i}]=CountConclusions_BySlope_EndoFilter(FXYCMS,Tmast,MinLTF,FrameGap,Inf,1);
+    [Ncwt_EF,~,FXYC_EF{i},~,~,~,~,MM_EF{i},MS_EF{i},~,~,~,LT_EF{i},MSLT_EF{i}]=CountConclusions_BySlope_EndoFilter(FXYCMS,Tmast,MinLTF,FrameGap,Inf,1);
     DSIOfiles(i).NConclusions=Ncwt;
     DSIOfiles(i).ConcsPerArea=DSIOfiles(i).NConclusions/DSIOfiles(i).area;
+    DSIOfiles(i).NConclusionsEF=Ncwt_EF;
+    DSIOfiles(i).ConcsPerAreaEF=DSIOfiles(i).NConclusionsEF/DSIOfiles(i).area;
 end
 for i=1:length(DSIOfiles)
     LT{i}=2*LT{i};
     LT_EF{i}=2*LT_EF{i};
 end
 %save('BothDSIO_Struct_180913_LTs.mat','DSIOfiles','MS','MM','LT')
-save('BothDSIO_Struct_181024_EndoFilter_FullTraces.mat','DSIOfiles','MS_EF','MM_EF','LT_EF','MSLT_EF','FXYC_EF')
+%save('BothDSIO_Struct_181024_EndoFilter_FullTraces.mat','DSIOfiles','MS_EF','MM_EF','LT_EF','MSLT_EF','FXYC_EF')
+save('BothDSIO_DSIOFilesStruct_181119_EndoFilter.mat','DSIOfiles','MS_EF','MM_EF','LT_EF','MSLT_EF','FXYC_EF')
 
 %%
 clear all
@@ -255,7 +283,7 @@ for i=1:length(DSIOfiles)
     load(DSIOfiles(i).file)
     [StallM{i},StallS{i}]=QuantifyStallIntensities(FXYCMS);
 end
-save('DSIO_StallIntensities_180913.mat','StallM','StallS','DSIOfiles')
+save('DSIO_StallIntensities_181203.mat','StallM','StallS','DSIOfiles')
 
 %%
 
@@ -277,4 +305,27 @@ load('BothDSIO_Struct_180913_LTs.mat')
 for i=1:length(MS)
     AC_P{i}=MS{i}./MM{i};
 end
-save DSIO_PVS_AC.mat
+%save DSIO_PVS_AC.mat
+
+%%
+clear all
+load('DSIO_StallIntensities_181203.mat')
+load('BothDSIO_Struct_180917_EndoFilter.mat')
+for i=1:length(DSIOfiles)
+    DSIOfiles(i).NStall=length(StallM{i});
+end
+%save DSIOfiles_WStall_181203_159.mat DSIOfiles
+
+%%
+clear all
+Tmast=0;
+MinLTF=5;
+FrameGap=2;
+load('DSIOfiles_WStall_181203_159.mat')
+for i=1:length(DSIOfiles)
+    load(DSIOfiles(i).file)
+    LTs=QuantifyLifetimes_Naive(FXYCMS,FrameGap);
+    DSIOfiles(i).MedLT_Naive=median(LTs);
+    DSIOfiles(i).MeanLT_Naive=mean(LTs);
+end
+save DSIOfiles_WStall_181203_159.mat DSIOfiles

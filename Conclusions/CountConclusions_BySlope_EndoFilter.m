@@ -43,6 +43,7 @@ end
     Is=[];
     LTs=[];
     MSLTs=[];
+    MinMs=[];
     ind=1;
     FXYCMS=AddMSJoshSlopes(FXYCMS,FrameGap);
     for i=1:length(FXYCMS)

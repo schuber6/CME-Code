@@ -1,7 +1,7 @@
 function [MM,MS]=QuantifyStallIntensities(FXYCMS)
 
-MinLTF=75;
-MinI=1000;
+MinLTF=150;
+MinI=0;
 MM=[];
 MS=[];
 for i=1:length(FXYCMS)

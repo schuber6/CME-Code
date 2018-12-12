@@ -43,7 +43,7 @@ hold on
 plot(V,HC/sum(HC),'g')
 xlabel('Lifetime (s)')
 ylabel('Frequency')
-legend({'AP2','CALM'})
+legend({strcat('AP2, N=',num2str(sum(HA))),strcat('AP2, N=',num2str(sum(HC)))})
 
 %%
 LW=3;
@@ -85,7 +85,7 @@ ylabel('CALM Number')
 
 %%
 figure
-substit=3;
+substit=1;
 Range=0:5:350;
 HC=hist(MMI_CALM*substit,Range);
 median(MMI_CALM*substit)
@@ -105,7 +105,7 @@ ylabel('Frequency','FontSize',18)
 xlabel('Peak Number Present','FontSize',18)
 a = get(gca,'XTickLabel');
 set(gca,'XTickLabel',a,'fontsize',14)
-legend({'AP2','CALM'})
+legend({strcat('AP2, N=',num2str(sum(HA))),strcat('CALM, N=',num2str(sum(HC)))})
 %%
 figure
 HC=hist(MMI_CALM,0:5:200);
