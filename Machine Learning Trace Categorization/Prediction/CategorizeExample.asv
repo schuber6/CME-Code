@@ -1,6 +1,8 @@
-function C=CategorizeExample(X)
+function C=CategorizeExample(X,framegap,MedI)
 
-load('190107_LRThetas.mat')
+%load('190107_LRThetas.mat')
+%load('190107_LRThetas_NBins10.mat')
+
 X(2)=X(2)/LN;
 X(3:end)=X(3:end)/AN;
 SB=sigmoid(ThetaB.'*X.')>.5;

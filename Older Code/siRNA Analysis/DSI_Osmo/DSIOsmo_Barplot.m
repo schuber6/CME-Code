@@ -86,12 +86,12 @@ a = get(gca,'XTickLabel');
 set(gca,'XTickLabel',a,'fontsize',16)
 title('66% Osmotic Shock','FontSize',20)
 
-%%
+%%  Stalled Structures
 clear all
 %load('BothDSIO_Struct_180831.mat')
 load('DSIOfiles_WStall_181203_159.mat')
 
-YL=[0 .125];
+YL=[0 .12];
 ClathMin=.5*10^4;
 sig=0;
 ylab='Stalled Structures/um^2';
@@ -129,7 +129,7 @@ E80(3,2)=sqrt(var([DSIOfiles(SI10m80).NStall]./[DSIOfiles(SI10m80).area]))/sqrt(
 E80(3,1)=sqrt(var([DSIOfiles(WT10m80).NStall]./[DSIOfiles(WT10m80).area]))/sqrt(length(WT10m80));
 
 figure
-subplot(1,2,1)
+%subplot(1,2,1)
 b=bar(B80,'FaceAlpha',.75);
 hold on
 b(1).FaceColor = 'c';
@@ -161,7 +161,8 @@ E66(2,1)=sqrt(var([DSIOfiles(WT3m66).NStall]./[DSIOfiles(WT3m66).area]))/sqrt(le
 E66(3,2)=sqrt(var([DSIOfiles(SI10m66).NStall]./[DSIOfiles(SI10m66).area]))/sqrt(length(SI10m66));
 E66(3,1)=sqrt(var([DSIOfiles(WT10m66).NStall]./[DSIOfiles(WT10m66).area]))/sqrt(length(WT10m66));
 
-subplot(1,2,2)
+figure
+%subplot(1,2,2)
 b=bar(B66,'FaceAlpha',.75);
 hold on
 b(1).FaceColor = 'c';
@@ -402,7 +403,7 @@ E80(3,2)=sqrt(var([DSIOfiles(SI10m80).NConclusions]./[DSIOfiles(SI10m80).area]))
 E80(3,1)=sqrt(var([DSIOfiles(WT10m80).NConclusions]./[DSIOfiles(WT10m80).area]))/sqrt(length(WT10m80));
 
 figure
-subplot(1,2,1)
+%subplot(1,2,1)
 b=bar(B80/5,'FaceAlpha',.75);
 hold on
 b(1).FaceColor = 'c';
@@ -433,7 +434,8 @@ E66(2,1)=sqrt(var([DSIOfiles(WT3m66).NConclusions]./[DSIOfiles(WT3m66).area]))/s
 E66(3,2)=sqrt(var([DSIOfiles(SI10m66).NConclusions]./[DSIOfiles(SI10m66).area]))/sqrt(length(SI10m66));
 E66(3,1)=sqrt(var([DSIOfiles(WT10m66).NConclusions]./[DSIOfiles(WT10m66).area]))/sqrt(length(WT10m66));
 
-subplot(1,2,2)
+figure
+%subplot(1,2,2)
 b=bar(B66/5,'FaceAlpha',.75);
 hold on
 b(1).FaceColor = 'c';

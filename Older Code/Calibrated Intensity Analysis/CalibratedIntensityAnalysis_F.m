@@ -13,7 +13,7 @@ if strcmp(protein,'AP2')
     PCol='r';
 end
 if strcmp(protein,'CALM')
-    exp_name='E:\CME Superfolder\CME Data\SinlgeGFP\orig_movies';
+    exp_name='E:\CME Superfolder\CME Data\SingleGFP\orig_movies';
     Good=[11 22 25]; %Best CALM cells
     PCol='g';
 end

@@ -121,6 +121,7 @@ end
 load('BothDSIO_DSIOFilesStruct.mat')
 ClathMin=.5*10^4;
 MinLTF=6;
+FrameGap=2;
 Tmast=0;
 ylab='CALM Intensity at Internalization';
 L={'Control','CALM siRNA'};
@@ -223,9 +224,9 @@ N2=length(FXYC_SI);
 [IntCellMus,IntCellSus]=FXYCMS2IntCells(FXYC_TOT,3,0,1);
 [IntCellMus2,IntCellSus2]=FXYCMS2IntCells(FXYC_TOT,3,0,0);
 [clusters] = createTraceLibrary_Temp(IntCellM,FrameGap,Clusts,10,0,1);
-save DSI_Clusters.mat clusters N1 N2 LTs Cell IntCellS IntCellM Gs
+%save DSI_Clusters.mat clusters N1 N2 LTs Cell IntCellS IntCellM Gs
 %%
-clear all
+%clear all
 load('DSI_Clusters.mat')
 NC1=length(WTpre);
 %VisualizeClusterSplit(clusters,N1,N2,LTs,Cell,NC1);

@@ -1,4 +1,4 @@
-function [X,yBeg,yEnd,varargout]=ConstructFeatures(Data,NBins,varargin)
+function [X,yBeg,yEnd,varargout]=ConstructFeatures_SAV(Data,NBins,framegap,varargin)
 
 %NBins=100;
 X=zeros(length(Data),NBins+2);
@@ -8,7 +8,7 @@ for i=1:length(Data)
     X(i,1)=1;
     trace=Data(i).A;
     X(i,2)=length(trace);
-    STrace=ScottifyTrace(trace,NBins);
+    STrace=ScottifyTrace_Averaged(trace,NBins);
     X(i,3:end)=STrace;
     D=Data(i).Decision;
     if D==1
@@ -28,9 +28,12 @@ for i=1:length(Data)
         yEnd(i)=0;
     end
 end
+LN=60/framegap;
 if length(varargin)==0
-    LN=max(X(:,2));
-    AN=max(max(X(:,3:end)));
+    Is=X(:,3:end);
+    Is=Is(:);
+    AN=median(Is);
+    %AN=max(max(X(:,3:end)));
 else
     LN=varargin{1};
     AN=varargin{2};

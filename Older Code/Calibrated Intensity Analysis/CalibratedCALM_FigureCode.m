@@ -1,3 +1,38 @@
+
+clear all
+[MMI_AP2,LT_AP2,A_AP2]=CalibratedIntensityAnalysis_F('AP2',3);
+[MMI_CALM,LT_CALM,A_CALM]=CalibratedIntensityAnalysis_F('CALM',3);
+[MMI_DNM,LT_DNM,A_DNM]=CalibratedIntensityAnalysis_F('Dynamin',3);
+close all
+
+%%
+MGFPINT=18400/80;
+figure
+subplot(1,2,1)
+Cs=CohortAverageTraces(A_AP2,MGFPINT);
+PlotCohortTraces(Cs);
+ylim([0 200])
+xticks(0:30:150)
+ylabel('# Proteins','FontSize',18)
+xlabel('Time (s)','FontSize',18)
+title('AP2','FontSize',18)
+Cs=CohortAverageTraces(A_CALM,MGFPINT/3);
+set(gca,'linewidth',1)
+a = get(gca,'XTickLabel');
+set(gca,'XTickLabel',a,'fontsize',14)
+subplot(1,2,2)
+PlotCohortTraces(Cs);
+ylim([0 200])
+xticks(0:30:150)
+ylabel('# Proteins','FontSize',18)
+xlabel('Time (s)','FontSize',18)
+title('CALM','FontSize',18)
+a = get(gca,'XTickLabel');
+set(gca,'XTickLabel',a,'fontsize',14)
+set(gca,'linewidth',1)
+
+%%
+
 figure
 hist(MMI_CALM,0:5:200)
 hold on
@@ -86,7 +121,7 @@ ylabel('CALM Number')
 %%
 figure
 substit=1;
-Range=0:5:350;
+Range=0:5:205;
 HC=hist(MMI_CALM*substit,Range);
 median(MMI_CALM*substit)
 
@@ -94,10 +129,10 @@ median(MMI_CALM*substit)
 
 
 HA=hist(MMI_AP2,Range);
-plot(Range,HA/sum(HA),'b','LineWidth',3)
+plot(Range,HA/sum(HA),'b','LineWidth',1)
 hold on
-plot(Range,HC/sum(HC),'c','LineWidth',3)
-xlim([0 340])
+plot(Range,HC/sum(HC),'c','LineWidth',1)
+xlim([0 200])
 xticks([0 40 80 120 160 200 240 280 320 360])
 YL=ylim;
 %line([60 60],YL,'Color','g','LineStyle','--')
@@ -106,6 +141,7 @@ xlabel('Peak Number Present','FontSize',18)
 a = get(gca,'XTickLabel');
 set(gca,'XTickLabel',a,'fontsize',14)
 legend({strcat('AP2, N=',num2str(sum(HA))),strcat('CALM, N=',num2str(sum(HC)))})
+set(gca,'linewidth',1)
 %%
 figure
 HC=hist(MMI_CALM,0:5:200);
@@ -135,12 +171,7 @@ figure
 C={MMI_CALM,MMI_WT{2},MMI_SI{2},MMI_DSI{3}};
 BoxPlotCell(C)
 
-%%
-clear all
-[MMI_AP2,LT_AP2,A_AP2]=CalibratedIntensityAnalysis_F('AP2',3);
-[MMI_CALM,LT_CALM,A_CALM]=CalibratedIntensityAnalysis_F('CALM',3);
-[MMI_DNM,LT_DNM,A_DNM]=CalibratedIntensityAnalysis_F('Dynamin',3);
-close all
+
 
 %%
 % used=find(LT_AP2>=40 & LT_AP2<90);

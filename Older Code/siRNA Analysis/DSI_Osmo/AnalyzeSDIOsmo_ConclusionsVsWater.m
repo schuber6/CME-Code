@@ -604,7 +604,7 @@ xticklabels(L)
 % ylim([0 25000])
 %%  Internalizations barplot
 % clear all
-% load('BothDSIO_DSIOFilesStruct_181119_EndoFilter.mat')
+load('BothDSIO_DSIOFilesStruct_181119_EndoFilter.mat')
 
 B80(1,2)=sum([DSIOfiles(SIpre).NConclusions])/sum([DSIOfiles(SIpre).area]);
 B80(1,1)=sum([DSIOfiles(WTpre).NConclusions])/sum([DSIOfiles(WTpre).area]);

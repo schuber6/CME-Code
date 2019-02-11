@@ -23,3 +23,27 @@ fg=3;
 thresh=10;
 
 j1=batch(@comb_run,0,{'E:\CME Superfolder\CME Data\181227_Umida_30p_Cell006',fg,thresh});
+
+%%
+
+fg=zeros(1,26) +1;
+thresh=fg*20;
+
+j1=batch(@comb_run,0,{'E:\CME Superfolder\CME Data\190111_Analysis\100ms',fg,thresh});
+
+%%
+
+fg=zeros(1,22) +1;
+thresh=fg*20;
+
+j1=batch(@comb_run,0,{'E:\CME Superfolder\CME Data\190206_JaspOsmo\Day1',fg,thresh});
+
+fg=zeros(1,16) +1;
+thresh=fg*20;
+
+j2=batch(@comb_run,0,{'E:\CME Superfolder\CME Data\190206_JaspOsmo\Day2',fg,thresh});
+
+fg=zeros(1,13) +1;
+thresh=fg*20;
+
+j2=batch(@comb_run,0,{'E:\CME Superfolder\CME Data\190206_JaspOsmo\Day3',fg,thresh});

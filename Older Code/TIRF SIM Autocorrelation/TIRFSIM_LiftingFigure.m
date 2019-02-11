@@ -4,24 +4,24 @@ close all
 %folder='E:\CME Superfolder\CME Data\TIRF SIM\Control CALM Clathrin';
 nbins=50;
 
+folder='Z:\Scott\TIRF SIM\Control CALM Clathrin 2';
+Inds=[20 21];
+%Inds=[24 25];
+
+Frames=1:5;
+Xs=[[8 13];[8 12];[16 10];[16 10];[16 10]]+1;
+Ys=[[0 16];[0 16];[0 16];[0 16];[0 16]]+1;
+
 % folder='Z:\Scott\TIRF SIM\Control CALM Clathrin 2';
-% %Inds=[20 21];
-%% Inds=[24 25];
-
-% Frames=1:5;
-% Xs=[[8 13];[8 12];[16 10];[16 10];[16 10]]+1;
-% Ys=[[0 16];[0 16];[0 16];[0 16];[0 16]]+1;
-
-% % folder='Z:\Scott\TIRF SIM\Control CALM Clathrin 2';
-% % Inds=[22 23];
-% % Frames=5:9;
-% % Xs=[[1 26];[10 20];[10 20];[8 19];[7 19]]+1;
-% % Ys=[[3 18];[0 21];[0 21];[0 21];[0 21]]+1;
+% Inds=[22 23];
+% Frames=5:9;
+% Xs=[[1 26];[10 20];[10 20];[8 19];[7 19]]+1;
+% Ys=[[3 18];[0 21];[0 21];[0 21];[0 21]]+1;
 
  %CIM='E:\CME Superfolder\Lines.tif';
 
-folder='Z:\Scott\TIRF SIM\Control CALM Clathrin 4';
-%Inds=[7 8];  %Disconnected Pits
+% folder='Z:\Scott\TIRF SIM\Control CALM Clathrin 4';
+% Inds=[7 8];  %Disconnected Pits
 % Frames=4:8;
 % Xs=[[14 7];[18 6];[17 8];[16 10];[16 10]]+1;
 % Ys=[[0 29];[0 29];[0 29];[0 29];[0 29]]+1;
@@ -31,11 +31,11 @@ folder='Z:\Scott\TIRF SIM\Control CALM Clathrin 4';
 % Xs=[[11 11];[11 11];[11 11];[11 11];[11 11]]-2;
 % Ys=[[0 20];[0 20];[0 20];[0 20];[0 20]]+1;
 
-folder='Z:\Scott\TIRF SIM\Control SIM Movies\CALM\0330_W1_151234';
-Inds=[5 6];   
-Frames=1:5;
-Xs=[[14 25];[9 24];[10 25];[10 25];[10 25]]-1;
-Ys=[[1 20];[2 20];[2 20];[2 20];[2 20]]+1;
+% folder='Z:\Scott\TIRF SIM\Control SIM Movies\CALM\0330_W1_151234';
+% Inds=[5 6];   
+% Frames=1:5;
+% Xs=[[14 25];[9 24];[10 25];[10 25];[10 25]]-1;
+% Ys=[[1 20];[2 20];[2 20];[2 20];[2 20]]+1;
 
 
 files=FindFiles(folder,'*.tif').';

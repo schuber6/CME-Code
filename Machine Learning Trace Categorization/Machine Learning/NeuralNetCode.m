@@ -6,6 +6,10 @@
 %
 %   X - input data.
 %   yBeg - target data.
+clear
+load('MLData_PixelSum_B3_Split.mat')
+NBins=20;
+[X,yBeg,yEnd,LN,AN]=ConstructFeatures(trainData,NBins);
 
 x = X';
 t = yBeg';
@@ -18,10 +22,11 @@ t = yBeg';
 trainFcn = 'trainscg';  % Scaled conjugate gradient backpropagation.
 
 % Create a Pattern Recognition Network
-hiddenLayerSize = [1];
+hiddenLayerSize = [10 10];
 net = patternnet(hiddenLayerSize, trainFcn);
-net.layers{1}.transferFcn='purelin';
-%net.layers{2}.transferFcn='poslin';
+net.layers{1}.transferFcn='poslin';
+net.layers{2}.transferFcn='poslin';
+%net.layers{1}.transferFcn='tansig';
 % numInputs=1; %length(x(:,1));
 % numLayers=3;
 % biasConnect=ones(numLayers,1);
@@ -44,9 +49,11 @@ net.layers{1}.transferFcn='purelin';
 % For a list of all data division functions type: help nndivision
 net.divideFcn = 'dividerand';  % Divide data randomly
 net.divideMode = 'sample';  % Divide up every sample
-net.divideParam.trainRatio = 100/100;
-net.divideParam.valRatio = 0/100;
-net.divideParam.testRatio = 0/100;
+net.divideParam.trainRatio = 70/100;
+net.divideParam.valRatio = 15/100;
+net.divideParam.testRatio = 15/100;
+net.trainParam.max_fail=10;
+net.trainParam.epochs=3000;
 
 % Choose a Performance Function
 % For a list of all performance functions type: help nnperformance
