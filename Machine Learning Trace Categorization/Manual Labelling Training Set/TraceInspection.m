@@ -1,20 +1,25 @@
-function TraceInspection(trace,movie,tit,Fs,As)
+function TraceInspection(trace,movie,tit,Fs,As,varargin)
 
-FSFig
+figure
 subplot(2,2,3)
 plot(trace(:,1),trace(:,5))
 hold on
+subplot(2,2,4)
 plot(Fs,As,'r')
+hold on
+if length(varargin)>0
+    plot(Fs,varargin{1},'k')
+end
 ylabel('Intensity')
 xlabel('Frame')
 if length(trace(:,1))>1
     for i=1:length(trace(:,1))-1
         D(i)=norm([trace(i+1,2)-trace(i,2) trace(i+1,3)-trace(i,3)]);
     end
-    subplot(2,2,4)
-    plot(trace(1:end-1,1),D)
-    ylabel('Frame Displacment')
-    xlabel('Frame')
+    %subplot(2,2,4)
+    %plot(trace(1:end-1,1),D)
+    %ylabel('Frame Displacment')
+    %xlabel('Frame')
 end
 
 Rad=15;

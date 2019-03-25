@@ -34,32 +34,39 @@ for i=1:4 %length(clusters)
     SE(i,2)=sqrt(var(LTs(used2)))/sqrt(length(used2));
 end
 figure
-bar([.85 1.85 2.85 3.85],Pop(1:4,1)*100,.2,'c','FaceAlpha',.75)
-hold on
-bar([1.15 2.15 3.15 4.15],Pop(1:4,2)*100,.2,'r','FaceAlpha',.75)
-errorbar([.85 1.85 2.85 3.85],Pop(1:4,1)*100,SEpt(1:4,1)*100,'k.')
-errorbar([1.15 2.15 3.15 4.15],Pop(1:4,2)*100,SEpt(1:4,2)*100,'k.')
-
-xticks([1 2 3 4])
-xticklabels({1,2,3,'Other'})
-
+WideDoubleBar(Pop(1:4,:),SEpt(1:4,:))
+xticklabels({'1','2','3','Other'})
 legend('Control Cells','siRNA Cells')
-ylim([0 45])
-xlim([.5 4.5])
-a = get(gca,'XTickLabel');
-set(gca,'XTickLabel',a,'fontsize',13)
 ylabel('Percent of Traces','FontSize',20)
 xlabel('Cluster','FontSize',20)
+a = get(gca,'XTickLabel');
+set(gca,'XTickLabel',a,'fontsize',13)
+% yticks(0:5:40)
+% bar([.85 1.85 2.85 3.85],Pop(1:4,1)*100,.2,'c','FaceAlpha',.75)
+% hold on
+% bar([1.15 2.15 3.15 4.15],Pop(1:4,2)*100,.2,'r','FaceAlpha',.75)
+% errorbar([.85 1.85 2.85 3.85],Pop(1:4,1)*100,SEpt(1:4,1)*100,'k.')
+% errorbar([1.15 2.15 3.15 4.15],Pop(1:4,2)*100,SEpt(1:4,2)*100,'k.')
+% 
+% xticks([1 2 3 4])
+% xticklabels({1,2,3,'Other'})
+% 
+% legend('Control Cells','siRNA Cells')
+% ylim([0 45])
+% xlim([.5 4.5])
+% a = get(gca,'XTickLabel');
+% set(gca,'XTickLabel',a,'fontsize',13)
+% ylabel('Percent of Traces','FontSize',20)
+% xlabel('Cluster','FontSize',20)
 figure
-bar([.85 1.85 2.85 3.85],LT(1:4,1),.2,'c','FaceAlpha',.75)
-hold on
-bar([1.15 2.15 3.15 4.15],LT(1:4,2),.2,'r','FaceAlpha',.75)
-errorbar([.85 1.85 2.85 3.85],LT(1:4,1),SE(1:4,1),'k.')
-errorbar([1.15 2.15 3.15 4.15],LT(1:4,2),SE(1:4,2),'k.')
-xticks([1 2 3 4])
-xticklabels({1,2,3,'Other'})
-xlim([.5 4.5])
-ylim([0 95])
+WideDoubleBar(LT(1:4,:),SE(1:4,:))
+% bar([.85 1.85 2.85 3.85],LT(1:4,1),.2,'c','FaceAlpha',.75)
+% hold on
+% bar([1.15 2.15 3.15 4.15],LT(1:4,2),.2,'r','FaceAlpha',.75)
+% errorbar([.85 1.85 2.85 3.85],LT(1:4,1),SE(1:4,1),'k.')
+% errorbar([1.15 2.15 3.15 4.15],LT(1:4,2),SE(1:4,2),'k.')
+xticklabels({'1','2','3','Other'})
+legend('Control Cells','siRNA Cells')
 legend('Control Cells','siRNA Cells')
 a = get(gca,'XTickLabel');
 set(gca,'XTickLabel',a,'fontsize',13)

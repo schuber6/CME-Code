@@ -1,4 +1,4 @@
-function [MMI,LTs,ManI]=CalibratedIntensityAnalysis_F(protein,i00)
+function [MMI,LTs,ManI]=CalibratedIntensityAnalysis_F(protein,i00,varargin)
 %Gives Distributions of max gaussian ints (MI) and max pixel-sum ints (MMI)
 %given a single florophore intensity of GFPInt for gaussian and MGFPINT for
 %pixel-sum.
@@ -23,6 +23,11 @@ if strcmp(protein,'Dynamin')
     PCol='b';
 end
 %Good=[15 16 17 18]; %Best DNM cells
+if length(varargin)==0
+    MinLength=10;
+else
+    MinLength=varargin{1};
+end
 
 tmpd = dir(fullfile(exp_name,'*.mat'));
 LastN=10;
@@ -67,7 +72,7 @@ for i=i00 %4:7 %1:length(tmpd)
     files{i0}=strcat(movies{i0}(1:end-4),'.tif');
     newfiles{i0}=strcat(movies{i0}(1:end-4),'_Boxed','.tif');
     load(movies{i0});
-    [MI,Fs,LTs,TraceFXY,TraceA]=FindGoodTraceMaxInts(Threshfxyc,10,50);
+    [MI,Fs,LTs,TraceFXY,TraceA]=FindGoodTraceMaxInts(Threshfxyc,MinLength,50);
     h=waitbar(0,'Manual Fitting');
     MMI=[];
     indices=cell(1,length(TraceFXY));

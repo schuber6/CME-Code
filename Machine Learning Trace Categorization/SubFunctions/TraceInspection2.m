@@ -1,8 +1,10 @@
 function TraceInspection2(trace,movie,tit)
 
-Fs=nonzeros(trace(:,1));
-As=nonzeros(trace(:,5));
-FSFig
+used=find(trace(:,1));
+Fs=trace(used,1);
+As=trace(used,5);
+%FSFig
+figure
 subplot(2,2,3)
 plot(trace(:,1),trace(:,5))
 hold on

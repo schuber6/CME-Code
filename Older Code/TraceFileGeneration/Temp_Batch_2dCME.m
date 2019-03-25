@@ -47,3 +47,20 @@ fg=zeros(1,13) +1;
 thresh=fg*20;
 
 j2=batch(@comb_run,0,{'E:\CME Superfolder\CME Data\190206_JaspOsmo\Day3',fg,thresh});
+
+%%
+
+% fg=zeros(1,5) +1;
+% thresh=fg*20;
+% 
+% j1=batch(@comb_run,0,{'E:\CME Superfolder\CME Data\190111_Analysis\50ms\squarecrop',fg,thresh});
+
+fg=zeros(1,21) +1;
+thresh=fg*20;
+
+j2=batch(@comb_run,0,{'E:\CME Superfolder\CME Data\190111_Analysis\100ms\squarecrop',fg,thresh});
+
+% fg=zeros(1,8) +1;
+% thresh=fg*20;
+% 
+% j2=batch(@comb_run,0,{'E:\CME Superfolder\CME Data\190111_Analysis\200ms\squarecrop',fg,thresh});

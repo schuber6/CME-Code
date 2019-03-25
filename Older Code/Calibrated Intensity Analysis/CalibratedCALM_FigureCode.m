@@ -5,25 +5,60 @@ clear all
 [MMI_DNM,LT_DNM,A_DNM]=CalibratedIntensityAnalysis_F('Dynamin',3);
 close all
 
+%%  Min Lifetime reduced to 7 frames=21 s
+
+clear all
+[MMI_AP2,LT_AP2,A_AP2]=CalibratedIntensityAnalysis_F('AP2',3,7);
+[MMI_CALM,LT_CALM,A_CALM]=CalibratedIntensityAnalysis_F('CALM',3,7);
+[MMI_DNM,LT_DNM,A_DNM]=CalibratedIntensityAnalysis_F('Dynamin',3,7);
+close all
+
 %%
 MGFPINT=18400/80;
-figure
+framegap=3;
+YL=[0 180];
+XL=[0 126];
+YL2=[0 250];
+figure(1)
+
+Ls=(20:20:120)/3;
+%Temp_PlotSingleCohortAverageTraces(A_AP2,MGFPINT,Ls);
+[Cs,SDs,NumAP2,SEs,MCs,MSDs,MSEs]=CohortAverageTraces(A_AP2,MGFPINT,Ls);
+%PlotCohortTraces(Cs,Ls);
+figure(2)
 subplot(1,2,1)
-Cs=CohortAverageTraces(A_AP2,MGFPINT);
-PlotCohortTraces(Cs);
-ylim([0 200])
-xticks(0:30:150)
+PlotCohortBars_Errors(MCs,MSEs)
+title('AP2','FontSize',18)
+ylim(YL2)
+yticks(0:30:240)
+figure(1)
+subplot(1,2,1)
+PlotCohortTraces_Errors(Cs,SEs,Ls);
+ylim(YL)
+xlim(XL)
+xticks(Ls*framegap)
+yticks(30:30:180)
 ylabel('# Proteins','FontSize',18)
 xlabel('Time (s)','FontSize',18)
 title('AP2','FontSize',18)
-Cs=CohortAverageTraces(A_CALM,MGFPINT/3);
+[Cs,SDs,NumAP2,SEs,MCs,MSDs,MSEs]=CohortAverageTraces(A_CALM,MGFPINT/3,Ls);
 set(gca,'linewidth',1)
 a = get(gca,'XTickLabel');
 set(gca,'XTickLabel',a,'fontsize',14)
+figure(2)
 subplot(1,2,2)
-PlotCohortTraces(Cs);
-ylim([0 200])
-xticks(0:30:150)
+PlotCohortBars_Errors(MCs,MSEs)
+title('CALM','FontSize',18)
+ylim(YL2)
+yticks(0:30:240)
+figure(1)
+subplot(1,2,2)
+%PlotCohortTraces(Cs,Ls);
+PlotCohortTraces_Errors(Cs,SEs,Ls);
+ylim(YL)
+xlim(XL)
+xticks(Ls*framegap)
+yticks(30:30:180)
 ylabel('# Proteins','FontSize',18)
 xlabel('Time (s)','FontSize',18)
 title('CALM','FontSize',18)

@@ -10,22 +10,24 @@ for i=1:length(Data)
     X(i,2)=length(trace);
     STrace=ScottifyTrace_Averaged(trace,NBins);
     X(i,3:end)=STrace;
-    D=Data(i).Decision;
-    if D==1
-        yBeg(i)=1;
-        yEnd(i)=0;
-    end
-    if D==2
-        yBeg(i)=0;
-        yEnd(i)=1;
-    end
-    if D==3
-        yBeg(i)=1;
-        yEnd(i)=1;
-    end
-    if D==4
-        yBeg(i)=0;
-        yEnd(i)=0;
+    if isfield(Data,'Decision')
+        D=Data(i).Decision;
+        if D==1
+            yBeg(i)=1;
+            yEnd(i)=0;
+        end
+        if D==2
+            yBeg(i)=0;
+            yEnd(i)=1;
+        end
+        if D==3
+            yBeg(i)=1;
+            yEnd(i)=1;
+        end
+        if D==4
+            yBeg(i)=0;
+            yEnd(i)=0;
+        end
     end
 end
 LN=60/framegap;

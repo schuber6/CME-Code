@@ -22,9 +22,18 @@ yi{5}=[4 409];
 files{6}='E:\CME Superfolder\CME Data\180821 DSI Omso Analysis\SI 10 min\Movies\si_osmo_10m_092_BS_';
 xi{6}=[200 200];
 yi{6}=[4 504];
+files{7}='E:\CME Superfolder\CME Data\180821 DSI Omso Analysis\WT Cont\Movies\wt_cont_062_BS_';
+xi{7}=[263 263];
+yi{7}=[79 439];
+files{8}='E:\CME Superfolder\CME Data\180821 DSI Omso Analysis\SI Cont\Movies\si_cont_014_BS_';
+xi{8}=[238 238];
+yi{8}=[48 470];
+files{9}='E:\CME Superfolder\CME Data\180821 DSI Omso Analysis\WT Cont\Movies\wt_cont_050_BS_';
+xi{9}=[184 184];
+yi{9}=[89 449];
 
 offset=4;  %Offset between channels so that both can be seen separately
-for i0=1:6
+for i0=[1 9]
     file=strcat(files{i0},'Green.tif'); %'E:\CME Superfolder\CME Data\180821 DSI Omso Analysis\SI Cont\Movies\si_cont_006_BS_Green.tif';
     IM=[];
     for i=1:length(imfinfo(file))
@@ -59,17 +68,17 @@ for i0=1:6
     
     F=[crop  buffer permute(K,[2 1 3])];
     
-
+    Oversat=2;
     figure
-    F(:,:,1)=F(:,:,1)/max(max(Kr))*255;  %Normalize all channels to a max of 255 for 8-bit image
-    F(:,:,2)=F(:,:,2)/N*255;
+    F(:,:,1)=F(:,:,1)/max(max(Kr))*255*Oversat;  %Normalize all channels to a max of 255 for 8-bit image
+    F(:,:,2)=F(:,:,2)/N*255*Oversat;
     F8=uint8(F);
     imshow(F8)
     hold on
     line(xi{i0},[yi{i0}(1) yi{i0}(1)+2]-min(yi{i0}),'Color','w')
     %line(xi{i0},yi{i0}-min(yi{i0}),'Color','w')   %Draw line where the
     %kymograph is drawn
-    line([-31.25 0]+502, [10 10],'Color','w','LineWidth',5)  %Scale bar=5 microns
+    %line([-31.25 0]+502, [10 10],'Color','w','LineWidth',5)  %Scale bar=5 microns
 end
 
 

@@ -9,7 +9,7 @@ ys(:,2)=2*SDData;
 hold on
 
 
-Obj=plot(xs,Data,'LineWidth',2,'Color',Cm);
+Obj=plot(xs,Data,'LineWidth',1,'Color',Cm);
 hold on
 h=area(xs,ys,'LineStyle','none');
 h(1).FaceColor = 'none';

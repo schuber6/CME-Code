@@ -2,7 +2,7 @@
 
 %Load images
 clear all
-files{1}='E:\CME Superfolder\CME Data\180821 DSI Omso Analysis\WT Cont\Movies\wt_cont_038_BS_';
+files{1}='E:\CME Superfolder\CME Data\180821 DSI Omso Analysis\WT Cont\Movies\wt_cont_050_BS_';
 i0=1;
 
 file=strcat(files{i0},'Green.tif'); %'E:\CME Superfolder\CME Data\180821 DSI Omso Analysis\SI Cont\Movies\si_cont_006_BS_Green.tif';
@@ -25,8 +25,8 @@ yi=y(1:2);
 %%  Display Kymograph to check that it looks good
 i0=2;
 offset=4;
-Kr=Kymograph(IM(:,:,1,:),xi,yi);
-Kg=Kymograph(IM(:,:,2,:),xi,yi+offset);
+Kr=Kymograph(IM(:,:,1,:),yi,xi);
+Kg=Kymograph(IM(:,:,2,:),yi,xi+offset);
 K=zeros([size(Kr) 3]);
 figure
 K(:,:,1)=Kr/max(max(Kr))*255;
