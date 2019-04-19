@@ -1,11 +1,14 @@
 clear all
-Name488='CALM';
+Name488='AP2';
 Name560='Clathrin';
 %folder='E:\CME Superfolder\CME Data\TIRF SIM\488 Beads 170nm';
 %folder='E:\CME Superfolder\CME Data\TIRF SIM\Control CALM Clathrin';
 nbins=50;
-folder='Z:\Scott\TIRF SIM\Control AP2 Clathrin 2';
-Inds=[11 12]; %Plaque
+% folder='Z:\Scott\TIRF SIM\Control AP2 Clathrin 2';
+% Inds=[11 12]; %Plaque
+folder='Z:\Scott\TIRF SIM\Control AP2 Clathrin';
+Inds=[7 9]; %Plaque
+frame=7;
 % folder='Z:\Scott\TIRF SIM\Control AP2 Clathrin 2';
 % Inds=[1 2]; %Pit
 % folder='Z:\Scott\TIRF SIM\Control CALM Clathrin 2';
@@ -28,8 +31,8 @@ files=FindFiles(folder,'*.tif').';
 %FSFig
 figure
 %ha = tight_subplot(2,3,[.01 .03],[.1 .01],[.01 .01]);
-IMG{1}=double(imread(files{Inds(1)},'Index',1));
-IMG{2}=double(imread(files{Inds(2)},'Index',1));
+IMG{1}=double(imread(files{Inds(1)},'Index',frame));
+IMG{2}=double(imread(files{Inds(2)},'Index',frame));
 [shift_x,shift_y,DM,SIM{1},SIM{2}]=AlignAndMaxXCorr(IMG{1},IMG{2},0);
 for i=1:length(Inds)
     if i==1

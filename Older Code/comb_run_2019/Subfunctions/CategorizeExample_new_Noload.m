@@ -5,6 +5,9 @@ function [C,varargout]=CategorizeExample_new_Noload(X)
 %load('190212_LRThetas_NBins20.mat','ThetaB','ThetaE')
 %[a,~]=size(Xv);
 global ThetaB ThetaE
+if isempty(ThetaB)
+    load('190212_LRThetas_NBins20.mat','ThetaB','ThetaE')    
+end
 B=sigmoid(ThetaB.'*X.');
 E=sigmoid(ThetaE.'*X.');
 SB=B>.5;

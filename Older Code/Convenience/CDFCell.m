@@ -1,4 +1,5 @@
 function CDFCell(C,bins,varargin)
+%varargin can optionally hold color rgb values for the plot
 
 for i=1:length(C)
     if i==1

@@ -5,6 +5,19 @@ events1=FindFrameEventsFXYCS(fxycS1,FirstFrameS2);
 events2=FindFrameEventsFXYCS(fxycS2,1);
 ToAdd=zeros(1,length(fxycS2));  %Keep track of which traces we need to add, so that we can add them all at once
 
+if isempty(fxycS2)
+    return
+end
+if isempty(fxycS1)
+    for i=1:length(fxycS2)
+        fxyc=fxycS2(i);
+        fxyc.frame=fxyc.frame+FirstFrameS2-1;
+        fxycS2(i)=fxyc;
+    end
+    fxycS1=fxycS2;
+    return
+end
+
 for i=1:length(fxycS2)
     used=find(events2(:,1)==i);
     if isempty(used) %Doesn't start at beginning of movie

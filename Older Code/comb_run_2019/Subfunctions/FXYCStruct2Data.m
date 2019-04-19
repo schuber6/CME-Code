@@ -1,5 +1,6 @@
 function [Data,varargout]=FXYCStruct2Data(movie,fxycS,framegap,varargin)
 
+
 if length(varargin)==0
     Cls=7;
     R=2;
@@ -21,7 +22,7 @@ R=2;  %Radius of pixel sum window: R=2 means 3x3 window with 5x5 ring for backgr
 
 %i=1;
 %i2=1;
-h=waitbar(0,'Gathering Trace Data');
+%h=waitbar(0,'Gathering Trace Data');
 %T=4422;
 %used=find(Decisions(:,1)==T);
 L=[fxycS.lt];
@@ -71,7 +72,7 @@ end
 [MIs,~]=ManualFitEvents_BackR(events,movie,R,0,'sum');
 ind=1;
 for i=1:length(used0) %i=used %ceil(rand*2040) %
-    waitbar(i/length(used0))
+    %waitbar(i/length(used0))
     T=used0(i);
 
     
@@ -123,4 +124,4 @@ for i=1:length(used0) %i=used %ceil(rand*2040) %
     Data(i).framegap=framegap;
     Data(i).Hits=Hits;
 end
-close(h)
+%close(h)

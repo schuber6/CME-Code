@@ -1,0 +1,58 @@
+folder='Z:\Scott\donuts_from_nathan';
+fg=2;
+thresh=20;
+section=200;
+comb_run_2019_parameters(folder,fg,thresh,section);
+
+%%
+load('Z:\Scott\donuts_from_nathan\split_movies\Raw_movie3_2s\Section1\Cell1_2\ch1\Tracking\TempTraces.mat')
+fxycS1=fxyc_struct;
+load('Z:\Scott\donuts_from_nathan\split_movies\Raw_movie3_2s\Section2\Cell1_2\ch1\Tracking\TempTraces.mat')
+fxycS2=fxyc_struct;
+fxycS_comb=CombineTraceStructs(fxycS1,fxycS2,20);
+%%
+load('Z:\Scott\donuts_from_nathan\split_movies\Raw_movie3_2s\Section1\Cell1_2\ch1\Tracking\ProcessedTracks.mat')
+%%
+load('Z:\Scott\donuts_from_nathan\split_movies\Raw_movie4_2s\Section1\Cell1_2\ch1\Tracking\ProcessedTracks.mat')
+%%
+load('Z:\Scott\donuts_from_nathan\orig_movies\Raw_movie3_2s.mat')
+%%
+file='Z:\Scott\donuts_from_nathan\orig_movies\Raw_movie3_2s_Splits.mat';
+movie='Z:\Scott\donuts_from_nathan\orig_movies\Raw_movie3_2s.tif';
+newfile='Z:\Scott\donuts_from_nathan\orig_movies\Raw_movie3_2s_IndBoxes_Splits.tif';
+style=2;
+split=0;
+BoxByC_Wrapper_fxycstruct(file,movie,newfile,style,split,7);
+%%
+load('Z:\Scott\donuts_from_nathan\orig_movies\Raw_movie3_2s_300thresh.mat')
+N=length(fxyc_struct);
+MI=zeros(1,N);
+MX=zeros(1,N);
+MY=zeros(1,N);
+NS=zeros(1,N);
+NS2=zeros(1,N);
+for i=1:length(fxyc_struct)
+    MI(i)=max(fxyc_struct(i).int);
+    MX(i)=mean(fxyc_struct(i).xpos);
+    MY(i)=mean(fxyc_struct(i).ypos);
+    NS(i)=length(fxyc_struct(i).Splits);
+    NS2(i)=length(find([fxyc_struct(i).split_goodness]>.5));
+end
+%%
+figure
+scatter(MY,MI)
+%%
+used=find(MI>300);
+fxyc_struct=fxyc_struct(used);
+%%
+save('Z:\Scott\donuts_from_nathan\orig_movies\Raw_movie3_2s_300thresh.mat','fxyc_struct')
+%%
+used=find(NS2>1);
+fxyc_struct=fxyc_struct(used);
+save('Z:\Scott\donuts_from_nathan\orig_movies\Raw_movie3_2s_Splits.mat','fxyc_struct')
+%%
+r=ceil(rand*length(fxyc_struct));
+trace=fxyc_struct(r);
+movieTIRF='Z:\Scott\donuts_from_nathan\orig_movies\Raw_movie3_2s.tif';
+movieSIM='Z:\Scott\donuts_from_nathan\BoxedMovies\Sim_movie3_s2.tif';
+TraceInspection_TIRF_SIM(trace,movieSIM,movieTIRF,'')

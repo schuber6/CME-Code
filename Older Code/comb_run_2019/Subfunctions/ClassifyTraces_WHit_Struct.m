@@ -7,7 +7,7 @@ medInorm=0;
 [Data,used]=FXYCStruct2Data(movie,fxycS,framegap);
 [X,yBeg,yEnd]=ConstructFeatures_SAV_DifMovs(Data,NBins,medInorm);
 
-[C,B,E,F1]=CategorizeExample_new(X);
+[C,B,E,F1]=CategorizeExample_new_Noload(X);
 C=CategorizeWHit(C,[Data.Hits]);
 N=length(fxycS);
 

@@ -1,5 +1,11 @@
-function BoxEventsColors(file,newfile,events,Cs)
+function BoxEventsColors(file,newfile,events,Cs,varargin)
 %Draws boxes around events in tif, specified by fxy matrix
+
+if length(varargin)==0
+    radius=4;
+else
+    radius=varargin{1};
+end
 
 frames=length(imfinfo(file));
 A=imread(file,'Index',1);
@@ -18,9 +24,10 @@ for i0=1:frames
         Cg=Cs(used(i),2);
         Cb=Cs(used(i),3);
         if x~=0 && y~=0
-            for xoff=-4:4
-                for yoff=-4:4
-                    if (abs(xoff)==4 || abs(yoff)==4) && x+xoff>0 && x+xoff<=X && y+yoff>0 && y+yoff<=Y
+            for xoff=-radius:radius
+                for yoff=-radius:radius
+                    if (abs(xoff)==radius || abs(yoff)==radius) && x+xoff>0 ...
+                        && x+xoff<=X && y+yoff>0 && y+yoff<=Y
                         B(y+yoff,x+xoff,1)=round(Bright*Cr);
                         B(y+yoff,x+xoff,2)=round(Bright*Cg);
                         B(y+yoff,x+xoff,3)=round(Bright*Cb);

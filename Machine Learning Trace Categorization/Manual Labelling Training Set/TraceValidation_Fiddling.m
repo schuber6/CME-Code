@@ -22,11 +22,12 @@ load(file)
 for i=1:length(imfinfo(movie))
     IM(:,:,i)=imread(movie,'Index',i);
 end
-Data=FXYC2Data(movie,file);
-NBins=30;
 framegap=1;
+Data=FXYC2Data(movie,file,framegap);
+NBins=20;
+
 [X,~,~]=ConstructFeatures_SAV(Data,NBins,framegap);
-ML=CategorizeExample(X,60,1);
+ML=CategorizeExample_new(X,60,1);
 used=[Data.T];
 %%
 Decisions=struct([]);

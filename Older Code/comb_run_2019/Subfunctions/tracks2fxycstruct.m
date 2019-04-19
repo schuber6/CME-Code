@@ -1,6 +1,10 @@
 function fxycS=tracks2fxycstruct(tracks)
 
 N=length(tracks);
+if N==0
+    fxycS=struct([]);
+    return
+end
 fxycS(N)=struct();
 for i0=1:length(tracks)
     track=tracks(i0);
@@ -31,4 +35,8 @@ for i0=1:length(tracks)
         fxycS(i0).xpos=fxycS(i0).xpos(used);
         fxycS(i0).ypos=fxycS(i0).ypos(used);
     end
+    fxycS(i0).frame=single(fxycS(i0).frame);
+    fxycS(i0).int=single(fxycS(i0).int);
+    fxycS(i0).xpos=single(fxycS(i0).xpos);
+    fxycS(i0).ypos=single(fxycS(i0).ypos);
 end

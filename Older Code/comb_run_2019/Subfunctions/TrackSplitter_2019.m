@@ -8,9 +8,9 @@ global ThetaB ThetaE
 if isempty(ThetaB)
     load('190212_LRThetas_NBins20.mat','ThetaB','ThetaE')    
 end
-h=waitbar(0,'Splitting Trace');
+%h=waitbar(0,'Splitting Trace');
 for i=1:length(Data)
-    waitbar(i/max(used))
+    %waitbar(i/max(used))
     I=used(i);
     [Splits,~,~,Fnew,Cnew]=FindBestMultiSplit_WH([Data(i).A],[Data(i).Hits],framegap,F1min,minL);
     if fxycS(I).frame(1)~=1
@@ -23,4 +23,4 @@ for i=1:length(Data)
     fxycS(I).split_goodness=Fnew;
     fxycS(I).split_class=Cnew;
 end
-close(h)
+%close(h)

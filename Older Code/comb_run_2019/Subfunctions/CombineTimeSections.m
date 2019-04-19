@@ -1,5 +1,11 @@
 function fxyc_struct_combined=CombineTimeSections(paths,SectionLengths)
 
+for i=1:length(paths)
+    if ~isempty(paths{i})
+        paths2{i}=paths{i};
+    end
+end
+paths=paths2;
 load(fullfile(fileparts(paths{1}),'TempTraces.mat'))
 fxyc_struct_combined=fxyc_struct;
 for i=2:length(paths)

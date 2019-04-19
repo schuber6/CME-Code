@@ -1,4 +1,8 @@
 %fxycS=fxyc_struct;
+file='E:\CME Superfolder\CME Data\comb_run_Test\comb_run_2019\orig_movies\cell009_C1_100ms_3s.mat';
+movie='E:\CME Superfolder\CME Data\comb_run_Test\comb_run_2019\orig_movies\cell009_C1_100ms_3s.tif';
+load(file)
+fxycS=fxyc_struct;
 used2=[];
 for i=1:length(fxycS)
     if length(fxycS(i).Splits)>1
@@ -9,6 +13,7 @@ end
 fxycS2=fxycS(used2);
 %%
 FSFig()
+
 for i0=1:5
     N=ceil(rand*length(fxycS2));
     Ns(i0)=N;
