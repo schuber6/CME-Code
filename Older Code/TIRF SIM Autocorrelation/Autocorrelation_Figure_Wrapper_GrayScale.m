@@ -34,6 +34,7 @@ figure
 IMG{1}=double(imread(files{Inds(1)},'Index',frame));
 IMG{2}=double(imread(files{Inds(2)},'Index',frame));
 [shift_x,shift_y,DM,SIM{1},SIM{2}]=AlignAndMaxXCorr(IMG{1},IMG{2},0);
+
 for i=1:length(Inds)
     if i==1
         Col='g';
@@ -60,7 +61,7 @@ for i=1:length(Inds)
     %axes(ha(3))
     %subplot(length(Inds),3,3)
     figure(3)
-    [xs,ys]=RadialDistancePlot(SmallAC,nbins);
+    [xs,ys]=RadialDistancePlot(SmallAC);
     ys=ys/max(ys); %(ys-min(ys))/(max(ys)-min(ys));
     plot(xs,ys,Col)
     %plot(max(SmallAC,[],1)/max(max(SmallAC)),Col)

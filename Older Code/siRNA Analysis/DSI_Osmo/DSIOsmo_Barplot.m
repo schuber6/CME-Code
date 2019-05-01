@@ -1,6 +1,6 @@
 clear all
 %load('BothDSIO_Struct_180831.mat')
-load('BothDSIO_Struct_180917_EndoFilter.mat')
+load('Misc\BothDSIO_Struct_180917_EndoFilter.mat')
 
 YL=[0 .45];
 ClathMin=.5*10^4;
@@ -89,7 +89,7 @@ title('66% Osmotic Shock','FontSize',20)
 %%  Stalled Structures
 clear all
 %load('BothDSIO_Struct_180831.mat')
-load('DSIOfiles_WStall_181203_159.mat')
+load('Misc\DSIOfiles_WStall_181203_159.mat')
 
 YL=[0 .12];
 ClathMin=.5*10^4;
@@ -313,7 +313,7 @@ legend([])
 
 clear all
 %load('BothDSIO_Struct_180831.mat')
-load('DSIOfiles_WStall_181203_159.mat')
+load('Misc\DSIOfiles_WStall_181203_159.mat')
 
 YL=[0 120];
 ClathMin=.5*10^4;
@@ -405,7 +405,7 @@ ylim(YL)
 
 clear all
 %load('BothDSIO_Struct_180831.mat')
-load('BothDSIO_Struct_180917_EndoFilter.mat')
+load('Misc\BothDSIO_Struct_180917_EndoFilter.mat')
 
 YL=[0 .45];
 ClathMin=.5*10^4;
