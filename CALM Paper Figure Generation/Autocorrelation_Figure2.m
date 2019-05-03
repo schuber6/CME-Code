@@ -52,6 +52,16 @@ for i0=1:4
         subplot(2,3,(i-1)*3+1)
         M{(i-1)*2+1}=IM;
         imshow(IM,[0 max(max(IM))],'InitialMagnification','fit')
+        if i0==3 && i==1
+            hold on
+            x_location=26;
+            y_location=6;
+            Scalebar_length=100;
+            PixelSize=33.1;
+            quiver(x_location,y_location,Scalebar_length/PixelSize,...
+            0,'ShowArrowHead','off','Color','w','LineWidth',4)
+            text(x_location-1.1,y_location+1.2,'100 nm','Color','w');
+        end
         if ~isempty(XL)
             xlim(XL)
             ylim(YL)
@@ -75,7 +85,7 @@ for i0=1:4
         line([0 xR-1],[.5+(i-1)*.01 .5+(i-1)*.01],'Color',Col,'LineStyle','--')
         xlim([0 15])
         xlabel('Pixel (40nm spacing)','fontsize',12)
-        ylabel('Radial Average of Autocorrelation','fontsize',12)
+        ylabel('Radial Average of Autocorrelation','fontsize',10)
     end
     subplot(2,3,1)
     ylabel(strcat(Name488,' Channel'),'fontsize',12)

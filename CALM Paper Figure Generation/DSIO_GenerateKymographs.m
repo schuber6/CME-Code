@@ -4,31 +4,31 @@
 
 clear all
 %Movie files and specs for the line the kymograph looks at
-files{1}='E:\CME Superfolder\CME Data\180821 DSI Omso Analysis\WT Cont\Movies\wt_cont_038_BS_';
+files{1}='Z:\Scott\CME Data\180821 DSI Omso Analysis\WT Cont\Movies\wt_cont_038_BS_';
 xi{1}=[160 160];
 yi{1}=[76 400];
-files{2}='E:\CME Superfolder\CME Data\180821 DSI Omso Analysis\WT 3 min\Movies\wt_osmo_3m_064_BS_';
+files{2}='Z:\Scott\CME Data\180821 DSI Omso Analysis\WT 3 min\Movies\wt_osmo_3m_064_BS_';
 xi{2}=[289 289];
 yi{2}=[7 508];
-files{3}='E:\CME Superfolder\CME Data\180821 DSI Omso Analysis\WT 10 min\Movies\wt_osmo_10m_036_BS_';
+files{3}='Z:\Scott\CME Data\180821 DSI Omso Analysis\WT 10 min\Movies\wt_osmo_10m_036_BS_';
 xi{3}=[190 190];
 yi{3}=[131 470];
-files{4}='E:\CME Superfolder\CME Data\180821 DSI Omso Analysis\SI Cont\Movies\si_cont_006_BS_';
+files{4}='Z:\Scott\CME Data\180821 DSI Omso Analysis\SI Cont\Movies\si_cont_006_BS_';
 xi{4}=[320 320];
 yi{4}=[45 382];
-files{5}='E:\CME Superfolder\CME Data\180821 DSI Omso Analysis\SI 3 min\Movies\si_osmo_3m_090_BS_';
+files{5}='Z:\Scott\CME Data\180821 DSI Omso Analysis\SI 3 min\Movies\si_osmo_3m_090_BS_';
 xi{5}=[285 285];
 yi{5}=[4 409];
-files{6}='E:\CME Superfolder\CME Data\180821 DSI Omso Analysis\SI 10 min\Movies\si_osmo_10m_092_BS_';
+files{6}='Z:\Scott\CME Data\180821 DSI Omso Analysis\SI 10 min\Movies\si_osmo_10m_092_BS_';
 xi{6}=[200 200];
 yi{6}=[4 504];
-files{7}='E:\CME Superfolder\CME Data\180821 DSI Omso Analysis\WT Cont\Movies\wt_cont_062_BS_';
+files{7}='Z:\Scott\CME Data\180821 DSI Omso Analysis\WT Cont\Movies\wt_cont_062_BS_';
 xi{7}=[263 263];
 yi{7}=[79 439];
-files{8}='E:\CME Superfolder\CME Data\180821 DSI Omso Analysis\SI Cont\Movies\si_cont_014_BS_';
+files{8}='Z:\Scott\CME Data\180821 DSI Omso Analysis\SI Cont\Movies\si_cont_014_BS_';
 xi{8}=[238 238];
 yi{8}=[48 470];
-files{9}='E:\CME Superfolder\CME Data\180821 DSI Omso Analysis\WT Cont\Movies\wt_cont_050_BS_';
+files{9}='Z:\Scott\CME Data\180821 DSI Omso Analysis\WT Cont\Movies\wt_cont_050_BS_';
 xi{9}=[184 184];
 yi{9}=[89 449];
 
